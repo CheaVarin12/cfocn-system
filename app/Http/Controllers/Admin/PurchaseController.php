@@ -419,27 +419,27 @@ class PurchaseController extends Controller
             Log::error("Error: Admin/PurchaseController > exportExcel | message: " . $error->getMessage());
         }
     }
-    public function onUpdateStatus(Request $req)
-    {
-        Log::info("Start: Admin/PurchaseController > onUpdateStatus | admin: ");
-        $statusGet = 'Enable';
-        DB::beginTransaction();
-        try {
-            $data = Purchase::find($req->id);
-            $data->update(['status' => $req->status]);
-            if ($data->status !== '1') {
-                $statusGet = 'Disable';
-            }
-            DB::commit();
-            Session::flash('success', $statusGet);
-            return redirect()->back();
-        } catch (Exception $error) {
-            DB::rollback();
-            $status = false;
-            Log::error("Error: Admin/PurchaseController > onUpdateStatus | message: " . $error->getMessage());
-            return redirect()->back();
+public function onUpdateStatus($id, $status)
+{
+    Log::info("Start: Admin/PurchaseController > onUpdateStatus | admin: ");
+    $statusGet = 'Enable';
+    DB::beginTransaction();
+    try {
+        $data = Purchase::find($id);
+        $data->update(['status' => $status]);
+        if ($status !== '1') {
+            $statusGet = 'Disable';
         }
+        DB::commit();
+        Session::flash('success', $statusGet);
+        return redirect()->back();
+    } catch (Exception $error) {
+        DB::rollback();
+        Log::error("Error: Admin/PurchaseController > onUpdateStatus | message: " . $error->getMessage());
+        return redirect()->back();
     }
+}
+
 
     //document
     public function documentIndex(Request $req, $id)

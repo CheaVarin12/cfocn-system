@@ -116,7 +116,7 @@
                                                 <li>
                                                     <a class="dropdown-item enable-btn"
                                                         onclick="$onConfirmMessage(
-                                                        '{!! route('admin-purchase-order-status', ['id' => $item->id, 'status' => 1]) !!}',
+                                                        '{!! route('admin-purchase-status', ['id' => $item->id, 'status' => 1]) !!}',
                                                         '@lang('Are you sure to active ?', ['name' => $item->name])',
                                                         {
                                                             confirm: 'Active',
@@ -145,7 +145,7 @@
                                                 <li>
                                                     <a class="dropdown-item enable-btn"
                                                         onclick="$onConfirmMessage(
-                                                    '{!! route('admin-purchase-order-status', ['id' => $item->id, 'status' => 1]) !!}',
+                                                    '{!! route('admin-purchase-status', ['id' => $item->id, 'status' => 1]) !!}',
                                                     '@lang('Are you sure to active ?', ['name' => $item->name])',
                                                     {
                                                         confirm: 'Active',
