@@ -1,0 +1,501 @@
+$headerSlideHeight : 90px;
+$footerSlideHeight : 80px;
+
+.sidebar {
+    display       : flex;
+    flex-direction: column;
+    position      : relative;
+    z-index       : 100;
+
+    .sidebar-wrapper {
+        height: 100vh;
+
+        .logo {
+            width          : 100%;
+            height         : $headerSlideHeight;
+            display        : flex;
+            align-items    : center;
+            justify-content: center;
+            background     : $header-sidebar;
+            box-shadow     : 0 0 3px rgb(0 0 0 / 10%);
+            padding        : 0 25px;
+            justify-content: flex-start;
+
+            span {
+                width              : fit-content;
+                font-size          : 25px;
+                font-weight        : 400;
+                color              : $logo;
+                text-transform     : uppercase;
+                font-weight        : 600;
+                font-size          : 30px;
+                font-weight        : unset;
+                -webkit-text-stroke: .5px;
+            }
+
+            img {
+                box-sizing  : border-box;
+                width       : 45px;
+                height      : 45px;
+                object-fit  : contain;
+                margin-right: 15px;
+            }
+        }
+
+        .menu-list {
+            height        : calc(100% - ($headerSlideHeight + $footerSlideHeight));
+            display       : flex;
+            flex-direction: column;
+            overflow-y    : auto;
+            padding-top   : 20px;
+
+            .menu-item {
+                margin        : 0 20px;
+                margin-bottom : 3px;
+                display       : flex;
+                flex-direction: column;
+                align-items   : center;
+                color         : $menu;
+                height        : fit-content;
+                cursor        : pointer;
+                transition    : .2s;
+                border        : 2px solid rgba(0, 0, 0, 0);
+                border-radius : $border-radius;
+
+                &:hover:not(.active) {
+                    border-color: rgba($color: $menu, $alpha:.2);
+
+                    span {
+                        color: $menu;
+                    }
+                }
+
+                &.active {
+                    box-shadow  : rgba($color:$menu-active, $alpha:0.35) 0px 5px 15px;
+                    color       : $menu-text-active;
+                    background  : $menu-active;
+                    border-color: $menu-active;
+
+                    .menu-text {
+
+                        >span {
+                            color: $menu-text-active;
+                        }
+                    }
+                }
+
+                .menu-text {
+                    padding      : 0 10px;
+                    width        : 100%;
+                    min-height   : 35px;
+                    display      : flex;
+                    align-items  : center;
+                    box-sizing   : border-box;
+                    position     : relative;
+                    border-radius: 8px;
+
+                    svg {
+                        margin-right   : 10px;
+                        height         : auto;
+                        width          : 18px;
+                        line-height    : 0;
+                        transition     : .2s;
+                        // stroke-width: 1.5px;
+                    }
+
+                    p {
+                        position : absolute;
+                        top      : 50%;
+                        right    : 5px;
+                        transform: translateY(-50%);
+                        margin   : 0;
+                        width    : 20px;
+
+                        &.show {
+                            svg {
+                                transform : rotate(180deg);
+                                transition: .3s;
+                            }
+                        }
+                    }
+
+                    span {
+                        font-size     : 14px;
+                        color         : rgba($color: $menu, $alpha:.8);
+                        text-transform: capitalize;
+                        transition    : .2s;
+                    }
+
+                    &:focus {
+                        outline: none;
+                    }
+
+                    .badge {
+                        position     : absolute;
+                        right        : 5px;
+                        border-radius: $border-radius;
+                    }
+                }
+            }
+
+            .sub-menu {
+                margin           : 0 20px;
+                margin-bottom    : 5px;
+                display          : flex;
+                flex-direction   : column;
+                color            : $menu;
+                height           : -webkit-fit-content;
+                height           : -moz-fit-content;
+                height           : fit-content;
+                transition       : 0.2s;
+                background       : rgba($color: $dark, $alpha:.05);
+                // border-radius : $border-radius;
+                border-radius    : 10px;
+                padding          : 10px 0;
+
+                .sub-item {
+                    font-size  : 14px;
+                    padding    : 3px 15px;
+                    cursor     : pointer;
+                    opacity    : 0.6;
+                    transition : 0.2s;
+                    display    : flex;
+                    align-items: center;
+
+                    svg {
+                        margin-right: 15px;
+                        height      : auto;
+                        width       : 10px;
+                        line-height : 0;
+                    }
+
+                    &:hover {
+                        transition: 0.2s;
+                        opacity   : 1;
+                    }
+
+                    &.active {
+                        opacity    : 1;
+                        position   : relative;
+                        display    : flex;
+                        align-items: center;
+                        color      : $menu;
+                        font-weight: 600;
+
+                        svg {
+                            stroke: $menu-active;
+                            fill  : $menu-active;
+                        }
+                    }
+                }
+            }
+
+
+            // &::-webkit-scrollbar-track {
+            //     background   : none;
+            //     border-radius: 10px;
+            // }
+
+            &::-webkit-scrollbar {
+                width : 0;
+                height: 12px;
+                cursor: pointer;
+            }
+
+            // &::-webkit-scrollbar-thumb {
+            //     background   : #024de3;
+            //     border-radius: 20px;
+            //     cursor       : pointer;
+            // }
+
+            &:hover {
+                &::-webkit-scrollbar {
+                    width: 5px;
+                }
+            }
+
+
+        }
+
+        .sidebar-option {
+            width          : calc(100% - 40px);
+            height         : $footerSlideHeight;
+            border-top     : 1px solid rgba($color: $menu, $alpha:.5);
+            box-sizing     : border-box;
+            margin         : 0 20px;
+            display        : flex;
+            align-items    : center;
+            justify-content: flex-end;
+            padding        : 20px 0;
+
+            .lang-selection {
+                display: flex;
+                height : 100%;
+                width  : 30px;
+
+                img {
+                    cursor: pointer;
+                    width : --webkit-fill-available;
+                }
+            }
+
+            .main-dashboard {
+                cursor: pointer;
+
+                svg {
+                    color: #fff;
+                }
+            }
+
+            .user-setting {
+                width          : fit-content;
+                background     : rgba($color: $menu, $alpha:1);
+                box-sizing     : border-box;
+                border-radius  : 25px;
+                cursor         : pointer;
+                width          : fit-content;
+                height         : 100%;
+                display        : flex;
+                align-items    : center;
+                justify-content: center;
+                padding        : 0 10px;
+
+                &::after {
+                    display: none;
+                }
+
+                span {
+                    color         : #fff;
+                    margin-right  : 5px;
+                    text-transform: capitalize;
+                    font-size     : 15px;
+                }
+
+                svg {
+                    width : 20px;
+                    height: 20px;
+                    color : #fff;
+                }
+            }
+
+            .user-setting-popup {
+                background   : #292c34;
+                border-radius: 8px;
+
+                .dropdown-item.sign-out {
+                    color: $danger;
+                }
+
+                .dropdown-divider {
+                    border-color: #fff;
+                }
+            }
+        }
+    }
+}
+
+//footerCus
+.footerSliderLayout {
+    display    : flex;
+    width      : 100%;
+    align-items: center;
+    cursor     : pointer;
+    overflow   : hidden;
+
+    .imgGpWithTxt {
+        flex       : 1;
+        display    : flex;
+        overflow   : hidden;
+        align-items: center;
+
+        img {
+            width           : 45px;
+            height          : 45px;
+            -o-object-fit   : cover;
+            object-fit      : cover;
+            border-radius   : 16px;
+            // background   : #1d1b31;
+            transition      : all 0.5s ease;
+        }
+
+        .txtGp {
+            margin-left : 7px;
+            font-size   : 12px;
+            margin-right: 15px;
+            overflow    : hidden;
+            line-height : 17px;
+
+            h3 {
+                margin             : 0;
+                font-weight        : unset;
+                -webkit-text-stroke: .5px;
+            }
+
+            label {
+                font-size: 10px;
+                color    : #a5a8b0;
+            }
+        }
+    }
+}
+
+.dropendCusSidebar {
+    padding   : 0 20px !important;
+    width     : 100% !important;
+    margin    : 0 !important;
+    border-top: 0 !important;
+}
+
+.sliderFooterCusLayout {
+    height    : 45px !important;
+    width     : 100% !important;
+    display   : flex;
+    padding   : 0 15px !important;
+    background: $footer-sidebar !important;
+
+    .leftFooter {
+        flex          : 1;
+        display       : flex;
+        // align-items: center;
+        overflow      : hidden;
+        align-items   : center;
+
+        .fLogo {
+            display        : flex;
+            align-items    : center;
+            justify-content: center;
+            margin-right   : 10px;
+            width          : 20px;
+            height         : 20px;
+
+            border       : 1px solid #b7bac1;
+            border-radius: 50%;
+            box-shadow   : rgba(58, 58, 60, 0.35) 0px 5px 15px;
+
+            img {
+                width     : 20px;
+                height    : 20px;
+                object-fit: cover;
+            }
+
+            svg {
+                margin-right: 0;
+            }
+        }
+
+        svg {
+            margin-right: 5px;
+            max-width   : 40px !important;
+        }
+
+        span {
+            overflow          : hidden;
+            text-overflow     : ellipsis;
+            white-space       : initial;
+            display           : -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            word-break        : break-all;
+            width             : 100% !important;
+        }
+    }
+}
+
+.slideFooterPath {
+    padding      : 0 !important;
+    background   : $header-sidebar !important;
+    padding      : 5px 10px 5px 15px !important;
+    border-radius: 5px !important;
+    position     : relative;
+    overflow     : hidden;
+
+
+    .leftFooter {
+        background   : none !important;
+        border-radius: 5px;
+        margin-right : 0;
+    }
+
+    .rightFooter {
+        background     : none;
+        border-radius  : 50px;
+        width          : 37px;
+        height         : 37px;
+        display        : flex;
+        justify-content: center;
+        align-items    : center;
+
+        .fLogo {
+            display        : flex;
+            align-items    : center;
+            justify-content: center;
+            width          : 29px;
+            height         : 29px;
+
+            border       : 1px solid #b7bac1;
+            border-radius: 50%;
+            box-shadow   : rgba(58, 58, 60, 0.35) 0px 5px 15px;
+            overflow     : hidden;
+
+            img {
+                width          : 26px;
+                height         : 26px;
+                object-fit     : cover;
+                border-radius  : 50%;
+                object-position: top;
+            }
+
+            svg {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .fLogoutSlide {
+        position       : absolute;
+        top            : 0;
+        left           : 0;
+        width          : 100%;
+        height         : 100%;
+        background     : #262626a6;
+        display        : none;
+        justify-content: center;
+        align-items    : center;
+        overflow       : hidden;
+        cursor         : pointer;
+        transform      : scale(1.1);
+        transition     : transform 0.5s ease-in-out;
+        padding        : 0 20px;
+
+        svg {
+            width       : 26px;
+            height      : 26px;
+            color       : #fff;
+            margin-right: 5px;
+        }
+
+        label {
+            color         : #fff;
+            text-transform: capitalize;
+            font-size     : 14px;
+            cursor        : pointer;
+            flex          : 1;
+        }
+
+    }
+
+    &:hover {
+
+        .leftFooter,
+        .rightFooter {
+            opacity: 0;
+        }
+
+        .fLogoutSlide {
+            display   : flex;
+            transform : scale(1.1);
+            transition: transform 0.5s ease-in-out;
+
+        }
+    }
+}

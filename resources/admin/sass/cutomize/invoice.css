@@ -1,0 +1,262 @@
+.invoice-printer {
+  background-color: #fff;
+  width: 100%;
+  font-size: 1rem;
+  font-family: sans-serif;
+  display: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.invoice-printer .pdfwebinfo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 0.9rem;
+}
+
+.invoice-printer .pdfwebinfo .company-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.invoice-printer .pdfwebinfo .company-info img {
+  width: 230px;
+  height: 120px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.invoice-printer .pdfwebinfo .invoice-detail {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
+  min-width: 330px;
+}
+
+.invoice-printer .pdfwebinfo .invoice-detail span {
+  text-align: center;
+}
+
+.invoice-printer .pdfwebinfo .invoice-detail span.title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  background-color: #24489f;
+  color: #fff;
+  padding: 1px 5px;
+  margin-bottom: 10px;
+}
+
+.invoice-printer .pdfdetail {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  width: 100%;
+}
+
+.invoice-printer .detail-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  max-width: 330px;
+}
+
+.invoice-printer .detail-list span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  font-size: 0.9rem;
+  padding: 2px;
+}
+
+.invoice-printer .detail-list svg {
+  min-width: 0.9rem;
+  width: 0.9rem;
+  margin-right: 0.2rem;
+}
+
+.invoice-printer .detail-list .head {
+  font-size: 0.9rem;
+  font-weight: 600;
+  background-color: #24489f;
+  color: #fff;
+  padding: 1px 5px;
+  margin-bottom: 10px;
+}
+
+.invoice-printer .detail-list .subhead {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.invoice-printer .detail-list.invoice-detail span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.invoice-printer .table {
+  border: 1px solid #eee;
+  border-radius: 0.2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.invoice-printer .table .table-wrapper {
+  padding: 0;
+}
+
+.invoice-printer .table .table-wrapper .table-header {
+  padding: 0.5rem 1rem;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.invoice-printer .table .table-wrapper .table-header .row span {
+  font-size: 0.9rem;
+}
+
+.invoice-printer .table .table-wrapper .table-header.bottom {
+  border: none;
+}
+
+.invoice-printer .table .table-wrapper .table-header.bottom .table-row-10 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.invoice-printer .table .table-wrapper .table-header.bottom .table-row-70 {
+  text-align: left;
+}
+
+.invoice-printer .table .table-wrapper .table-header.bottom .table-row-70 .content {
+  display: block;
+  font-weight: 500;
+  max-width: 400px;
+}
+
+.invoice-printer .table .table-wrapper .table-body {
+  overflow-y: hidden;
+}
+
+.invoice-printer .table .table-wrapper .table-body .column {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.invoice-printer .table .table-wrapper .table-body .column .product-column {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  cursor: pointer;
+}
+
+.invoice-printer .table .table-wrapper .table-body .column .product-column .thumbnail {
+  max-width: 50px;
+  height: 50px;
+  padding: 0;
+  margin: 0;
+}
+
+.invoice-printer .table .table-wrapper .table-body .column .product-column .thumbnail img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.invoice-printer .table .table-wrapper .table-body .column .product-column .product-content .span {
+  font-size: 0.9rem;
+}
+
+.invoice-printer .table .table-wrapper .left {
+  text-align: end;
+}
+
+.invoice-printer .invoice-botton {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.invoice-printer .invoice-botton .notice p {
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+  max-width: 400px;
+}
+
+.invoice-printer .invoice-botton .notice p.header {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.invoice-printer .invoice-botton .sum-total {
+  width: 200px;
+}
+
+.invoice-printer .invoice-botton .sum-total p {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.invoice-printer .invoice-botton .sum-total p .head {
+  font-weight: 500;
+}
+/*# sourceMappingURL=invoice.css.map */

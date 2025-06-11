@@ -1,0 +1,326 @@
+.tableCustomScroll {
+    width      : 100%;
+    overflow   : auto;
+    padding    : 0 20px 0 0;
+    // height  : calc(100% - 25px);
+    width      : calc(100% - -20px);
+    height     : calc(100% - 60px);
+
+    margin: 30px 0;
+
+
+    .table {
+        width              : 100%;
+        height             : auto;
+        // background-color: white;
+
+        .excel-content {
+            padding: 30px 120px;
+
+            .excel-tab {
+                width        : 100%;
+                height       : 100%;
+                margin-bottom: 20px;
+
+                &-content {
+                    display       : grid;
+                    grid-auto-flow: column;
+                    grid-gap      : 20px;
+                    place-content : flex-start;
+                }
+
+                &-item {
+                    width           : 100%;
+                    height          : 100%;
+                    display         : flex;
+                    flex-direction  : column;
+                    justify-content : center;
+                    align-items     : center;
+                    padding         : 10px 20px;
+                    border-radius   : 10px;
+                    background-color: #fff;
+                    transition      : all .5s;
+                    box-shadow      : 0 3px 6px rgba(0, 0, 0, .06);
+                    border-radius   : 10px;
+                    cursor          : pointer;
+
+                    &:hover {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16);
+                    }
+
+                    &.active {
+                        background-color: $primary;
+                        color           : white;
+                    }
+                }
+            }
+
+            .excel-wrapper {
+                padding         : 40px;
+                background-color: #fff;
+                transition      : all .5s;
+                box-shadow      : 0 3px 6px rgba(0, 0, 0, .06);
+                border-radius   : 10px;
+
+                .reportTitle {
+                    display       : flex;
+                    flex-direction: column;
+                    text-align    : center;
+                    margin-bottom : 60px;
+
+                    h3 {
+                        font-weight        : unset;
+                        -webkit-text-stroke: .5px;
+                        margin             : 0;
+                        font-size          : 30px;
+                    }
+
+                    span {
+                        font-size          : 18px;
+                        font-weight        : unset;
+                        -webkit-text-stroke: 0.5px;
+                        text-transform     : uppercase;
+                        margin-bottom      : 10px;
+                    }
+
+                    label {
+                        color      : #5a5e66d9;
+                        font-family: 'Khmer OS' !important;
+                        font-size  : 12px;
+                    }
+
+                }
+
+                .excel-header {
+                    align-items: flex-end;
+
+                    .excel-header-left,
+                    .excel-header-right {
+                        font-size: 13px;
+
+                        h3 {
+                            margin       : 0;
+                            margin-bottom: 15px;
+                        }
+
+                        p {
+                            margin       : 0;
+                            margin-bottom: 3px;
+                        }
+
+                        .fontWeight {
+                            font-weight        : 600;
+                            font-weight        : unset;
+                            -webkit-text-stroke: .5px;
+                        }
+                    }
+
+                    .excel-header-right {
+                        text-align: end;
+                        font-size : 13px;
+                    }
+
+                    .revenue-text-project {
+                        text-align         : center;
+                        margin             : 10px auto;
+                        font-weight        : unset;
+                        -webkit-text-stroke: .5px;
+                    }
+
+                }
+
+                .headerText {
+                    margin     : 5px;
+                    font-weight: bold;
+                    text-align : right;
+                    font-size  : 0.8rem;
+                }
+
+                .excel-body {
+                    overflow     : auto;
+                    padding      : 0 0 20px 0;
+                    border-radius: 5px;
+
+                    .tableWidth {
+                        width: 2000px;
+
+                        .column {
+                            .row {
+                                word-break: break-word;
+                                text-align: left;
+
+                            }
+
+                            @include tableRow();
+
+                        }
+
+                    }
+
+                    table {
+                        tr {
+                            .textLeft {
+                                text-align: left;
+                            }
+
+                            .textRight {
+                                text-align: right;
+                            }
+                        }
+                    }
+
+                    &::-webkit-scrollbar {
+                        width : 5px;
+                        height: 10px !important;
+                        cursor: pointer !important;
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+.excel {
+    &-content {
+        width : 100%;
+        height: 100%;
+    }
+
+    &-wrapper {
+        width     : 100%;
+        height    : 100%;
+        padding   : 20px 0;
+        box-sizing: border-box;
+        @include tableRow();
+    }
+
+    &-header {
+        display        : flex;
+        justify-content: space-between;
+
+        &-left {
+            width     : 35%;
+            box-sizing: border-box;
+
+            &-wrapper {
+                text-align: left;
+
+                p {
+                    font-size: 0.8rem;
+                }
+            }
+        }
+
+        &-right {
+            width     : 35%;
+            box-sizing: border-box;
+
+            &-wrapper {
+                text-align: right;
+
+                p {
+                    font-size: 0.8rem;
+                }
+            }
+        }
+    }
+
+    &-body {
+        table {
+            width : 100%;
+            height: 100%;
+
+            thead {
+                tr {
+                    th {
+                        text-align      : center;
+                        border          : 1px solid #5a5e6626;
+                        padding         : 5px 10px;
+                        font-size       : 0.8rem;
+                        font-weight     : 600;
+                        background-color: #f1f1f1;
+                        height          : 50px;
+
+                        &.textCenter {
+                            text-align: center !important;
+                        }
+                    }
+
+                    .font-size-1 {
+                        font-size: 1rem;
+                    }
+                }
+            }
+
+            tbody {
+                max-height: 98vh;
+                overflow  : auto;
+
+                tr {
+                    td {
+                        text-align    : center;
+                        border        : 1px solid #5a5e6626;
+                        padding       : 5px 10px;
+                        font-size     : 0.7rem;
+                        font-weight   : 600;
+                        border-spacing: 10px;
+
+                        &.textLeft {
+                            text-align: start;
+                        }
+                    }
+                }
+
+                .footer {
+                    td {
+                        background-color: white;
+                        text-align      : left;
+                    }
+                }
+            }
+
+            tfoot {
+                tr {
+                    td {
+                        text-align    : center;
+                        border        : 1px solid #5a5e6626;
+                        padding       : 5px 10px;
+                        font-size     : 0.7rem;
+                        font-weight   : 600;
+                        border-spacing: 10px;
+
+                        &.textRight {
+                            text-align: end;
+                        }
+
+                        &.textLeft {
+                            text-align: start;
+                        }
+                    }
+                }
+
+                .footer {
+                    td {
+                        background-color: white;
+                        text-align      : left;
+                    }
+
+                    &.bgGrad {
+                        td {
+                            background-color: #f1f1f1 !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &-footer {
+        height: 20px;
+    }
+}
+
+.colEmptyBorder {
+    border: none !important;
+}

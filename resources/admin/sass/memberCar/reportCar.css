@@ -1,0 +1,251 @@
+.reportMemberLayout {
+  width: 100%;
+}
+
+.reportMemberLayout .txtHeader h3 {
+  margin-top: 0;
+  font-size: 30px;
+}
+
+.reportMemberLayout .txtHeader h3 span {
+  font-size: 30px;
+}
+
+.reportMemberLayout .txtItemRP {
+  margin-bottom: 20px;
+  border-bottom: 3px solid #d8dce5;
+  padding-bottom: 20px;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtGP {
+  width: 100%;
+  background: #7575758f;
+  height: 80px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 25px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtGP h3 {
+  font-weight: 400;
+  font-size: 27px;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtBody .dateTime span {
+  margin: 0 10px;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtBody .txtListingGp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  display: flex;
+  margin: 15px 0;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtBody .txtListingGp .txtLeft {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  height: 100%;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtBody .txtListingGp .txtLeft .item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  margin-bottom: 6px;
+  height: 100%;
+  width: 90%;
+  font-size: 14px;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtBody .txtListingGp .txtLeft .item .label {
+  width: 85px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtBody .txtListingGp .txtLeft .item span {
+  margin: 0 15px;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtBody .txtListingGp .txtLeft .item p {
+  margin: 0;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  word-break: break-all;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  text-align: left;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtBody .txtListingGp .txtRight {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  height: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtBody .txtListingGp .txtRight .item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  margin-bottom: 6px;
+  height: 100%;
+  width: 90%;
+  font-size: 14px;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtBody .txtListingGp .txtRight .item .label {
+  width: 110px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtBody .txtListingGp .txtRight .item span {
+  margin: 0 15px;
+}
+
+.reportMemberLayout .txtItemRP .reportTxtBody .txtListingGp .txtRight .item p {
+  margin: 0;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  word-break: break-all;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  text-align: left;
+}
+
+.reportMemberLayout .txtItemRP .reportFooter {
+  margin-top: 15px;
+}
+
+.reportMemberLayout .txtItemRP .reportFooter .reportTxtfooterItem {
+  height: 60px;
+  background: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 1px solid #e0e0e0;
+  padding: 0 15px;
+  border-radius: 10px;
+}
+
+.reportMemberLayout .txtItemRP .reportFooter .reportTxtfooterItem h4 {
+  margin: 0;
+  font-weight: unset;
+  -webkit-text-stroke: .3px;
+}
+
+.reportMemberLayout .txtItemRP .reportFooter .reportTxtfooterItem .span {
+  margin: 0 15px;
+}
+
+.reportMemberLayout .txtItemRP .reportFooter .reportTxtfooterItem p {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 600;
+  font-weight: unset;
+  -webkit-text-stroke: .6px;
+}
+
+.reportMemberLayout .txtItemRP:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: unset !important;
+}
+
+.reportMemberLayout .removeBorderLast {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: unset !important;
+}
+
+.reportMemberLayout .EmptyViewGp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  padding: 50px 0;
+}
+
+.reportMemberLayout .EmptyViewGp img {
+  width: 150px;
+}
+
+.reportMemberLayout .EmptyViewGp button {
+  background: #1266f1c9;
+  font-size: 13px;
+}
+/*# sourceMappingURL=reportCar.css.map */

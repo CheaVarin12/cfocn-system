@@ -1,0 +1,736 @@
+$headerHeight   : 60px;
+$headerListMonth:60px;
+
+.dmc-file-manager-tab {
+    display    : flex;
+    height     : 75px;
+    width      : 100%;
+    padding    : 0 15px;
+    align-items: center;
+    overflow-x : auto;
+
+    .d-tab {
+        // width        : calc(100%/9);
+        align-items  : center;
+        display      : flex;
+        height       : 35px;
+        background   : #dddddde0;
+        margin-right : 13px;
+        border-radius: 5px;
+        padding      : 0 12px;
+        box-shadow   : 0 0 3px rgba(0, 0, 0, .1);
+        white-space  : nowrap;
+        cursor       : pointer;
+        overflow     : hidden;
+
+        i,
+        label {
+            cursor   : pointer;
+            font-size: 15px;
+        }
+
+        i {
+            font-size   : 18px;
+            margin-right: 0.5rem;
+        }
+
+        &.active {
+            background: #488cfb;
+            color     : #fff;
+        }
+    }
+}
+
+.fileManageControlLayout {
+    padding: 20px 20px !important;
+    height : calc(100% - 50px) !important;
+}
+
+.fileManagerLayouPopup {
+
+    position       : fixed;
+    top            : 0;
+    left           : 0;
+    z-index        : 999;
+    width          : 100%;
+    height         : 100vh;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+
+    .content-wrapper {
+
+        align-items    : center;
+        justify-content: center;
+
+    }
+
+    .filemanagerLayout {
+        width    : 1200px;
+        // height: 90%;
+    }
+}
+
+.filemanagerLayout {
+    background    : #fff;
+    height        : 100%;
+    display       : flex;
+    border        : 1px solid #EBE9F1;
+    border-radius : 10px;
+    overflow      : hidden;
+    flex-direction: column;
+
+    .bodyDMCFileManage {
+        background      : #fff;
+        height          : 100%;
+        display         : flex;
+        border-top      : 1px solid #EBE9F1;
+        // border-radius: 10px;
+        overflow        : hidden;
+
+        .fileLeftgp {
+            width       : 230px;
+            border-right: 1px solid #edeff1;
+
+            .btnLeftAddnew {
+                width          : 100%;
+                display        : flex;
+                justify-content: center;
+                align-items    : center;
+                height         : $headerHeight;
+                box-shadow     : 0 0 3px rgba(0, 0, 0, .1);
+
+
+                button {
+                    background-color: #7367F0 !important;
+                    color           : #FFF !important;
+                }
+            }
+
+            .listItemLeft {
+                height    : calc(100% - 105px);
+                overflow-y: auto;
+                font-size : 14px;
+
+                label {
+                    color         : #B9B9C3;
+                    text-transform: uppercase;
+                    letter-spacing: .6px;
+                    padding-right : 2rem !important;
+                    padding-left  : 2rem !important;
+                    padding-top   : 10px;
+                }
+
+                .listGp {
+                    padding    : 0.58rem 1.9rem;
+                    display    : flex;
+                    width      : 100%;
+                    border     : 0;
+                    border-left: 2px solid transparent;
+                    align-items: center;
+                    cursor     : pointer;
+                    word-break : break-word;
+                    padding    : 0px 1.9rem;
+                    margin-top : 8px;
+
+                    span,
+                    i {
+                        font-size   : 18px;
+                        margin-right: 0.5rem !important;
+                    }
+
+                    &:hover {
+                        background: #cccccc17;
+                    }
+                }
+
+                .active {
+                    background-color: transparent;
+                    border-color    : #488cfb;
+                    color           : #488cfb;
+                }
+            }
+
+            .btnSearchgp {
+                display      : flex;
+                border       : 1px solid #eeeeee;
+                align-items  : center;
+                height       : 35px;
+                border-radius: 25px;
+                overflow     : hidden;
+                margin       : 0 15px;
+                width        : 100%;
+                font-size    : 14px;
+
+                .btnSearch {
+                    width  : 100%;
+                    border : none;
+                    height : 100%;
+                    padding: 0 15px;
+
+                    &:focus {
+                        outline: none;
+                    }
+
+                }
+
+                span,
+                i {
+                    height         : 100%;
+                    width          : 40px;
+                    display        : flex;
+                    align-items    : center;
+                    justify-content: center;
+                    color          : #757575;
+                    border-left    : 1px solid #eeeeee;
+                }
+            }
+
+            .btnFooterLeft {
+                height         : 45px;
+                display        : flex;
+                align-items    : center;
+                justify-content: center;
+                box-shadow     : 0 0 3px rgba(0, 0, 0, 0.1);
+
+                .btnLoadMore {
+                    cursor       : pointer;
+                    border-radius: 20px;
+                    padding      : 0 30px;
+                    color        : black;
+                    background   : #488cfb82;
+                    height       : 32px;
+
+                    i {
+                        margin-right: 10px;
+                    }
+
+                    i,
+                    span {
+                        color: #fff;
+                    }
+
+                    &:hover {
+                        background: #488cfb;
+
+
+                    }
+                }
+            }
+        }
+
+        .fileRightgp {
+            flex    : 1;
+            width   : 100%;
+            position: relative;
+
+            .btnRightheader {
+                height       : 60px;
+                display      : flex;
+                padding      : 0 10px;
+                align-items  : center;
+                border-bottom: 1px solid #edeff1;
+
+                .btnSearchgp {
+                    display        : flex;
+                    border         : 1px solid #eeeeee;
+                    align-items    : center;
+                    height         : 35px;
+                    border-radius  : 4px;
+                    overflow       : hidden;
+                    justify-content: flex-end;
+
+                    .btnSearch {
+                        width : 220px;
+                        border: none;
+                        height: 100%;
+
+                        &:focus {
+                            outline: none;
+                        }
+
+                    }
+
+                    span,
+                    i {
+                        height         : 100%;
+                        width          : 40px;
+                        display        : flex;
+                        align-items    : center;
+                        justify-content: center;
+                        color          : #757575;
+                        border-left    : 1px solid #eeeeee;
+                    }
+                }
+
+                .btnRightAddnew {
+                    width          : 100%;
+                    display        : flex;
+                    align-items    : center;
+                    height         : 100%;
+                    flex           : 1;
+                    justify-content: flex-end;
+
+                    button {
+                        background-color: #7367F0 !important;
+                        color           : #FFF !important;
+                    }
+                }
+            }
+
+            .listItemRight {
+                height    : calc(100% - 45px);
+                max-height: calc(100% - 45px);
+                overflow-y: auto;
+                display   : flex;
+
+                .dmc-file-listing-month {
+                    width       : 200px;
+                    height      : 100%;
+                    border-right: 1px solid #edeff1;
+
+                    .dmc-header {
+                        display           : flex;
+                        justify-content   : flex-start;
+                        height            : $headerListMonth;
+                        align-items       : center;
+                        // border-bottom  : 1px solid #edeff1;
+                        padding           : 0 15px;
+                        box-shadow        : 0 0 3px rgba(0, 0, 0, .1);
+
+                        .dmcTextLabel {
+                            font-size  : 20px;
+                            display    : flex;
+                            align-items: center;
+
+                            i {
+                                margin-right: 0.5rem;
+                            }
+
+                            .dm-text {
+                                font-size: 17px;
+                            }
+                        }
+                    }
+
+                    .dmc-month-body {
+                        display        : flex;
+                        justify-content: flex-start;
+                        padding        : 10px 15px;
+                        flex-direction : column;
+                        align-items    : flex-start;
+                        height         : calc(100% - $headerListMonth);
+                        align-items    : flex-start;
+                        overflow       : auto;
+
+                        .DMitem {
+                            display        : flex;
+                            justify-content: flex-start;
+                            align-items    : center;
+                            margin-bottom  : 8px;
+                            cursor         : pointer;
+                            width          : 100%;
+
+                            i,
+                            label {
+                                cursor: pointer;
+                            }
+
+                            i {
+                                margin-right: 0.5rem;
+                            }
+
+                            .dm-text {
+                                font-size: 13px;
+                            }
+
+                            &.active {
+                                color: #488cfb;
+                            }
+
+                            &:hover {
+                                color: #488cfb;
+                            }
+                        }
+                    }
+                }
+
+                .gp-itemRight-item {
+                    display                : flex;
+                    // flex-wrap           : wrap;
+                    max-width              : calc(100% + 6px);
+                    // padding       : 10px;
+                    // flex             : 1;
+                    // overflow         : auto;
+                    // height           : fit-content;
+                    flex-direction         : column;
+                    width                  : 100%;
+
+
+                    .itemRight-header {
+                        height         : 60px;
+                        display        : flex;
+                        align-items    : center;
+                        justify-content: flex-end;
+                        padding        : 0 15px;
+                        box-shadow     : 0 0 3px rgba(0, 0, 0, 0.1);
+
+                        input {
+                            border       : 1px solid #eeeeee;
+                            align-items  : center;
+                            height       : 35px;
+                            border-radius: 25px;
+                            padding      : 0 15px;
+                            width        : 250px;
+                            font-size    : 14px;
+                        }
+
+                        .refreshDev {
+                            height         : 30px;
+                            width          : 30px;
+                            margin-left    : 10px;
+                            border-radius  : 50px;
+                            display        : flex;
+                            justify-content: center;
+                            align-items    : center;
+                            cursor         : pointer;
+
+                            .bx.bx-refresh {
+                                font-size: 30px;
+                                color    : #999090;
+                            }
+                        }
+                    }
+
+                    .gp-itemRight {
+                        display          : flex;
+                        flex-wrap        : wrap;
+                        max-width        : calc(100% + 6px);
+                        padding          : 10px;
+                        // flex          : 1;
+                        overflow         : auto;
+                        height           : fit-content;
+                        // height     : calc(100% - 60px);
+                        align-items      : flex-start;
+                        overflow         : auto;
+
+                        .itemRight {
+                            display       : flex;
+                            flex-direction: column;
+                            margin        : 5px;
+                            width         : calc(100% / 4 + -10px);
+                            position      : relative;
+                            background    : white;
+                            overflow      : hidden;
+                            border-radius : 3px;
+                            border-radius : 10px;
+                            border        : 1px solid #7575754a;
+                            height        : 85px;
+
+                            .container-cus {
+                                display            : block;
+                                position           : relative;
+                                cursor             : pointer;
+                                font-size          : 15px;
+                                -webkit-user-select: none;
+                                -moz-user-select   : none;
+                                -ms-user-select    : none;
+                                user-select        : none;
+
+                                input {
+                                    position: absolute;
+                                    opacity : 0;
+                                    cursor  : pointer;
+                                    height  : 0;
+                                    width   : 0;
+                                }
+
+                                .checkmark {
+                                    position        : absolute;
+                                    top             : 0;
+                                    right           : 0;
+                                    background-color: #ffffff;
+                                }
+
+                                .item {
+                                    background   : #e9dbdb21;
+                                    word-break   : break-word;
+                                    // box-shadow: 0 0.2px 3px #c4b5b5;
+                                    display      : flex;
+                                    align-items  : flex-start;
+                                    padding      : 8px 10px 8px 5px;
+
+                                    .gp-img {
+                                        height: 65px;
+                                        width : 60px;
+
+                                        img {
+                                            height         : 100%;
+                                            width          : 100%;
+                                            object-fit     : contain;
+                                            object-position: top;
+                                            border-radius  : 15px;
+                                        }
+                                    }
+
+                                    .gp-txt {
+                                        display       : flex;
+                                        flex-direction: column;
+                                        align-items   : flex-start;
+                                        flex          : 1;
+                                        margin        : 3px 0;
+
+                                        h4 {
+                                            margin        : 0;
+                                            text-transform: capitalize;
+                                        }
+
+                                        label {
+                                            font-size: 12px;
+                                            color    : #4f4f4fa8;
+                                        }
+                                    }
+                                }
+
+                                input:checked~.checkmark {
+                                    width        : 100%;
+                                    max-width    : 100%;
+                                    height       : 100%;
+                                    background   : unset;
+                                    border       : 2px solid #7367f0;
+                                    border-radius: 3px;
+                                }
+
+                                .checkmark:after {
+                                    left             : 9px;
+                                    top              : 5px;
+                                    width            : 5px;
+                                    height           : 10px;
+                                    border           : 2px solid #ffffff;
+                                    border-width     : 0 3px 3px 0;
+                                    -webkit-transform: rotate(45deg);
+                                    -ms-transform    : rotate(45deg);
+                                    transform        : rotate(45deg);
+                                }
+                            }
+
+                            .deleteImage {
+                                position: absolute;
+                                right   : 0;
+                                cursor  : pointer;
+                                color   : red;
+                                display : none;
+                                padding : 5px;
+                                grid-gap: 5px;
+
+                                span {
+                                    box-shadow     : 0 0 3px rgb(0 0 0 / 10%);
+                                    background     : #ebd9d9;
+                                    border-radius  : 15px;
+                                    font-size      : 20px;
+                                    padding        : 4px;
+                                    color          : #fff;
+                                    width          : 25px;
+                                    height         : 25px;
+                                    display        : flex;
+                                    justify-content: center;
+                                    align-items    : center;
+                                    font-size      : 18px;
+
+                                    &.delete {
+                                        background: red;
+                                    }
+
+                                    &.view {
+                                        background: #488cfb;
+                                    }
+
+                                    &.download {
+                                        background: #00b74a;
+                                    }
+
+                                }
+                            }
+
+                        }
+
+                        .itemRight:hover {
+                            .deleteImage {
+                                display        : block;
+                                height         : 100%;
+                                width          : 100%;
+                                display        : flex;
+                                align-items    : center;
+                                justify-content: center;
+                                background     : #f1f1f1b0;
+                            }
+                        }
+                    }
+
+                    .emptyDMCFile {
+                        height: calc(100% - 105px);
+
+                        .data-empty-container {
+                            .data-empty-wrapper {
+                                .image {
+                                    height: 170px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .loadingFullSizeLayout {
+                    position: absolute;
+                }
+            }
+
+            .btnRighBottom {
+                height     : 45px;
+                display    : flex;
+                align-items: center;
+                box-shadow : 0 0 4px rgb(0 0 0 / 10%);
+                position   : absolute;
+                bottom     : 0;
+                width      : 100%;
+
+                .btnActionRight {
+                    flex   : 1;
+                    display: flex;
+                    padding: 0 20px;
+
+                    .btnAddImage {
+                        background  : #7367F0 !important;
+                        margin-right: 10px;
+                        color       : #fff;
+                    }
+
+                    .btnAddImageClose {
+                        background: red;
+                        color     : #fff;
+                    }
+                }
+
+                .pagination {
+                    // background     : #fafafa;
+                    flex              : 1;
+                    float             : right;
+                    align-items       : baseline;
+                    width             : 100%;
+                    display           : flex;
+                    justify-content   : flex-end;
+                    // box-shadow     : 0 0 4px rgba(#000000, 0.1);
+                    align-items       : center;
+                    border-radius     : 0 !important;
+                    height            : 100%;
+
+                    .perPage {
+                        margin-right: 2em;
+                        font-size   : 12px !important;
+                    }
+
+                    .totalPage {
+                        font-size   : 12px !important;
+                        margin-right: 2em;
+                    }
+
+                    .btn-pagination {
+                        display    : flex;
+                        align-items: center;
+                        cursor     : pointer;
+
+                        button {
+                            background     : none;
+                            border         : none;
+                            display        : flex;
+                            align-items    : center;
+                            color          : black;
+                            cursor         : pointer;
+                            border         : 1px solid;
+                            /* padding     : 0; */
+                            /* margin      : 0; */
+                            width          : 30px !important;
+                            height         : 30px;
+                            max-width      : 30px;
+                            min-width      : 30px;
+                            justify-content: center;
+                            margin-right   : 10px;
+                            border         : 1px solid #aaa;
+                            padding        : 0;
+                            border-radius  : 50%;
+
+                            svg {
+                                font-size    : 20px;
+                                font-size    : 20px;
+                                border       : 1px solid rgba(#ebf0e7, 0.80);
+                                border-radius: 5px;
+                            }
+
+                            &:disabled {
+                                background-color: unset !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .loadingFullSizeLayout {
+        position: absolute;
+    }
+}
+
+.gpLoading {
+
+    position       : absolute;
+    top            : 0;
+    width          : 100%;
+    display        : flex;
+    justify-content: center;
+    height         : 100%;
+    align-items    : center;
+
+    img {
+        width : 35px;
+        height: 35px;
+    }
+
+}
+
+
+.EmptyGp {
+    width          : 100%;
+    height         : calc(100% - 60px);
+    align-items    : center;
+    display        : flex;
+    justify-content: center;
+    text-align     : center;
+    word-break     : break-all;
+
+    .empty {
+        width : 150px;
+        height: 150px;
+
+        img {
+            width        : 100%;
+            height       : 100%;
+            object-fit   : contain;
+            margin-bottom: 6px;
+        }
+
+        strong {
+            font-weight        : unset;
+            -webkit-text-stroke: .3px;
+        }
+    }
+}
+
+.emptyDMCFile {
+    height     : 100%;
+    overflow   : hidden;
+    margin     : 0;
+    display    : flex;
+    align-items: center;
+    width      : 100%;
+}

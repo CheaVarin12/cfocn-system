@@ -1,0 +1,146 @@
+.minWithAuto {
+    min-width: auto !important;
+    cursor   : pointer;
+
+    svg {
+        margin-right: 0 !important;
+    }
+}
+
+.iconAc {
+    display    : flex;
+    align-items: center;
+    position   : absolute;
+    top        : 0;
+    right      : 0;
+
+    button,
+    .div {
+        height            : 30px;
+        margin            : 0;
+        padding           : 0;
+        min-width         : 30px;
+        max-width         : 30px;
+        width             : 30px;
+        display           : flex;
+        justify-content   : center;
+        // background     : #ffa900d6;
+        border-radius     : 50%;
+        position          : relative;
+        margin-right      : 5px;
+
+        min-width      : 0 !important;
+        padding        : 0;
+        margin         : 0;
+        display        : flex;
+        justify-content: center;
+        align-items    : center;
+
+        border  : none !important;
+        position: relative !important;
+        cursor  : pointer;
+
+        svg {
+            // border-radius: 15px;
+            // padding      : 3px;
+            // width        : 25px !important;
+            // height       : 25px !important;
+            // margin-right : 0 !important;
+            // right        : 5px;
+            position : absolute;
+            top      : 50%;
+            left     : 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        &.view {
+            background: #0053ff !important;
+        }
+
+        &.card {
+            background: #0053ff !important;
+        }
+
+        &.accepted {
+            width        : 100px;
+            max-width    : 100px;
+            border-radius: 20px;
+            background   : #5353c4;
+        }
+
+        .popUpBtntext {
+            opacity               : 0;
+            visibility            : hidden;
+            position              : absolute;
+            position              : inherit;
+            // left               : 0;
+            transform             : translate(0, 10px);
+            background-color      : #bfbfbf;
+            padding               : 0 10px;
+            box-shadow            : 0 2px 5px 0 rgb(0 0 0 / 26%);
+            border-radius         : 5px;
+            font-size             : 12px;
+            display               : flex;
+            align-items           : center;
+            justify-content       : center;
+            top                   : 60px;
+            position              : absolute !important;
+
+            &:before {
+                position           : absolute;
+                z-index            : -1;
+                content            : "";
+                right              : calc(50% - 10px);
+                top                : -6px;
+                border-style       : solid;
+                border-width       : 0 10px 10px 10px;
+                border-color       : transparent transparent #bfbfbf transparent;
+                transition-duration: 0.3s;
+                transition-property: transform;
+            }
+
+            .popUpText {
+                padding       : 10px 0;
+                line-height   : 24px;
+                display       : flex;
+                flex-direction: column;
+                text-align    : left;
+
+                label {
+                    font-size          : 13px;
+                    font-weight        : 600;
+                    font-weight        : unset;
+                    -webkit-text-stroke: .5px;
+                }
+
+                p {
+                    margin     : 0;
+                    color      : #5a5e66;
+                    font-size  : 11px;
+                    line-height: 17px;
+                    white-space: nowrap;
+                }
+            }
+        }
+
+        &:hover {
+            svg {
+                color       : blue !important;
+                //background: #75757536;
+
+            }
+
+            .popUpBtntext {
+                z-index   : 10;
+                opacity   : 1;
+                visibility: visible;
+                transform : translate(0, -20px);
+                transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+            }
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}

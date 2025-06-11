@@ -1,0 +1,42 @@
+.dmc-submit-status-dialog {
+    width: 220px !important;
+
+    .dialog-form-body {
+        padding: 0 0 !important;
+
+        .form-row {
+            text-align     : center !important;
+            justify-content: center !important;
+            align-items    : center !important;
+
+            h3 {
+                margin: 0 0 5px !important;
+            }
+
+            .bx-error {
+                font-size    : 95px !important;
+                margin-bottom: 10px;
+                color        : #ff000087;
+            }
+
+            p {
+                color: #555555ba !important;
+            }
+        }
+    }
+}
+
+.dmc-status-footer {
+    display       : flex;
+    flex-direction: column;
+
+    .close-dmc-alert {
+        background: red !important;
+        color     : #fff !important;
+        opacity   : 0.5;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

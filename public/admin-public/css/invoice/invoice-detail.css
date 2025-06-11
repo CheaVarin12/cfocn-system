@@ -1,0 +1,166 @@
+#printableArea{
+  font-family: "OpenSans", "Poppins", sans-serif, "Urbanist", sans-serif, "Hanuman", serif !important;
+}
+table {
+  caption-side: bottom;
+  border-collapse: collapse;
+}
+table{
+    width:100%;
+  }
+  tbody.body-head{
+    border: 1px solid rgb(143, 136, 136);
+    border-collapse: collapse;
+  }
+
+  tr.height td, tr.heightth{
+    padding: 4px 5px;
+  }
+  .bold{
+    font-weight: bold;
+    padding-left: 3px;
+  }
+
+  .body-head tr.border-style td{
+  border: 1px solid rgb(143, 136, 136);
+  border-collapse: collapse;
+}
+
+.body-head tr.set-border td.border-td{
+  border: 1px solid rgb(143, 136, 136);
+  border-collapse: collapse;
+}
+
+  .title{
+   font-size: 18px;
+  }
+  .title-2{
+    font-size: 14px
+  }
+  
+  .general-text{
+   font-size: 13px;
+   color: black;
+  }
+  
+  .body-head tr.head th{
+    background-color: #C4D69B;
+    border: 1px solid rgb(143, 136, 136);
+    border-collapse: collapse;
+    text-align: center;
+  }
+  
+  .text-left{
+    text-align: left;
+  }
+  .text-right{
+    text-align: right;
+    padding-right: 5px;
+  }
+  
+  .line-height{
+    line-height: 2;
+  }
+  
+  img{
+    width: 100%;
+  }
+  
+  .column1 {
+    float: left;
+    width: 35%;
+    padding: 10px;
+    text-align: center;
+    }
+    .column2 {
+    float: left;
+    width: 30%;
+    padding: 10px;
+    text-align: center;
+    }
+    .column3 {
+    float: left;
+    width: 35%;
+    padding: 10px;
+    text-align: center;
+    }
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+    .button-excel {
+      display: block;
+      width: 140px;
+      height: 46px;
+      background: #0f9d58;
+      padding: 10px;
+      text-align: center;
+      border-radius: 5px;
+      color: white;
+      line-height: 25px;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+    .button-excel:hover {
+     color: white;
+     cursor: pointer;
+    }
+  
+    .button-pdf {
+      display: block;
+      width: 140px;
+      height: 46px;
+      background: #ff3838;
+      padding: 10px;
+      text-align: center;
+      border-radius: 5px;
+      color: white;
+      line-height: 25px;
+  
+    }
+    .button-pdf:hover {
+     color: white;
+     cursor: pointer;
+    }
+  
+    @media print {
+      .general-text{
+        font-size: 9px;
+        color: black;
+       }
+  
+       .title{
+        font-size:15px;
+       }
+  
+       .title-2{
+        font-size: 12px
+      }
+      #printableArea{
+        margin: 0;
+      }
+      @page { margin: 0cm 0.8cm; }
+  
+   }
+   .exort-pdf-general-text{
+    font-size: 9px;
+    color: black;
+   }
+   .exort-pdf-title{
+    font-size:15px;
+   }
+  .exort-pdf-title-2{
+    font-size: 12px
+  }
+  
+  
+  .row.general-text{
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% + 30px);
+  }
+  .row.general-text .column{
+    width: calc(100% / 3);
+    padding-right: 30px;
+  }

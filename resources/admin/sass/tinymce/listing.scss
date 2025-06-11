@@ -1,0 +1,32 @@
+#tinymce.mce-content-body {
+    width: calc(100% - 65px) !important;
+
+    p {
+        max-width: 100% !important;
+
+        span {
+            iframe {
+                max-width: 100% !important;
+                width    : 100% !important;
+            }
+
+            .mce-shim {
+                max-width: 100% !important;
+            }
+
+            .mce-preview-object .mce-shim {
+                max-width: 100% !important;
+            }
+        }
+
+        iframe {
+            max-width: 100% !important;
+            width    : 100% !important;
+        }
+    }
+
+    iframe {
+        max-width: 100% !important;
+        width    : 100% !important;
+    }
+}

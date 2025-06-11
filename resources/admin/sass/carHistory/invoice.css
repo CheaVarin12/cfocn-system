@@ -1,0 +1,482 @@
+@font-face {
+  font-family: Hanuman;
+  src: url("../../../public/admin-public/fonts/Hanuman-Regular.ttf");
+}
+
+@font-face {
+  font-family: Poppins;
+  src: url("../../../public/admin-public/fonts/Poppins-Regular.ttf");
+}
+
+@font-face {
+  font-family: Urbanist;
+  src: url("../../../public/admin-public/fonts/Urbanist-Regular.ttf");
+}
+
+@font-face {
+  font-family: DynaPuff;
+  src: url("../../../public/admin-public/fonts/DynaPuff-Regular.ttf");
+}
+
+@font-face {
+  font-family: OpenSans;
+  src: url("../../../public/admin-public/fonts/OpenSans-Regular.ttf");
+}
+
+@font-face {
+  font-family: Khmer_OS_Wat_Phnom;
+  src: url("../../../public/admin-public/fonts/Kh Muol Regular.ttf");
+}
+
+*:not(.material-icons):not(.material-symbols-outlined):not(mat-icon) {
+  font-family: 'OpenSans', 'Poppins', sans-serif, 'Urbanist', sans-serif, 'Hanuman', serif !important;
+}
+
+@media print {
+  @page {
+    size: A10;
+    size: portrait;
+    margin: 1.5cm;
+  }
+}
+
+.swal2-container.swal2-center.swal2-backdrop-show {
+  z-index: 9999 !important;
+}
+
+.carInvoiceHeader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px solid #b7bac1;
+  padding: 15px;
+  border-radius: 5px;
+  position: relative;
+  height: 100%;
+  color: black !important;
+}
+
+.carInvoiceHeader .imageLogoGp {
+  width: 120px;
+}
+
+.carInvoiceHeader .imageLogoGp img {
+  width: 100%;
+}
+
+.carInvoiceHeader .imageLogoGp p {
+  margin: 0;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: initial;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 14px;
+}
+
+.carInvoiceHeader .textHeaderGp {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  top: 30px;
+}
+
+.carInvoiceHeader .textHeaderGp h3 {
+  font-family: 'Khmer_OS_Wat_Phnom' !important;
+  color: #024de3ad;
+  font-size: 24px;
+  font-weight: unset;
+  -webkit-text-stroke: .3px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.carInvoiceHeader .textHeaderGp p {
+  margin: 0;
+  width: 65%;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: initial;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 14px;
+  line-height: 23px;
+}
+
+.headerTextInvoice {
+  text-align: center;
+  color: black;
+}
+
+.headerTextInvoice .txt {
+  font-family: 'Khmer_OS_Wat_Phnom' !important;
+  color: #024de3ad;
+  font-size: 18px;
+  font-weight: unset;
+  -webkit-text-stroke: .3px;
+}
+
+.boxItemListingGp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.boxItemListingGp .boxItem {
+  border: 1px solid #ccc;
+  margin-right: 25px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.boxItemListingGp .boxItem:last-child {
+  margin-right: 0;
+}
+
+.boxItemListingGp .boxItem .itemTxt {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  font-size: 14px;
+}
+
+.boxItemListingGp .boxItem .itemTxt label {
+  width: 150px;
+  text-align: end;
+}
+
+.boxItemListingGp .boxItem .itemTxt span {
+  margin: 0 10px;
+}
+
+.boxItemListingGp .boxItem .itemTxt p {
+  margin: 0;
+  text-align: start;
+  word-break: break-all;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.boxItemListingGp .numberInvoice {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start !important;
+      -ms-flex-pack: start !important;
+          justify-content: flex-start !important;
+  padding-left: 25px;
+  font-weight: unset;
+  -webkit-text-stroke: .5px;
+}
+
+.boxItemListingGp .numberInvoice span {
+  margin: 0 5px;
+}
+
+.boxItemListingGp .boxLeft {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.boxItemListingGp .boxRight {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.boxItemListingGp .boxRight .itemTxt label {
+  width: 95px;
+}
+
+.reportInvoiceListingTableLayout {
+  margin-top: 20px;
+  border: 1px solid #e0e0e0;
+  font-size: 15px;
+  overflow: hidden;
+}
+
+.reportInvoiceListingTableLayout div > div {
+  border-right: 1px solid #e0e0e0;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.reportInvoiceListingTableLayout div > div:last-child {
+  border-right: none;
+}
+
+.reportInvoiceListingTableLayout .headerReport {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  height: 40px;
+  background: #ffa9008a;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-weight: 600;
+  font-weight: unset;
+  -webkit-text-stroke: .5px;
+}
+
+.reportInvoiceListingTableLayout .headerReport.bgBooking {
+  background: #eee !important;
+}
+
+.reportInvoiceListingTableLayout .bodyReport {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  height: 37px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-top: 1px solid #e0e0e0;
+  font-size: 13px;
+}
+
+.reportInvoiceListingTableLayout .tableTextLeft {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding: 0 10px;
+}
+
+.reportInvoiceListingTableLayout .col10 {
+  width: 10%;
+}
+
+.reportInvoiceListingTableLayout .col20 {
+  width: 20%;
+}
+
+.reportInvoiceListingTableLayout .col30 {
+  width: 30%;
+}
+
+.reportInvoiceListingTableLayout .col40 {
+  width: 40%;
+}
+
+.reportInvoiceListingTableLayout .col50 {
+  width: 50%;
+}
+
+.reportInvoiceListingTableLayout .col60 {
+  width: 60%;
+}
+
+.invoiceFooter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.invoiceFooter .footerItem {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-box-direction: normal !important;
+      -ms-flex-direction: column !important;
+          flex-direction: column !important;
+  height: auto !important;
+}
+
+.invoiceFooter .footerItem:first-child {
+  border-top: 1px solid #d8dce5;
+  padding: 7px 13px;
+  background: #ffa9008a;
+}
+
+.invoiceFooter .footerItem p {
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  width: 100%;
+  text-align: start;
+  font-family: 'Khmer_OS_Wat_Phnom' !important;
+  font-size: 13px;
+}
+
+.invoiceFooter .footerItem .bodyReport {
+  height: 100% !important;
+  border-right: 0;
+  width: 100% !important;
+}
+
+.invoiceFooter .footerItem .bodyReport .textRight {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding-right: 7px;
+  background: #ffa9008a;
+}
+
+.invoiceFooter .footerItem .bodyReport .textRight.bgBooking {
+  background: #024de36b !important;
+}
+
+.invoiceFooterText {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  padding: 15px 0;
+  font-size: 15px;
+}
+
+.invoiceFooterText .footerItemText {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-box-direction: normal !important;
+      -ms-flex-direction: column !important;
+          flex-direction: column !important;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.invoiceFooterText .footerItemText .textGp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  line-height: 25px;
+}
+
+.invoiceFooterText .footerItemText p {
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: flex-center;
+      -ms-flex-pack: flex-center;
+          justify-content: flex-center;
+}
+
+.gg-check {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+  display: block;
+  -webkit-transform: scale(var(--ggs, 1));
+          transform: scale(var(--ggs, 1));
+  width: 22px;
+  height: 22px;
+  border: 2px solid transparent;
+  border-radius: 100px;
+}
+
+.gg-check::after {
+  content: "";
+  display: block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: absolute;
+  left: 5px;
+  top: -5px;
+  width: 8px;
+  height: 15px;
+  border-width: 0 2px 2px 0;
+  border-style: solid;
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  color: blue;
+}
+
+.gg-close {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+  display: block;
+  -webkit-transform: scale(var(--ggs, 1));
+          transform: scale(var(--ggs, 1));
+  width: 22px;
+  height: 22px;
+  border: 2px solid transparent;
+  border-radius: 40px;
+}
+
+.gg-close::after,
+.gg-close::before {
+  content: "";
+  display: block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  border-radius: 5px;
+  top: 8px;
+  left: 5px;
+  color: red;
+}
+
+.gg-close::after {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+/*# sourceMappingURL=invoice.css.map */

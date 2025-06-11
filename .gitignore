@@ -1,0 +1,6 @@
+.env
+/node_modules
+/vendor
+/public/uploads
+/public/documents
+/public/file_manager

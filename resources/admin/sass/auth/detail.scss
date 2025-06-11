@@ -1,0 +1,360 @@
+.authDialog {
+    background   : #fff;
+    width        : -webkit-fit-content;
+    width        : -moz-fit-content;
+    width        : fit-content;
+    height       : -webkit-fit-content;
+    height       : -moz-fit-content;
+    height       : fit-content;
+    padding      : 25px;
+    border-radius: 20px;
+    max-height   : unset;
+    overflow     : auto;
+}
+
+.authDetailLayout {
+    display: flex;
+
+    .authLeft {
+        width        : 300px;
+        box-shadow   : 0 0 3px rgba(0, 0, 0, 0.1);
+        margin-right : 20px;
+        border-radius: 10px;
+        background   : #5a5e6621;
+        height       : 100%;
+
+        .imgGp {
+            width        : 100%;
+            margin-bottom: 20px;
+            padding      : 8px 8px 0 8px;
+
+            img {
+                width          : 100%;
+                height         : 200px;
+                object-fit     : cover;
+                object-position: top;
+                border-radius  : 10px;
+            }
+        }
+
+        .textGp {
+            padding: 0 20px;
+
+            .text {
+                display    : flex;
+                align-items: center;
+                font-size  : 13px;
+
+                label {
+                    // width: 60px;
+                }
+
+                span {
+                    margin: 0 10px;
+                }
+
+                p {
+                    margin: 0;
+                }
+            }
+        }
+
+        .authLeftAction {
+            margin  : 20px 0;
+            display : flex;
+            grid-gap: 10px;
+            padding : 0 20px;
+
+            .btnAuth {
+                background   : red;
+                text-align   : center;
+                color        : #fff;
+                border-radius: 15px;
+                padding      : 2px 15px;
+                font-size    : 13px;
+                cursor       : pointer;
+                opacity      : 0.7;
+                display      : flex;
+                align-items  : center;
+
+                i.bx {
+                    margin-right: 3px;
+                }
+
+                &.blue {
+                    background: #1266f1;
+                }
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .authRight {
+        flex: 1;
+
+        .authTab {
+            display         : flex;
+            // grid-gap     : 10px;
+            border-bottom   : 1px solid #5a5e6645;
+
+            .tabItem {
+                padding            : 4px 10px;
+                cursor             : pointer;
+                border-top         : 1px solid rgba(90, 94, 102, 0.2705882353);
+                border-right       : none;
+                font-size          : 12px;
+                font-weight        : 600;
+                font-weight        : unset;
+                -webkit-text-stroke: .5px;
+                border-right       : none;
+
+                &:first-child {
+                    border-left  : 1px solid #5a5e6645;
+                    border-radius: 4px 0 0 0px;
+                }
+
+                &:last-child {
+                    border-right : 1px solid #5a5e6645;
+                    border-radius: 0 4px 0 0;
+                }
+
+                &.active {
+                    background: #1266f19e;
+                    color     : #fff;
+                }
+            }
+        }
+
+        .formLayout {
+            margin-top: 20px;
+
+            .formItem {
+                display       : flex;
+                align-items   : flex-start;
+                margin-bottom : 5px;
+                flex-direction: column;
+
+                label {
+                    font-size: 12px;
+
+                    span {
+                        color: red;
+                    }
+                }
+
+                span {
+                    margin: 0 4px;
+                }
+
+                .inputGp {
+                    width      : 100%;
+                    position   : relative;
+                    display    : flex;
+                    align-items: center;
+
+                    .group-item {
+                        position   : absolute;
+                        right      : 0;
+                        display    : flex;
+                        align-items: center;
+                        cursor     : pointer;
+
+                        .icon {
+                            height      : 100%;
+                            display     : flex;
+                            align-items : center;
+                            margin-right: 7px;
+
+                            span {
+                                font-size: 20px;
+                            }
+                        }
+                    }
+                }
+
+                input {
+                    height       : 35px;
+                    border       : 1px solid rgba(117, 117, 117, 0.3411764706);
+                    font-size    : 12px;
+                    width        : 100%;
+                    border-radius: 4px;
+                    padding      : 0 7px;
+                }
+
+                .form-select-photo {
+                    background-color: #fff;
+                    border          : 1px dashed #d9d9d9;
+                    border-radius   : 10px;
+                    box-sizing      : border-box;
+                    width           : 180px;
+                    height          : 150px;
+                    text-align      : center;
+                    position        : relative;
+                    cursor          : pointer;
+                    transition      : 0.2s;
+                    position        : relative;
+                    display         : inline-block;
+                    padding         : 5px;
+
+                    input {
+                        position: absolute;
+                        top     : 0;
+                        left    : 0;
+                        right   : 0;
+                        bottom  : 0;
+                        width   : 100%;
+                        cursor  : pointer;
+                        opacity : 0;
+                        height  : 100%;
+                    }
+
+                    &.file {
+                        height: 120px;
+                    }
+
+                    &.md {
+                        height: 200px;
+                    }
+
+                    &:hover {
+                        border-color: $primary;
+
+                        .icon svg {
+                            color: $primary;
+                        }
+
+                        .select-photo.active {
+                            opacity   : 1;
+                            background: rgba($primary, 0.5);
+
+                            .icon svg {
+                                color: #fff;
+                            }
+
+                            .title {
+                                color: #fff;
+                            }
+                        }
+                    }
+
+                    .select-photo {
+                        position       : absolute;
+                        top            : 0;
+                        right          : 0;
+                        bottom         : 0;
+                        left           : 0;
+                        display        : flex;
+                        flex-direction : column;
+                        align-items    : center;
+                        justify-content: center;
+
+                        &.active {
+                            opacity   : 0;
+                            transition: 0.2s;
+                        }
+
+                        .icon {
+                            line-height: 0;
+
+                            svg {
+                                width      : 50px;
+                                height     : 50px;
+                                line-height: 0;
+                                color      : #b4bccc;
+                                transition : 0.2s;
+                            }
+
+                            i.bx {
+                                font-size: 25px;
+                            }
+                        }
+
+                        .title {
+                            color     : #5a5e66;
+                            font-size : 14px;
+                            text-align: center;
+                            transition: 0.2s;
+
+                            // b {
+                            //     color: $primary;
+                            // }
+                        }
+                    }
+
+                    .image-view {
+                        width        : 100%;
+                        height       : 100%;
+                        overflow     : hidden;
+                        border-radius: $border-radius;
+                        opacity      : 0;
+
+                        &.active {
+                            opacity: 1;
+                        }
+
+                        img {
+                            width     : 100%;
+                            height    : 100%;
+                            object-fit: contain;
+
+                            &.img-contain {
+                                object-fit: contain;
+                            }
+                        }
+                    }
+
+                    .file-select {
+                        display    : flex;
+                        height     : 100%;
+                        align-items: center;
+                        padding    : 0px 20px;
+
+                        svg {
+                            min-width: 70px;
+                            height   : 70px;
+                        }
+
+                        p {
+                            flex       : auto;
+                            word-break : break-all;
+                            line-height: normal;
+                            text-align : left;
+                            padding    : 0 10px;
+                        }
+                    }
+                }
+
+                .error {
+                    font-size: 10px;
+                    color    : #ff0000a1;
+                }
+            }
+        }
+
+        .authRightAction {
+            display        : flex;
+            justify-content: flex-end;
+            margin-top     : 20px;
+
+            .btnAuth {
+                background   : #1266f1;
+                padding      : 4px 17px;
+                padding      : 4px 17px;
+                border-radius: 20px;
+                font-size    : 12px;
+                color        : #fff;
+                cursor       : pointer;
+                display      : flex;
+                align-items  : center;
+
+                i.bx {
+                    margin-right: 3px;
+                    font-size   : 14px;
+                }
+            }
+        }
+    }
+}

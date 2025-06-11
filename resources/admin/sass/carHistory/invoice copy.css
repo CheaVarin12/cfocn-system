@@ -1,0 +1,140 @@
+.txtHeader2ReportCar {
+  text-align: center;
+}
+
+.txtHeader2ReportCar img {
+  width: 120px !important;
+  height: 120px;
+}
+
+.txtHeader2ReportCar h3 {
+  font-weight: unset;
+  -webkit-text-stroke: 1px;
+  margin-top: 0;
+}
+
+.header2ReportCar {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.header2ReportCar .hItem {
+  width: calc(100% / 3 - 10px);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.header2ReportCar .hItem label {
+  font-weight: unset;
+  -webkit-text-stroke: .3px;
+}
+
+.header2ReportCar .hItem span {
+  margin: 0 5px;
+}
+
+.header2ReportCar .hItem div {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  word-break: break-all;
+}
+
+.carHistoryLayoutListing {
+  border: 0.5px solid #eeeeee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.carHistoryLayoutListing .carHistoryItemGp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.carHistoryLayoutListing .carHistoryItemGp .itemHeader {
+  text-align: start;
+  background: #eeeeeead;
+  padding: 4px 14px;
+}
+
+.carHistoryLayoutListing .carHistoryItemGp .itemHeader h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: unset;
+  -webkit-text-stroke: .3px;
+}
+
+.carHistoryLayoutListing .carHistoryItemGp .bodyItem {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 4px 10px;
+  border-bottom: 1px solid #fbfbfb;
+}
+
+.carHistoryLayoutListing .carHistoryItemGp .bodyItem div {
+  text-align: start;
+  font-size: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.carHistoryLayoutListing .carHistoryItemGp .bodyItem div .inputCheck {
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+}
+
+.carHistoryLayoutListing .carHistoryItemGp .bodyItem div img {
+  width: 20px !important;
+  height: 20px !important;
+  margin-right: 5px;
+}
+
+.carHistoryLayoutListing .carHistoryItemGp .bodyItem .wd80 {
+  width: 80%;
+}
+
+.carHistoryLayoutListing .carHistoryItemGp .bodyItem .wd20 {
+  width: 20%;
+}
+
+.carHistoryLayoutListing .carHistoryItemGp .bodyItem:last-child {
+  border-bottom: unset;
+}
+/*# sourceMappingURL=invoice copy.css.map */

@@ -1,0 +1,31 @@
+#tinymce.mce-content-body {
+  width: calc(100% - 65px) !important;
+}
+
+#tinymce.mce-content-body p {
+  max-width: 100% !important;
+}
+
+#tinymce.mce-content-body p span iframe {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+#tinymce.mce-content-body p span .mce-shim {
+  max-width: 100% !important;
+}
+
+#tinymce.mce-content-body p span .mce-preview-object .mce-shim {
+  max-width: 100% !important;
+}
+
+#tinymce.mce-content-body p iframe {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+#tinymce.mce-content-body iframe {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+/*# sourceMappingURL=listing.css.map */

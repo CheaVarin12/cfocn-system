@@ -1,0 +1,147 @@
+.form-input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: rgba(0, 0, 0, 0);
+  opacity: 0;
+  display: block;
+  background: blur(0);
+  width: 100%;
+  height: 100%;
+  border-width: thin;
+  z-index: 0;
+}
+.excel-body table thead tr th.first-part {
+  background-color: #acb9ca;
+}
+
+.excel-body table thead tr th.second-part {
+  background-color: #c6e0b4;
+}
+
+.excel-body table tbody tr.list td.white-space-nowrap {
+  white-space: normal;
+}
+
+.header-tab .header-action-button button.work-order-expire {
+  border: 1px solid red;
+  color: red;
+  position: relative;
+  font-size: 13px;
+  position: relative;
+}
+
+.header-tab .header-action-button button.work-order-expire div {
+  position: absolute;
+  background-color: red;
+  color: white;
+  top: -30px !important;
+  border-radius: 100% !important;
+  width: 35px;
+  height: 35px;
+  right: -1px;
+}
+::backdrop {
+  background-image: white !important;
+  opacity: 0.75;
+}
+
+dialog {
+  background: white;
+  border-radius: 5px;
+  border: solid 1px rgb(244, 240, 240);
+  margin-top: 6%;
+  width: 600px;
+}
+
+dialog div.footer-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+dialog div.footer-button .close-button {
+  background-color: red;
+  color: white;
+  font-size: 13px;
+}
+
+dialog div.footer-button .submit-button {
+  background-color: #024de3;
+  color: white;
+  font-size: 13px;
+}
+div.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+.form-admin .form-wrapper .form-body .row-4 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px; 
+  
+}
+.form-admin .form-wrapper .form-body .form-row.row-search{
+    margin-bottom: 18px;
+    line-height: 0;
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    display: inline;
+}
+ul {
+  margin-top: 6px;
+  background-color: #f1f1f1;
+  width: 100%;
+  padding: 5px 4px;
+  position: absolute;
+  z-index: 1;
+  overflow-y: scroll;
+  height: 158px;
+}
+ul.report-ul {
+  margin-top: -11px;
+  background-color: #f1f1f1;
+  padding: 5px 4px;
+  position: absolute;
+  z-index: 1;
+  overflow-y: scroll;
+  height: auto !important;
+  margin-left: -2px;
+  min-width: 200px;
+}
+li.fttx-li {
+  margin: 5px 0;
+  padding: 4px 4px;
+  font-size: 14px;
+  display: flex;
+}
+li.fttx-li span {
+  width: 215px !important;
+}
+li.report-li {
+  margin: 5px 0;
+  padding: 4px 4px;
+  font-size: 14px;
+  display: flex;
+}
+li.report-li span {
+  width: 137px !important;
+}
+li.fttx-li span {
+  margin-top: -1px;
+  margin-left: 7px;
+}
+li.fttx-li:hover {
+  background-color: white;
+  border-radius: 2px;
+}
+
+input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+}
+input[type="checkbox"].report-input {
+  width: 35px !important;
+}

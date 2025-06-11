@@ -1,0 +1,442 @@
+@import "../variable.scss";
+@import "../function.scss";
+@import "../table.scss";
+@import "../customTable.scss";
+@import "./font_print.scss";
+
+$fontName: 'Siemreap',
+'Poppins' !important;
+
+#printableArea {
+    font-family: $fontName;
+}
+
+@media print {
+    .general-text {
+        font-size: 9px;
+        color    : black;
+    }
+
+    .title {
+        font-size: 15px;
+    }
+
+    .title-2 {
+        font-size: 11px
+    }
+
+    #printableArea {
+        margin: 0;
+    }
+
+    @page {
+        margin: 0cm 0.8cm;
+    }
+
+}
+
+.formBodyInvoiceDetail {
+    padding    : 30px 40px !important;
+    font-family: $fontName;
+}
+
+.headerTableReceipt {
+    display      : flex;
+    align-items  : flex-end;
+    margin-bottom: 5px;
+
+    .HTRLeft {
+        flex: 1;
+
+        .txtItem {
+            width: 70% !important;
+        }
+    }
+
+    .HTRLeft,
+    .HTRRight {
+        .txtItem {
+            padding    : 2px;
+            width      : 100%;
+            font-family: $fontName;
+            font-size  : 11px;
+            line-height: 12px;
+
+            span {
+                word-break : break-word !important;
+                font-family: $fontName;
+            }
+        }
+    }
+
+    .HTRRight {
+        .txtItem {
+            display        : flex;
+            justify-content: space-between;
+        }
+    }
+}
+
+
+.receiptDetailLayout {
+    padding    : 0;
+    font-family: $fontName;
+
+    @media print {
+        .general-text {
+            font-size: 9px;
+            color    : black;
+        }
+
+        .title {
+            font-size: 15px;
+        }
+
+        .title-2 {
+            font-size: 11px
+        }
+
+        #printableArea {
+            margin: 0;
+        }
+
+        @page {
+            margin: 0cm 0.8cm;
+        }
+
+    }
+
+    .form-wrapper {
+        font-family: $fontName;
+
+        .form-body {
+            padding      : 0 !important;
+            overflow     : hidden !important;
+            border-radius: 0px;
+            border       : 1px solid #5a5e66a3;
+
+            .row {
+                .customTable {
+                    margin: 0px 0;
+
+                    .table-wrapper .table-header .row {
+                        border-right: 1px solid #5a5e66a3;
+
+                        &:last-child {
+                            border-right: none;
+                        }
+                    }
+
+                    .table-header {
+                        height     : 38px;
+                        font-family: $fontName;
+                    }
+
+                    .table-body {
+                        width        : 100% !important;
+                        padding-right: 0 !important;
+                    }
+
+                    .table-wrapper {
+                        overflow: hidden;
+                        border  : none;
+
+                        .table-header {
+                            border-bottom: 1px solid #5a5e66a3;
+                        }
+
+                        .table-body {
+                            .column {
+                                border-bottom: 1px solid #5a5e66a3;
+
+                                &:last-child {
+                                    border-bottom: none;
+                                }
+
+                                .row {
+                                    border-right: 1px solid #5a5e66a3;
+
+                                    span {
+                                        font-size  : 11px;
+                                        color      : black;
+                                        padding    : 2px;
+                                        white-space: pre-wrap !important;
+
+                                        &.lineHeight13 {
+                                            line-height: 13px;
+                                        }
+                                    }
+
+                                    &:last-child {
+                                        border-right: none;
+                                    }
+
+                                    &.right .column .row .div {
+                                        padding: 0 2px !important;
+                                    }
+                                }
+                            }
+                        }
+
+                        .tableHeaderCus {
+                            background-color: none;
+                            background      : rgb(255, 255, 255);
+                            height          : auto !important;
+                            max-height      : unset;
+                            min-height      : auto !important;
+
+                            .row {
+                                .txt {
+                                    padding    : 2px;
+                                    font-size  : 11px;
+                                    text-align : start;
+                                    color      : black;
+                                    word-break : break-all !important;
+                                    font-family: $fontName;
+                                    word-break : break-all !important;
+                                    line-height: 15px;
+
+                                    span {
+                                        font-family        : $fontName;
+                                        text-align         : left;
+                                        font-weight        : unset !important;
+                                        -webkit-text-stroke: unset !important;
+                                        font-size          : 11px;
+                                        color              : black;
+                                        padding            : 0 !important;
+                                        word-wrap          : break-all !important;
+                                        white-space        : pre-wrap !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.headerReceipt {
+    width      : 100%;
+    font-family: $fontName;
+
+    .imageLayout {
+        height       : 100px;
+        width        : 100%;
+        padding      : 0;
+        margin-bottom: 30px;
+
+        img {
+            height: 100%;
+            width : 100%;
+        }
+    }
+
+    .txt {
+        width          : 100%;
+        display        : flex;
+        justify-content: center;
+        font-size      : 11px;
+        color          : black;
+        flex-direction : column;
+        align-items    : flex-start;
+        font-family    : $fontName;
+        line-height    : 15px;
+
+        &.marginTopBot {
+            margin: 5px 0 0px 0;
+        }
+
+        &.font13 {
+            font-size: 12px;
+        }
+
+        &.font18 {
+            font-size: 15px;
+        }
+
+        &.bold {
+            font-weight        : unset;
+            -webkit-text-stroke: .5px;
+            line-height        : 20px;
+        }
+
+        &.borderBotLine {
+            padding-bottom: 10px;
+            margin-bottom : 15px;
+            border-bottom : 2px solid rgba(90, 94, 102, 0.6392156863);
+        }
+
+        &.alignCenter {
+            align-items: center;
+        }
+
+        .fontSize20 {
+            font-size: 20px;
+        }
+
+        &.marginBot25 {
+            margin-bottom: 25px;
+        }
+    }
+}
+
+.footerReceiptDetail {
+    .row {
+        .text {
+            padding: 2px;
+            color  : black;
+        }
+
+        .inputTextArea {
+            align-items: flex-start !important;
+            font-weight: none !important;
+            padding    : 2px !important;
+            word-break : break-word;
+            color      : black;
+
+            div {
+                font-size  : 11px !important;
+                font-weight: 400 !important;
+                display    : flex;
+                word-break : break-all;
+                padding    : 0 !important;
+
+                span {
+                    padding: 0 !important;
+                }
+            }
+        }
+
+        .column {
+            .div {
+                width: 100%;
+
+                &.bgGray {
+                    background-color: #bdbdbd;
+                }
+
+                div {
+                    font-size          : 11px !important;
+                    text-align         : right !important;
+                    line-height        : 15px !important;
+                    font-weight        : unset;
+                    -webkit-text-stroke: 0.5px;
+                    color              : black;
+                }
+
+
+            }
+
+            .row {
+                .divTag {
+                    padding  : 2px 0 !important;
+                    font-size: 11px !important;
+                    color    : black;
+                    width    : 100%;
+
+                    &.text {
+                        &-left {
+                            justify-content: flex-start !important;
+                        }
+
+                        &-right {
+                            justify-content: flex-end !important;
+                        }
+
+                        &-center {
+                            justify-content: center !important;
+                        }
+
+                        &-spaceBetween {
+                            justify-content: space-between !important;
+                        }
+                    }
+
+                    span {
+                        align-items: center;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.footerReceiptText {
+    padding      : 0;
+    margin-bottom: 10px;
+
+    div {
+        font-size     : 11px;
+        color         : black;
+        display       : flex;
+        flex-direction: column;
+        line-height   : 15px;
+    }
+}
+
+.footerSignatureReceipt {
+    display        : flex;
+    justify-content: flex-end;
+
+    hr {
+        margin: 25px 0 5px 0 !important;
+    }
+
+    .column {
+        width    : calc(100% / 3);
+        font-size: 12px;
+        color    : black;
+
+        span {
+            width          : 100%;
+            display        : flex;
+            justify-content: flex-start;
+
+            &.textCenter {
+                justify-content: center;
+            }
+        }
+
+    }
+}
+
+.tableHeaderCus {
+    background-color: none;
+    height          : 35px !important;
+    max-height      : 45px;
+}
+
+.switchModeGroup {
+    display          : flex;
+    margin-right     : 20px;
+    // flex-direction: column;
+
+    .switch-mode {
+        display      : block;
+        min-width    : 50px;
+        height       : 25px;
+        border-radius: 25px;
+        border       : 1px solid #757575;
+        cursor       : pointer;
+        position     : relative;
+
+        &::before {
+            content      : '';
+            position     : absolute;
+            top          : 2px;
+            left         : 2px;
+            bottom       : 2px;
+            width        : calc(25px - 4px);
+            background   : rgba(0, 0, 255, 0.6784313725);
+            border-radius: 50%;
+            transition   : all .3s ease;
+        }
+    }
+
+    #switch-mode:checked+.switch-mode::before {
+        left      : calc(100% - 21px - 2px);
+        background: red;
+    }
+}

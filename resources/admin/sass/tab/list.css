@@ -1,0 +1,77 @@
+.ItemTabListingLayout {
+  border-radius: 7px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  height: 100%;
+  margin-bottom: 25px;
+}
+
+.ItemTabListing {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+  height: 40px;
+  background: #e5e5e536;
+  border: 1px solid #eee;
+  padding: 0 15px;
+  border-radius: 7px;
+}
+
+.ItemTabListing .ITab {
+  color: #969ba0;
+  position: relative;
+  height: 100%;
+  font-size: 14px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px 10px;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  cursor: pointer;
+}
+
+.ItemTabListing .ITab.active {
+  color: blue;
+  font-weight: unset;
+  -webkit-text-stroke: .3px;
+}
+
+.ItemTabListing .ITab.active:after {
+  width: 95%;
+}
+
+.ItemTabListing .ITab:after {
+  content: "";
+  position: absolute;
+  height: 4px;
+  background: blue;
+  width: 0px;
+  left: 50%;
+  bottom: -4px;
+  border-radius: 10px;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+/*# sourceMappingURL=list.css.map */

@@ -1,0 +1,422 @@
+.productFormLayout .pHeader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  border-bottom: 1px solid #d8dce5;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+
+.productFormLayout .pHeader img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.productFormLayout .pHeader .pText {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-left: 15px;
+}
+
+.productFormLayout .pHeader .pText p {
+  margin: 0;
+}
+
+.productFormLayout .pHeader .pText button {
+  background: none;
+  color: blue;
+  font-size: 12px;
+}
+
+.productFormLayout .inputFormLayout .row2Input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.productFormLayout .inputFormLayout .row2Input .inputGp {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-right: 25px;
+}
+
+.productFormLayout .inputFormLayout .row2Input .imgGp {
+  width: 170px;
+  height: 135px;
+  margin-top: 20px;
+}
+
+.productFormLayout .inputFormLayout .row2Input .imgGp .form-select-photo {
+  height: 100% !important;
+}
+
+.productFormLayout .inputFormLayout .inputItem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.productFormLayout .inputFormLayout .inputItem label {
+  font-size: 14px;
+  color: #5a5e66;
+  padding: 0 12px 0 0;
+}
+
+.productFormLayout .inputFormLayout .inputItem label span {
+  margin-left: 5px;
+  color: red;
+}
+
+.productFormLayout .inputFormLayout .inputItem textarea {
+  background-color: #fff;
+  border: 1px solid #d8dce5;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #5a5e66;
+  display: inline-block;
+  font-size: 14px;
+  height: 60px;
+  line-height: 1;
+  outline: 0;
+  padding: 10px;
+  -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 100%;
+}
+
+.productFormLayout .inputFormLayout .inputItem textarea.des {
+  height: 150px;
+}
+
+.productFormLayout .inputFormLayout .inputItem input {
+  background-color: #fff;
+  border: 1px solid #d8dce5;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #5a5e66;
+  display: inline-block;
+  font-size: 14px;
+  height: 40px;
+  line-height: 1;
+  outline: 0;
+  padding: 0 15px;
+  -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 100%;
+}
+
+.productFormLayout .inputFormLayout .inputItem .error {
+  color: #ff9d9d;
+  font-size: 12px !important;
+  line-height: 1;
+  padding-top: 4px;
+}
+
+.productFormLayout .inputFormLayout .inputItem:last-child {
+  margin-bottom: 0;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp {
+  margin-bottom: 15px;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp:last-child {
+  margin-bottom: 0 !important;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .label {
+  font-size: 14px;
+  font-weight: unset;
+  -webkit-text-stroke: .3px;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .checkBoxGp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 14px;
+  color: #b7bac1;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .checkBoxGp input[type="checkbox"] {
+  width: 25px;
+  height: 17px;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp {
+  border-bottom: 1px solid #d8dce5;
+  margin: 15px 0 0 0;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .rowTable {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0;
+  border-bottom: 1px solid #d8dce5;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .rowTable:last-child {
+  border-bottom: none;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .rowTable div {
+  border-right: 1px solid #d8dce5;
+  padding: 0 10px;
+  height: 100%;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .rowTable div:last-child {
+  border-right: none;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .rowTable .textCenter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .rowTable .opacity3 {
+  opacity: 0.3;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .rowTable .colT10 {
+  width: 10%;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .rowTable .colT70 {
+  width: 70%;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .rowTable .btnTrash {
+  cursor: pointer;
+  width: 100%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .rowTable .btnTrash svg {
+  width: 20px;
+  height: 20px;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .header {
+  height: 50px;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .header div {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-weight: unset;
+  -webkit-text-stroke: .5px;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .body {
+  height: 70px;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .itemTableProductGp .PTableGp .body div {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 12px;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .btnAddLineGp button {
+  background: none;
+  color: #024de3;
+  padding: 0;
+  font-size: 14px;
+  font-weight: unset;
+  -webkit-text-stroke: .3px;
+}
+
+.productFormLayout .inputFormLayout .tableProductListingLayout .btnAddLineGp button svg {
+  width: 17px;
+  height: 17px;
+  margin-right: 5px;
+}
+
+.tableItemListingGp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  padding: 0 !important;
+}
+
+.tableItemListingGp img {
+  width: 65px;
+  height: 85%;
+  border: 1px solid #eee;
+}
+
+.tableItemListingGp .tableItemTextGp {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100% !important;
+  text-align: left !important;
+  -webkit-box-pack: center !important;
+      -ms-flex-pack: center !important;
+          justify-content: center !important;
+  -webkit-box-align: start !important;
+      -ms-flex-align: start !important;
+          align-items: flex-start !important;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center !important;
+}
+
+.tableItemListingGp .tableItemTextGp h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.tableItemListingGp .tableItemTextGp p {
+  margin: 0;
+  font-size: 12px;
+  color: #b7bac1;
+}
+
+.addInputDynamicLayout {
+  border: 1px solid #d8dce5;
+  border-top: 0;
+  border-bottom: 0;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: auto !important;
+  padding: 20px 0 !important;
+}
+
+.addInputDynamicLayout .inputAddGp {
+  width: 100%;
+  padding: 0 !important;
+  margin-bottom: 15px;
+}
+
+.addInputDynamicLayout .inputAddGp .btnAdd {
+  cursor: pointer;
+}
+
+.addInputDynamicLayout .inputAddGp .btnAdd svg {
+  background: #00b74a;
+  color: white;
+  padding: 2px;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+}
+
+.addInputDynamicLayout .inputAddGp div {
+  padding: 0 !important;
+}
+
+.addInputDynamicLayout .inputAddGp div input[type="text"] {
+  margin-right: 20px;
+  padding: 0 10px;
+}
+
+.addInputDynamicLayout .inputAddGp div input[type="number"] {
+  text-align: center;
+}
+
+.addInputDynamicLayout .inputAddGp div input {
+  width: 100%;
+  height: 35px;
+  border: 1px solid #d8dce5;
+  font-size: 15px;
+}
+
+.addInputDynamicLayout .inputAddGp .btnTrash {
+  width: 100%;
+  -webkit-box-pack: center !important;
+      -ms-flex-pack: center !important;
+          justify-content: center !important;
+}
+
+.addInputDynamicLayout div {
+  border-right: 0 !important;
+}
+
+.imageGpbtnActionlayout {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 15px;
+  height: 20px;
+}
+
+.imageGpbtnActionlayout button {
+  background: none;
+  color: black !important;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  border-right: 2px solid black !important;
+  border-radius: 0 !important;
+  max-height: 100%;
+  min-height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: center !important;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.imageGpbtnActionlayout button svg {
+  width: 17px;
+  height: 17px;
+}
+
+.imageGpbtnActionlayout button:last-child {
+  border-right: none !important;
+}
+/*# sourceMappingURL=form.css.map */

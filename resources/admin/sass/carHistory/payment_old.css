@@ -1,0 +1,381 @@
+.paymentDialogLayout {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.paymentDialogLayout .memberCarListing {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #b7bac1;
+  padding-bottom: 20px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #eee;
+  padding: 20px;
+  border-radius: 25px;
+}
+
+.paymentDialogLayout .memberCarListing .pLeft {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: left;
+}
+
+.paymentDialogLayout .memberCarListing .pLeft p {
+  margin: 0;
+}
+
+.paymentDialogLayout .memberCarListing .pLeft h3 {
+  font-size: 30px;
+  margin: 10px 0;
+}
+
+.paymentDialogLayout .memberCarListing .pLeft .itemText {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.paymentDialogLayout .memberCarListing .pLeft .itemText span {
+  margin: 0 5px;
+}
+
+.paymentDialogLayout .memberCarListing .pLeft .itemText p {
+  margin: 0;
+}
+
+.paymentDialogLayout .memberCarListing .pRight {
+  width: 40%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.paymentDialogLayout .memberCarListing .pRight img {
+  width: 150px;
+  border-radius: 15px;
+}
+
+.paymentDialogLayout .memberListing {
+  width: 100%;
+  background: #eee;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.paymentDialogLayout .memberListing .memberItem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.paymentDialogLayout .memberListing .memberItem div {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.paymentDialogLayout .memberListing .memberItem .mLeft {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.paymentDialogLayout .memberListing .memberItem .mRight {
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  font-weight: unset;
+  -webkit-text-stroke: .3px;
+}
+
+.paymentDialogLayout .paymentByListing {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: left;
+  padding: 20px 0;
+}
+
+.paymentDialogLayout .paymentByListing .labelGp label span {
+  color: red;
+  margin: 0 5px;
+}
+
+.paymentDialogLayout .paymentByListing .labelGp .error {
+  color: rgba(255, 56, 56, 0.741176);
+  font-size: 11px;
+}
+
+.paymentDialogLayout .paymentByListing .listingPackage {
+  margin-top: 7px;
+}
+
+.paymentDialogLayout .paymentByListing .listingPackage .itemPackage {
+  margin-bottom: 20px;
+  height: 65px;
+  width: 100%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background: #eee;
+  padding: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.paymentDialogLayout .paymentByListing .listingPackage .itemPackage.selectActive {
+  border: 2px solid #024de3;
+  background: #1266f130 !important;
+}
+
+.paymentDialogLayout .paymentByListing .listingPackage .itemPackage .icon {
+  position: absolute;
+  right: -5px;
+  top: -11px;
+  color: #00b74a;
+}
+
+.paymentDialogLayout .paymentByListing .listingPackage .itemPackage.error {
+  border: 1px solid red;
+  background: #ff000012 !important;
+}
+
+.paymentDialogLayout .repairServiceListing {
+  width: 100%;
+  background: #eee;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.paymentDialogLayout .repairServiceListing .rsItemTxt {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.paymentDialogLayout .repairServiceListing .rsItemTxt span {
+  margin: 0 5px;
+}
+
+.paymentDialogLayout .repairServiceListing .rsItemTxt p {
+  margin: 0;
+}
+
+.paymentDialogLayout .repairServiceListing .itemListingRSGP {
+  margin-top: 20px;
+}
+
+.paymentDialogLayout .repairServiceListing .itemListingRS {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 5px;
+  font-size: 14px;
+}
+
+.paymentDialogLayout .repairServiceListing .itemListingRS .RSLeft {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: start;
+}
+
+.paymentDialogLayout .repairServiceListing .itemListingRS .RSRight {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: right;
+}
+
+.paymentDialogLayout .repairServiceListing .itemListingRS label {
+  font-size: 13px;
+  color: #757575;
+}
+
+.paymentDialogLayout .repairServiceListing .itemListingRS h3 {
+  margin: 0;
+}
+
+.paymentDialogLayout .btnPaymentFooterListing {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.paymentDialogLayout .btnPaymentFooterListing .btnPaymentCancel {
+  background: none;
+  color: #ff3838;
+  margin-right: 15px;
+}
+
+.paymentDialogLayout .btnPaymentFooterListing .btnPaymentSubmit {
+  background: #024de3;
+  color: #fff;
+}
+
+.paymentDialogLayout .btnPaymentFooterListing .btnPaymentSubmit img {
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
+}
+
+.inputPaymentPrice {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.inputPaymentPrice .label {
+  font-size: 14px;
+  color: #757575;
+}
+
+.inputPaymentPrice .label span {
+  color: red;
+  margin-right: 5px;
+}
+
+.inputPaymentPrice input {
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.inputPaymentPrice .error {
+  color: #ff3838bd;
+  font-size: 11px;
+}
+
+.popUPPaymentAlert {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  overflow: hidden !important;
+  background: #fbfbfb7d;
+}
+
+.popUPPaymentAlert .iconPG {
+  background: #0cb00c;
+  color: white;
+  width: 70px;
+  height: 70px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 50%;
+}
+
+.popUPPaymentAlert .iconPG svg {
+  width: 55px;
+  height: 55px;
+}
+
+.popUPPaymentAlert .layoutP {
+  width: 280px;
+  /* height      : 300px; */
+  background: #b7bac1;
+  border-radius: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 35px;
+}
+
+.popUPPaymentAlert .layoutP .btnPFooter .confirm {
+  background: blue;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.popUPPaymentAlert .PTextG {
+  text-align: center;
+}
+
+.txtEmptyPayment {
+  margin-top: 35px;
+  font-size: 20px;
+  font-weight: 600;
+  font-weight: unset;
+  -webkit-text-stroke: .3px;
+}
+/*# sourceMappingURL=payment_old.css.map */

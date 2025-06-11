@@ -1,0 +1,20 @@
+{
+    "/admin-public/js/select_geo.js": "/admin-public/js/select_geo.js",
+    "/admin-public/js/app.js": "/admin-public/js/app.js",
+    "/admin-public/js/body.js": "/admin-public/js/body.js",
+    "/admin-public/js/defer.js": "/admin-public/js/defer.js",
+    "/admin-public/css/app.css": "/admin-public/css/app.css",
+    "/admin-public/css/invoice/detail.css": "/admin-public/css/invoice/detail.css",
+    "/admin-public/css/history/invoice.css": "/admin-public/css/history/invoice.css",
+    "/admin-public/css/invoice/receiptII.css": "/admin-public/css/invoice/receiptII.css",
+    "/admin-public/js/tinymce/.npmignore": "/admin-public/js/tinymce/.npmignore",
+    "/admin-public/js/tinymce/bower.json": "/admin-public/js/tinymce/bower.json",
+    "/admin-public/js/tinymce/CHANGELOG.md": "/admin-public/js/tinymce/CHANGELOG.md",
+    "/admin-public/js/tinymce/composer.json": "/admin-public/js/tinymce/composer.json",
+    "/admin-public/js/tinymce/license.txt": "/admin-public/js/tinymce/license.txt",
+    "/admin-public/js/tinymce/package.json": "/admin-public/js/tinymce/package.json",
+    "/admin-public/js/tinymce/README.md": "/admin-public/js/tinymce/README.md",
+    "/admin-public/js/tinymce/tinymce.d.ts": "/admin-public/js/tinymce/tinymce.d.ts",
+    "/admin-public/js/tinymce/tinymce.js": "/admin-public/js/tinymce/tinymce.js",
+    "/admin-public/js/tinymce/tinymce.min.js": "/admin-public/js/tinymce/tinymce.min.js"
+}

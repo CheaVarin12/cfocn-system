@@ -1,0 +1,75 @@
+@media print {
+    .tsc-top-header {
+        display: none;
+    }
+    .page-break {
+        page-break-after: always;
+        border: 1px solid #444;
+        height: 100%;
+        overflow: hidden;
+        background: #fff !important;
+        /* -webkit-box-decoration-break: clone;
+        box-decoration-break: clone; */
+        position: relative;
+    }
+    @page {
+        size: A4;
+        padding: 0cm;
+        margin: 0.7cm;
+        transform:scale(.5);
+        background: #fff !important;
+        /* margin-top: 7cm; */
+    }
+    /* html,
+    body {
+        width: 210mm;
+        height: 297mm;
+    } */
+    body{
+      background: #fff !important;
+    }
+    tr {
+        page-break-inside: avoid;
+    }
+  
+  
+    .divanscript-wrapper {
+        padding: 0;
+    }
+    .sheet {
+        position: relative;
+        /* left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        padding: 0 32px 32px 32px; */
+        background-color: red;
+        page-break-after: always;
+    }
+    .sheet-content {
+        position: relative;
+        /* width: 100%; */
+        /* margin-bottom: 32px; */
+        page-break-after: always;
+    }
+    .en-title {}
+    .kh-title {
+        font-family: 'Moul', cursive;
+    }
+    .otosr {
+        font-family: 'Times New Roman', Times, serif;
+    }
+    .addr {
+        font-family: 'Times New Roman', Times, serif;
+    }
+    .off-title {
+        font-family: 'Times New Roman', Times, serif;
+    }
+    .tsc-table-header {
+        font-family: 'Times New Roman', Times, serif;
+    }
+    .tsc-table {
+        font-family: 'Times New Roman', Times, serif;
+    }
+  }
+  

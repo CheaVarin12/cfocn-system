@@ -1,0 +1,134 @@
+.reportSaleJournalDetail_component,
+.detail_component,
+.reportCustomerDetail_component {
+    .dialog-wrapper {
+        .dialog-container {
+            max-height: unset;
+            overflow  : auto;
+        }
+    }
+}
+
+.reportSaleJournalDetail,
+.reportDetail {
+    .titleReportDetail {
+        display        : flex;
+        align-items    : flex-start;
+        justify-content: space-between;
+
+        h3 {
+            margin-top         : 0;
+            margin-bottom      : 15px;
+            font-weight        : unset;
+            -webkit-text-stroke: 0.8px;
+            font-size          : 22px;
+        }
+
+        .btnClose {
+            padding        : 0;
+            min-width      : 30px;
+            height         : 30px;
+            justify-content: center;
+            border-radius  : 20px;
+            background     : #fa8b8b;
+            cursor         : pointer;
+
+            &:hover {
+                background: #ff0000de;
+            }
+        }
+    }
+
+    .dialog-form-body {
+        .itemText {
+            display      : flex;
+            align-items  : flex-start;
+            font-size    : 13px;
+            margin-bottom: 3px;
+
+            label,
+            p {
+                margin    : 0 !important;
+                padding   : 0 !important;
+                font-size : 13px !important;
+                word-break: break-word;
+
+                span {
+                    padding: 0 !important;
+                }
+            }
+
+            label {
+                font-weight        : unset;
+                -webkit-text-stroke: .5px;
+                width              : 170px;
+            }
+
+            span {
+                padding: 0 10px;
+            }
+
+            .div {
+                flex: 1;
+            }
+
+            .redQty {
+                color              : red !important;
+                font-weight        : 600;
+                font-weight        : unset;
+                -webkit-text-stroke: .5px;
+            }
+        }
+    }
+
+    .tableLayoutCon {
+        padding: 10px 0;
+        margin : 0;
+    }
+}
+
+.dialog-form-footer {
+    &.center {
+        justify-content: center;
+        display        : flex;
+        width          : 100%;
+        align-items    : center;
+        margin-top     : 15px;
+
+        .close {
+            width: 250px;
+        }
+    }
+}
+
+.tfootReportItem {
+    .textRight {
+        text-align: right;
+    }
+}
+
+.dialogDetailPagination {
+    margin-top     : 15px;
+    height         : 40px;
+    border-radius  : 5px;
+    display        : flex;
+    align-items    : center;
+    justify-content: flex-end;
+    padding        : 0;
+
+    button {
+        margin         : 0;
+        background     : #5a5e6685 !important;
+        padding        : 0 !important;
+        min-width      : 0 !important;
+        width          : 30px;
+        height         : 30px;
+        border-radius  : 50px !important;
+        justify-content: center !important;
+        margin-left    : 10px !important;
+
+        &:disabled {
+            background: #5a5e6633 !important;
+        }
+    }
+}

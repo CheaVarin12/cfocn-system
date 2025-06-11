@@ -1,0 +1,350 @@
+html,
+body {
+    margin : 0;
+    padding: 0;
+
+}
+
+@import "../package/mdbootstrap/css/mdb.min.css";
+@import "../package/animate.css";
+@import "../package/quill.snow.css";
+@import "../package/jquery-ui/jquery-ui.css";
+@import "@fancyapps/ui/dist/fancybox.css";
+@import "./variable.scss";
+@import "./function.scss";
+@import "./font.scss";
+@import "./component.scss";
+@import "./content.scss";
+@import "./sidebar.scss";
+@import "./header.scss";
+@import "./table.scss";
+@import "./dashboard.scss";
+
+@import "./dialog.scss";
+@import "./form.scss";
+@import "./list.scss";
+@import "./message.scss";
+@import "./file-manager.scss";
+@import "./loading.scss";
+@import "./empty.scss";
+@import "./no-permission.scss";
+@import "./auth/login.scss";
+@import "./auth/detail.scss";
+@import "./pick-me.scss";
+@import "./error.scss";
+@import "./map.scss";
+
+//Customize
+@import "./cutomize/shop-form.scss";
+@import "./cutomize/qrcode.scss";
+@import "./cutomize/order.scss";
+@import "./cutomize/invoice.scss";
+@import "./components/index.component.scss";
+@import './components/select-option.component.scss';
+
+@import "./dialog/dialog.scss";
+@import "./dialog/popUp.scss";
+
+@import "./booking/invoice.scss";
+
+//blog
+@import "./blog/create.scss";
+
+//memberCar
+// @import "./memberCar/view.scss";
+// @import "./memberCar/formlayoutpop.scss";
+// @import "./memberCar/reportCar.scss";
+
+@import "./checkbox/list.scss";
+
+@import "./tab/list.scss";
+
+//permission
+@import "./permission/listing.scss";
+
+//carHistory
+// @import "./carHistory/invoice.scss";
+// @import "./carHistory/payment.scss";
+
+//tiny
+@import "./tinymce/listing.scss";
+
+//product
+// @import "./product/form.scss";
+// @import "./memberRequestMoney/detail.scss";
+
+@import "./customTable.scss";
+
+@import "./in.scss";
+
+@import 'boxicons/css/animations.css';
+@import 'boxicons/css/boxicons.css';
+@import 'boxicons/css/boxicons.min.css';
+@import 'boxicons/css/transformations.css';
+
+/** excel style */
+@import "./excel.scss";
+
+// @import "./invoice/detail.scss";
+
+@import "./invoice/detail.scss";
+@import "./invoice/receipt.scss";
+
+@import "./dmcStatusConnectionDialog.scss";
+
+@import "./controller.scss";
+
+
+@import "./report/detail/saleJournalDetail.scss";
+
+@import './swal.scss';
+
+//dmc
+@import './dmc/filemanager.scss';
+
+
+::-webkit-scrollbar {
+    width : 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background   : #333;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background   : $scroll;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: $scroll;
+}
+
+button:disabled {
+    background: rgba(0, 0, 0, 0.12) !important;
+    color     : rgba(0, 0, 0, 0.26) !important;
+    cursor    : no-drop !important;
+}
+
+input:disabled,
+select:disabled,
+.select2-container--disabled {
+    background: rgba(0, 0, 0, 0.05) !important;
+    color     : rgba(0, 0, 0, 0.5) !important;
+    cursor    : no-drop !important;
+}
+
+[_route] {
+    cursor: pointer;
+}
+
+*:focus {
+    outline: none;
+}
+
+#ks-breadcrumb {
+    .breadcrumb-item {
+        cursor: pointer;
+
+        &:hover {
+            opacity: 0.7;
+        }
+
+        &.active {
+            cursor: default;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+//Switch lang
+.lang-input {
+    display   : none !important;
+    transition: display 0.2s ease-in-out;
+
+    &.active {
+        display: inline-block !important;
+    }
+}
+
+.form-label {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    width          : 100%;
+    margin         : 0;
+    padding        : 0;
+}
+
+.switch-lang {
+    display: flex;
+
+    .tap {
+        color      : #333 !important;
+        font-size  : 0.8rem;
+        font-weight: 600;
+        cursor     : pointer;
+        padding    : 2px 4px;
+        position   : relative;
+        margin-left: 4px;
+
+        &::before {
+            content         : "";
+            position        : absolute;
+            bottom          : 0;
+            left            : 0;
+            width           : 0;
+            height          : 2px;
+            background-color: blue;
+            border-radius   : 5px;
+            transition      : width 0.1s ease-in;
+        }
+
+        &.active::before {
+            width: 100%;
+        }
+    }
+}
+
+.labelError {
+    color: red !important;
+}
+
+.selectOptionLayout {
+    height       : 100%;
+    margin-left  : 5px;
+    border       : 1px solid #d8dce5;
+    border-radius: 5px;
+    overflow     : hidden;
+    position     : relative;
+    max-width    : 240px;
+
+    select {
+        height   : 100%;
+        border   : unset;
+        padding  : 0 10px;
+        cursor   : pointer;
+        font-size: 14px;
+        color    : #5a5e66;
+    }
+
+    svg {
+        position: absolute;
+        right   : 2px;
+        height  : 100%;
+        color   : #7d7d7d;
+    }
+}
+
+
+.switchModeGroup {
+    display          : flex;
+    margin-right     : 20px;
+    // flex-direction: column;
+
+    .switch-mode {
+        display      : block;
+        min-width    : 50px;
+        height       : 25px;
+        border-radius: 25px;
+        border       : 1px solid #757575;
+        cursor       : pointer;
+        position     : relative;
+
+        &::before {
+            content      : '';
+            position     : absolute;
+            top          : 2px;
+            left         : 2px;
+            bottom       : 2px;
+            width        : calc(25px - 4px);
+            background   : rgba(0, 0, 255, 0.6784313725);
+            border-radius: 50%;
+            transition   : all .3s ease;
+        }
+    }
+
+    #switch-mode:checked+.switch-mode::before {
+        left      : calc(100% - 21px - 2px);
+        background: red;
+    }
+}
+
+.imgIcon {
+    // position: relative;
+}
+
+.imgIcon .icon {
+    cursor         : pointer;
+    margin-right   : 12px;
+    height         : 25px;
+    background     : #ffb800;
+    align-items    : center;
+    display        : flex;
+    justify-content: center;
+    border-radius  : 15px;
+    color          : white;
+    font-size      : 10px;
+    padding        : 0 15px;
+    text-align     : center;
+    font-weight    : bold;
+    font-weight    : unset;
+    margin-left    : 15px;
+
+    -webkit-text-stroke: .3px;
+    -webkit-animation  : glow 2s ease-in-out infinite alternate;
+    -moz-animation     : glow 2s ease-in-out infinite alternate;
+    animation          : glow 2s ease-in-out infinite alternate;
+
+    .round {
+        width              : 10px;
+        height             : 10px;
+        background         : #fff;
+        border-radius      : 50%;
+        margin-right       : 10px;
+        -webkit-text-stroke: .3px;
+        -webkit-animation  : glowIcon 2s ease-in-out infinite alternate;
+        -moz-animation     : glowIcon 2s ease-in-out infinite alternate;
+        animation          : glowIcon 2s ease-in-out infinite alternate;
+    }
+
+    &.con {
+        background: #089a43;
+    }
+
+    &.lose {
+        background: #de5b5b;
+    }
+}
+
+@-webkit-keyframes glow {
+    from {
+        color: #fff;
+    }
+
+    to {
+        color: #ffa900;
+    }
+}
+
+@-webkit-keyframes glowIcon {
+    from {
+        background: #fff;
+    }
+
+    to {
+        background: #ffa900;
+    }
+}
+
+//
+.ui-datepicker-buttonpane.ui-widget-content {
+    button {
+        color: black !important;
+    }
+}

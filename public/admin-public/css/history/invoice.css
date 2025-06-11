@@ -1,0 +1,346 @@
+@font-face {
+  font-family: Hanuman;
+  src: url(/fonts/Hanuman-Regular.ttf?37e92a9b82a64396331db2dc0ab55f5e);
+}
+@font-face {
+  font-family: Poppins;
+  src: url(/fonts/Poppins-Regular.ttf?35d26b781dc5fda684cce6ea04a41a75);
+}
+@font-face {
+  font-family: Urbanist;
+  src: url(/fonts/Urbanist-Regular.ttf?f336cfcac644ed865b035f7702c55433);
+}
+@font-face {
+  font-family: DynaPuff;
+  src: url(/fonts/DynaPuff-Regular.ttf?56fde79e6a4cd9651e9947173604ed78);
+}
+@font-face {
+  font-family: OpenSans;
+  src: url(/fonts/OpenSans-Regular.ttf?1b0809d519837cb7aad36a73433f655c);
+}
+@font-face {
+  font-family: Khmer_OS_Wat_Phnom;
+  src: url("/fonts/Kh Muol Regular.ttf?87784d41e18588daa70a9b05a52cc3c1");
+}
+@font-face {
+  font-family: Khmer_OS_Siemreap;
+  src: url(/fonts/Siemreap-Regular.ttf?eaf1225fe63c83a5e729f98481ddc10d);
+}
+*:not(.material-icons):not(.material-symbols-outlined):not(mat-icon):not(.bx) {
+  font-family: "OpenSans", "Poppins", sans-serif, "Urbanist", sans-serif, "Hanuman", serif;
+}
+
+@media print {
+  @page {
+    size: A10;
+    size: portrait;
+    margin: 1.5cm;
+  }
+}
+.swal2-container.swal2-center.swal2-backdrop-show {
+  z-index: 9999 !important;
+}
+
+.carInvoiceHeader {
+  display: flex;
+  border: 1px solid #b7bac1;
+  padding: 15px;
+  border-radius: 5px;
+  position: relative;
+  height: 100%;
+  color: black !important;
+}
+.carInvoiceHeader .imageLogoGp {
+  width: 120px;
+}
+.carInvoiceHeader .imageLogoGp img {
+  width: 100%;
+}
+.carInvoiceHeader .imageLogoGp p {
+  margin: 0;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: initial;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 14px;
+}
+.carInvoiceHeader .textHeaderGp {
+  flex: 1;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  top: 30px;
+}
+.carInvoiceHeader .textHeaderGp h3 {
+  font-family: "Khmer_OS_Wat_Phnom" !important;
+  color: rgba(2, 77, 227, 0.6784313725);
+  font-size: 24px;
+  font-weight: unset;
+  -webkit-text-stroke: 0.3px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+.carInvoiceHeader .textHeaderGp p {
+  margin: 0;
+  width: 65%;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: initial;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 14px;
+  line-height: 23px;
+}
+
+.headerTextInvoice {
+  text-align: center;
+  color: black;
+}
+.headerTextInvoice .txt {
+  font-family: "Khmer_OS_Wat_Phnom" !important;
+  color: rgba(2, 77, 227, 0.6784313725);
+  font-size: 18px;
+  font-weight: unset;
+  -webkit-text-stroke: 0.3px;
+}
+
+.boxItemListingGp {
+  display: flex;
+}
+.boxItemListingGp .boxItem {
+  border: 1px solid #ccc;
+  margin-right: 25px;
+  border-radius: 5px;
+  padding: 10px;
+}
+.boxItemListingGp .boxItem:last-child {
+  margin-right: 0;
+}
+.boxItemListingGp .boxItem .itemTxt {
+  display: flex;
+  align-items: flex-start;
+  font-size: 14px;
+}
+.boxItemListingGp .boxItem .itemTxt label {
+  width: 150px;
+  text-align: end;
+}
+.boxItemListingGp .boxItem .itemTxt span {
+  margin: 0 10px;
+}
+.boxItemListingGp .boxItem .itemTxt p {
+  margin: 0;
+  text-align: start;
+  word-break: break-all;
+  flex: 1;
+}
+.boxItemListingGp .numberInvoice {
+  display: flex;
+  justify-content: flex-start !important;
+  padding-left: 25px;
+  font-weight: unset;
+  -webkit-text-stroke: 0.5px;
+}
+.boxItemListingGp .numberInvoice span {
+  margin: 0 5px;
+}
+.boxItemListingGp .boxLeft {
+  flex: 1;
+}
+.boxItemListingGp .boxRight {
+  flex: 1;
+}
+.boxItemListingGp .boxRight .itemTxt label {
+  width: 95px;
+}
+
+.reportInvoiceListingTableLayout {
+  margin-top: 20px;
+  border: 1px solid #e0e0e0;
+  font-size: 15px;
+  overflow: hidden;
+}
+.reportInvoiceListingTableLayout div > div {
+  border-right: 1px solid #e0e0e0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+.reportInvoiceListingTableLayout div > div:last-child {
+  border-right: none;
+}
+.reportInvoiceListingTableLayout .headerReport {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  background: rgba(255, 169, 0, 0.5411764706);
+  align-items: center;
+  font-weight: 600;
+  font-weight: unset;
+  -webkit-text-stroke: 0.5px;
+}
+.reportInvoiceListingTableLayout .headerReport.bgBooking {
+  background: #eee !important;
+}
+.reportInvoiceListingTableLayout .bodyReport {
+  display: flex;
+  width: 100%;
+  height: 37px;
+  align-items: center;
+  border-top: 1px solid #e0e0e0;
+  font-size: 13px;
+}
+.reportInvoiceListingTableLayout .tableTextLeft {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 10px;
+}
+.reportInvoiceListingTableLayout .col10 {
+  width: 10%;
+}
+.reportInvoiceListingTableLayout .col20 {
+  width: 20%;
+}
+.reportInvoiceListingTableLayout .col30 {
+  width: 30%;
+}
+.reportInvoiceListingTableLayout .col40 {
+  width: 40%;
+}
+.reportInvoiceListingTableLayout .col50 {
+  width: 50%;
+}
+.reportInvoiceListingTableLayout .col60 {
+  width: 60%;
+}
+
+.invoiceFooter {
+  display: flex;
+}
+.invoiceFooter .footerItem {
+  display: flex !important;
+  flex-direction: column !important;
+  height: auto !important;
+}
+.invoiceFooter .footerItem:first-child {
+  border-top: 1px solid #d8dce5;
+  padding: 7px 13px;
+  background: rgba(255, 169, 0, 0.5411764706);
+}
+.invoiceFooter .footerItem p {
+  margin: 0;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  text-align: start;
+  font-family: "Khmer_OS_Wat_Phnom" !important;
+  font-size: 13px;
+}
+.invoiceFooter .footerItem .bodyReport {
+  height: 100% !important;
+  border-right: 0;
+  width: 100% !important;
+}
+.invoiceFooter .footerItem .bodyReport .textRight {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 7px;
+  background: rgba(255, 169, 0, 0.5411764706);
+}
+.invoiceFooter .footerItem .bodyReport .textRight.bgBooking {
+  background: rgba(2, 77, 227, 0.4196078431) !important;
+}
+.invoiceFooterText {
+  display: flex;
+  width: 100%;
+  padding: 15px 0;
+  font-size: 15px;
+}
+.invoiceFooterText .footerItemText {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1;
+}
+.invoiceFooterText .footerItemText .textGp {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  line-height: 25px;
+}
+.invoiceFooterText .footerItemText p {
+  margin: 0;
+  display: flex;
+  justify-content: flex-center;
+}
+
+.gg-check {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 22px;
+  height: 22px;
+  border: 2px solid transparent;
+  border-radius: 100px;
+}
+
+.gg-check::after {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  left: 5px;
+  top: -5px;
+  width: 8px;
+  height: 15px;
+  border-width: 0 2px 2px 0;
+  border-style: solid;
+  transform-origin: bottom left;
+  transform: rotate(45deg);
+  color: blue;
+}
+
+.gg-close {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 22px;
+  height: 22px;
+  border: 2px solid transparent;
+  border-radius: 40px;
+}
+
+.gg-close::after,
+.gg-close::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+  transform: rotate(45deg);
+  border-radius: 5px;
+  top: 8px;
+  left: 5px;
+  color: red;
+}
+
+.gg-close::after {
+  transform: rotate(-45deg);
+}
