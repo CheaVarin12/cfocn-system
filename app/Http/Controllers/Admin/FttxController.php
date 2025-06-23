@@ -1520,10 +1520,16 @@ class FttxController extends Controller
     public function renewalFttxDetail($fttxData, $numberOfMonth)
     {
         try {
+            $totalFttxDetail = FttxDetail::where('fttx_id', $fttxData->id)->count();
             $data = FttxDetail::where('fttx_id', $fttxData->id)
                 ->orderBy('date', 'desc')
                 ->first();
-            $detailDate = addMonth($data->date, 1);
+            if ($totalFttxDetail == 1) {
+                  $detailDate = $data->expiry_date;
+            } else {
+                $detailDate = addMonth($data->date, 1);
+            }
+
             $expiryDate = $data->expiry_date;
             for ($i = 1; $i <=  $numberOfMonth; $i++) {
                 if ($i == 1) {

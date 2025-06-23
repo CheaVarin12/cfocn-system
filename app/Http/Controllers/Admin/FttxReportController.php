@@ -188,8 +188,17 @@ class FttxReportController extends Controller
 
     public function getDetail(Request $request)
     {
-        $fromDate = $request->input('from_date');
-        $toDate = $request->input('to_date');
+
+        $startDate = Carbon::now();
+        $currentYear = $startDate->year;
+        $fromDate = $request->input('from_date')
+            ? $request->input('from_date')
+            : Carbon::create($currentYear, 1, 1)->format('Y-m-d');
+
+        $toDate = $request->input('to_date')
+            ? $request->input('to_date')
+            : Carbon::create($currentYear, 12, 31)->format('Y-m-d');
+
         $posSpeedId = $request->input('pos_speed_id');
         $customerId = $request->input('customer_id');
         $fttxStatus = $request->input('fttx_status');
@@ -242,21 +251,5 @@ class FttxReportController extends Controller
         }
 
         return response()->json($data);
-    }
-
-    public function areArraysEqual($array1, $array2)
-    {
-        return empty(array_diff($array1, $array2)) && empty(array_diff($array2, $array1));
-    }
-
-    public function checkBetweenTowDate($completedTimeParam)
-    {
-        $completedTime = Carbon::parse($completedTimeParam);
-        $oneMonthLater = $completedTime->copy()->addMonth();
-        if (Carbon::today()->between($completedTime, $oneMonthLater)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }

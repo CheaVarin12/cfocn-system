@@ -383,6 +383,7 @@ class FttxImport implements ToCollection, WithGroupedHeadingRow, WithCalculatedF
             $totalMonth = round($totalMonth);
             $detailDate = $this->adjustDayToMatch($data->completed_time, $data->deadline) ?? $this->adjustDayToMatch($data->start_payment_date, $data->deadline);
             $fttxDetailData = collect([]);
+            $oldFttxDetail = [];
             $data->first_payment_period = $data->first_payment_period && $data->first_payment_period > 0 ? $data->first_payment_period : $totalMonth;
             $checkTrueStatus = $this->getBiggestDate($data->reactive_date_check, $data->change_splitter_date_check, $data->relocation_date_check);
             if ($data->status == 3) {
@@ -1149,7 +1150,8 @@ class FttxImport implements ToCollection, WithGroupedHeadingRow, WithCalculatedF
                             $fttxDetails = [];
                         }
                     }
-                } else {
+                }
+                   else {
                     $this->removeFttxDetail($data->completed_time, $data->work_order_isp, $data->work_order_cfocn, $data->subscriber_no, $data->deadline);
                     if ($data->status == 3) {
                         if ($data->dismantle_date > $data->deadline) {
@@ -1158,7 +1160,6 @@ class FttxImport implements ToCollection, WithGroupedHeadingRow, WithCalculatedF
                     }
                     for ($i = 1; $i <=  $totalMonth; $i++) {
                         $rentalPrice = $this->getPrice($data->customer_id, $data->pos_speed_id, $detailDate, $data->rental_price, $data->first_payment_period);
-                        $fttxDetails = [];
                         if ($i == 1) {
                             $dataFttx = Fttx::find($data->id);
                             if ($dataFttx) {
@@ -1192,8 +1193,8 @@ class FttxImport implements ToCollection, WithGroupedHeadingRow, WithCalculatedF
                                 $fttxDetails = [
                                     'fttx_id'               => $data->id,
                                     'customer_id'           => $data->customer_id,
-                                    'date'                  => $detailDate,
-                                    'expiry_date'           => $detailDate ? addMonth($detailDate, 1) : null,
+                                    'date'                  => $oldFttxDetail['expiry_date'],
+                                    'expiry_date'           => $oldFttxDetail['expiry_date'] ? addMonth($oldFttxDetail['expiry_date'], 1) : addMonth($detailDate, 1),
                                     'new_installation_fee'  => null,
                                     'fiber_jumper_fee'      => null,
                                     'digging_fee'           => null,
@@ -1256,8 +1257,8 @@ class FttxImport implements ToCollection, WithGroupedHeadingRow, WithCalculatedF
                                 $fttxDetails = [
                                     'fttx_id'               => $data->id,
                                     'customer_id'           => $data->customer_id,
-                                    'date'                  => $detailDate,
-                                    'expiry_date'           => $detailDate ? addMonth($detailDate, 1) : null,
+                                    'date'                  => $oldFttxDetail['expiry_date'],
+                                    'expiry_date'           => $oldFttxDetail['expiry_date'] ? addMonth($oldFttxDetail['expiry_date'], 1) : addMonth($detailDate, 1),
                                     'new_installation_fee'  => null,
                                     'fiber_jumper_fee'      => null,
                                     'digging_fee'           => null,
@@ -1360,8 +1361,8 @@ class FttxImport implements ToCollection, WithGroupedHeadingRow, WithCalculatedF
                                 $fttxDetails = [
                                     'fttx_id'               => $data->id,
                                     'customer_id'           => $data->customer_id,
-                                    'date'                  => $detailDate,
-                                    'expiry_date'           => $detailDate ? addMonth($detailDate, 1) : null,
+                                    'date'                  => $oldFttxDetail['expiry_date'],
+                                    'expiry_date'           => $oldFttxDetail['expiry_date'] ? addMonth($oldFttxDetail['expiry_date'], 1) : addMonth($detailDate, 1),
                                     'new_installation_fee'  => null,
                                     'fiber_jumper_fee'      => null,
                                     'digging_fee'           => null,
@@ -1382,7 +1383,9 @@ class FttxImport implements ToCollection, WithGroupedHeadingRow, WithCalculatedF
                         $detailDate = addMonth($detailDate, 1);
                         if ($fttxDetails) {
                             $fttxDetailData = FttxDetail::create($fttxDetails);
+                            $oldFttxDetail = $fttxDetails;
                         }
+                        $fttxDetails = [];
                     }
                 }
             }
