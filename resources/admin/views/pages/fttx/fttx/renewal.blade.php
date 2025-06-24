@@ -22,7 +22,8 @@
                                 </div>
                                 <div class="form-row">
                                     <label>Number of month <span>*</span></label>
-                                    <input type="number"  @input="calculateNewDeadline()" x-model="formSubmitData.number_of_month">
+                                    <input type="number" @input="calculateNewDeadline()"
+                                        x-model="formSubmitData.number_of_month">
                                     <template x-for="item in dataError?.number_of_month">
                                         <div class="errorCenter">
                                             <span class="error" x-text="item">Error</span>
@@ -256,15 +257,23 @@
 
             if (currentDeadlineValue && numberOfMonthValue && !isNaN(numberOfMonthValue)) {
                 const currentDeadline = new Date(currentDeadlineValue);
+                const day = currentDeadline.getDate();
 
-                currentDeadline.setMonth(currentDeadline.getMonth() + parseInt(numberOfMonthValue));
+                // Add months
+                const tempDate = new Date(currentDeadline);
+                tempDate.setMonth(tempDate.getMonth() + parseInt(numberOfMonthValue));
 
-                const formattedNewDeadline = currentDeadline.toISOString().split('T')[0];
+                // Fix edge case if new month has fewer days
+                if (tempDate.getDate() < day) {
+                    tempDate.setDate(0); // Go to last day of previous month
+                }
 
+                const formattedNewDeadline = tempDate.toISOString().split('T')[0];
                 this.formSubmitData.new_deadline = formattedNewDeadline;
             } else {
                 this.formSubmitData.new_deadline = '';
             }
+
             this.getTotalPrice();
         },
         dialogClose() {
