@@ -47,6 +47,7 @@ class FttxExpirationReportController extends Controller
             if ($customerId) {
                 $fttxQuery->where('customer_id', $customerId);
             }
+            
             if ($posSpeedId) {
                 $fttxQuery->whereIn('pos_speed_id', $posSpeedId);
             }
