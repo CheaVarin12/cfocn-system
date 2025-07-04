@@ -39,18 +39,16 @@
                                 </tr>
                             </thead>
                             <tbody class="column" style="margin-bottom: 12px;">
-
+                     
                                 @foreach ($data as $key => $item)
-                                    <tr
-                                        @click="reportDetailDialog({{ json_encode(array_diff_key($item, ['total' => ''])) }})">
-                                        <td>{{ is_numeric($key) ? (int) $key + 1 : '-' }}</td>
-
+                                    <tr  @click="reportDetailDialog({{ json_encode(array_diff_key($item, ['total' => ''])) }})">
+                                        <td>{{ $key + 1 }}</td>
                                         <td class="row textLeft" style="padding-left:20px;">
                                             {{ $item['name_en'] }}
                                         </td>
-                                        @foreach ($item['total'] as $amount)
-                                            <td>{{ $amount ? '$ ' . number_format($amount, 2) : 0 }}</td>
-                                        @endforeach
+                                           @foreach ($item['total'] as $amount)
+                                                <td>{{ $amount ? '$ ' . number_format($amount, 2) : 0 }}</td>
+                                            @endforeach
                                     </tr>
                                 @endforeach
                             </tbody>
