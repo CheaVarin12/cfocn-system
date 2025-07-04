@@ -18,7 +18,7 @@
 <tbody>
     @foreach ($data as $key => $item)
         <tr>
-            <td style="vertical-align:middle; text-align:center;">{{ $key + 1 }}</td>
+            <td style="vertical-align:middle; text-align:center;">{{ is_numeric($key) ? ((int)$key + 1) : '-' }}</td>
             <td style="padding-left:20px;vertical-align:middle;">
                 {{ $item['name_en'] }}
             </td>
