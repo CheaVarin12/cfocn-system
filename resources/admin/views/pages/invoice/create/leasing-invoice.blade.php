@@ -164,6 +164,20 @@
                                     </template>
                                 </div>
                             </div>
+                            <div class="row-3">
+                                <div class="form-row">
+                                    <label>Advance Status </label>
+                                    <select name="is_advance" x-model="is_advance">
+                                        <option value="0">Not Advance</option>
+                                        <option value="1">Is Advance</option>
+                                    </select>
+                                    <template x-for="item in dataError?.is_advance">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
 
                             {{-- New --}}
                             <div class="row" style="margin-top:20px;">
@@ -480,6 +494,7 @@
         pacData: [],
         child_invoice: [],
         tax_status: 1,
+        is_advance: 0,
         taxOptions: @json(config('dummy.tax_status')),
         async init() {
             this.current_date = moment(new Date).format('DD MMM YYYY');
@@ -596,8 +611,8 @@
                         });
                         this.calculatorAmount();
                     } else {
-                        this.pacData= [],
-                        this.pac_id = [];
+                        this.pacData = [],
+                            this.pac_id = [];
                         this.pac_number = [];
                         this.list_purchase_details = [];
                         this.calculatorAmount();
@@ -751,7 +766,7 @@
             //dollar
             this.sub_total.dollar = this.numberRound(this.sub_total.dollar, 2);
             if (this.tax_status != 2) {
-            this.vat.dollar = this.numberRound(Number(this.sub_total.dollar * (10 / 100)), 2);
+                this.vat.dollar = this.numberRound(Number(this.sub_total.dollar * (10 / 100)), 2);
             }
             this.grand_total.dollar = this.numberRound(Number(this.sub_total.dollar) + Number(this.vat
                 .dollar), 2);
@@ -759,12 +774,12 @@
             //khmer
             this.grand_total.khmer = this.numberRound(Number(this.grand_total.dollar) * Number(this
                 .exchange_rate));
-         
+
             if (this.tax_status != 2) {
                 this.sub_total.khmer = this.numberRound(this.grand_total.khmer / 1.1);
                 this.vat.khmer = this.numberRound(this.grand_total.khmer - this.sub_total.khmer);
-            }else{
-                this.sub_total.khmer =  this.grand_total.khmer;
+            } else {
+                this.sub_total.khmer = this.grand_total.khmer;
             }
             this.calculatorAmountEachPac(type);
         },
@@ -843,11 +858,14 @@
                     this.total_child_invoice.total_qty += item.qty;
                 });
 
-                this.total_child_invoice.sub_total.dollar = this.numberRound(this.total_child_invoice.sub_total.dollar, 2);
+                this.total_child_invoice.sub_total.dollar = this.numberRound(this
+                    .total_child_invoice.sub_total.dollar, 2);
                 if (this.tax_status != 2) {
-                    this.total_child_invoice.vat.dollar = this.numberRound(Number(this.total_child_invoice.sub_total.dollar * (10 / 100)), 2);
+                    this.total_child_invoice.vat.dollar = this.numberRound(Number(this
+                        .total_child_invoice.sub_total.dollar * (10 / 100)), 2);
                 }
-                this.total_child_invoice.grand_total.dollar = this.numberRound(Number(this.total_child_invoice.sub_total.dollar) + Number(
+                this.total_child_invoice.grand_total.dollar = this.numberRound(Number(this
+                    .total_child_invoice.sub_total.dollar) + Number(
                     this.total_child_invoice.vat
                     .dollar), 2);
 
@@ -877,7 +895,7 @@
         dateFormatEn(date, type) {
             return date ? moment(date).format(type) : "";
         },
-      submitFrom() {
+        submitFrom() {
             this.dataError = [];
             this.$store.confirmDialog.open({
                 data: {
@@ -925,7 +943,8 @@
                                 .length ? JSON
                                 .stringify(this.child_invoice) : [],
                             tax_status: this.tax_status,
-                            
+                            is_advance: this.is_advance,
+
                         };
                         setTimeout(async () => {
                             await Axios({

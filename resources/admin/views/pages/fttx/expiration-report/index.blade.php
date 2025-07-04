@@ -35,7 +35,7 @@
                                 <option value="">Select customer...</option>
                             </select>
                         </div>
-                        <div class="form-row" style="width: 200px;display: inline;">
+                        {{-- <div class="form-row" style="width: 200px;display: inline;">
                             <input type="text" x-model="selectedPosSpeed" placeholder="Pos Speed" readonly
                                 @click="showHideDropdown('pos_speed_id')">
                             <div class="dropdown" x-show="showPosSpeedDropdown">
@@ -55,7 +55,7 @@
                                 </ul>
                             </div>
                             <input type="hidden" name="pos_speed_id" x-model="formData.pos_speed_id">
-                        </div>
+                        </div> --}}
                         <input type="hidden" name="check" x-model="check">
                         <button mat-flat-button type="submit" class="btn-create bg-primary minWithAuto"
                             @click=" check = ''">

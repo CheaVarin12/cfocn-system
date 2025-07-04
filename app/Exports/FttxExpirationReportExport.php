@@ -58,9 +58,9 @@ class FttxExpirationReportExport implements FromView, WithEvents
                 $getDelegate->getColumnDimension('B')->setWidth(40);
                 $getDelegate->getColumnDimension('A')->setWidth(6);
                 $end_row = count($this->data) + 4;
-                foreach ($this->data as $item) {
-                    $end_row += count($item['isp']);
-                }
+                // foreach ($this->data as $item) {
+                //     $end_row += count($item['isp']);
+                // }
 
                 //set bolder
                 $event->sheet->getStyle("A2:{$this->getColumnNameByIndex($lastColumn)}$end_row")->applyFromArray([

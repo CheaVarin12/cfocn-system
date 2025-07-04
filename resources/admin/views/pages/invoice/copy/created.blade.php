@@ -119,6 +119,20 @@
                                     </template>
                                 </div>
                             </div>
+                            <div class="row-3">
+                                <div class="form-row">
+                                    <label>Advance Status </label>
+                                    <select name="is_advance" x-model="is_advance">
+                                        <option value="0">Not Advance</option>
+                                        <option value="1">Is Advance</option>
+                                    </select>
+                                    <template x-for="item in dataError?.is_advance">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
 
                             {{-- New --}}
                             <div class="row" style="margin-top:20px;">
@@ -364,11 +378,13 @@
                                                             </div>
                                                         </div>
                                                         <div class="row table-row-37">
-                                                            <div class="divTag font13" x-text="numberFormat(vat.dollar)">
+                                                            <div class="divTag font13"
+                                                                x-text="numberFormat(vat.dollar)">
                                                             </div>
                                                         </div>
                                                         <div class="row table-row-37">
-                                                            <div class="divTag font13" x-text="numberFormat(vat.khmer)">
+                                                            <div class="divTag font13"
+                                                                x-text="numberFormat(vat.khmer)">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -442,13 +458,15 @@
         total_qty: 0,
         invoice_number: null,
         note: null,
-        remark:null,
+        remark: null,
+        status: null,
         dataError: [],
         issue_date: null,
         period_start: null,
         period_end: null,
         data: null,
         tax_status: 1,
+        is_advance: 0,
         List_service_in_type: [],
         formDisable: false,
         taxOptions: @json(config('dummy.tax_status')),
@@ -500,8 +518,10 @@
                 try {
                     await this.fetchData(`/admin/invoice/copy/${dataStore.id}`, (
                         res) => {
-                        this.data = res;      
-                        this.tax_status = res?.invoice?.tax_status ? res?.invoice?.tax_status : res?.invoice?.vat>0 ? 1:2;
+                        this.data = res;
+                        this.tax_status = res?.invoice?.tax_status ? res?.invoice
+                            ?.tax_status : res?.invoice?.vat > 0 ? 1 : 2;
+                        this.is_advance = res?.invoice?.is_advance;
                         this.charge_number = res?.invoice?.charge_number;
                         this.charge_type = res?.invoice?.charge_type;
                         this.invoice_number = res?.invoice?.invoice_number;
@@ -510,7 +530,9 @@
                         this.period_end = res?.invoice?.period_end;
                         this.note = res?.invoice?.note;
                         this.remark = res?.invoice?.remark;
-                        this.exchang_rate = @json($rate) ? @json($rate).rate : "";
+                        this.status = res?.invoice?.status;
+                        this.exchang_rate = @json($rate) ?
+                            @json($rate).rate : "";
                         this.list_purchase_details = res.invoice?.invoice_detail ??
                             [];
                         this.getServiceByType(res?.invoice?.purchase?.type_id);
@@ -632,7 +654,7 @@
         },
 
         calcuatorAmount(type = null) {
-            
+
             this.sub_total.dollar = 0;
             this.sub_total.khmer = 0;
             this.vat.dollar = 0;
@@ -691,11 +713,11 @@
             //khmer
             this.grand_total.khmer = this.numberRound(Number(this.grand_total.dollar) * Number(this
                 .exchang_rate));
-          
+
             if (this.tax_status != 2) {
                 this.sub_total.khmer = this.numberRound(this.grand_total.khmer / 1.1);
                 this.vat.khmer = this.numberRound(this.grand_total.khmer - this.sub_total.khmer);
-            }else{
+            } else {
                 this.sub_total.khmer = this.grand_total.khmer;
             }
 
@@ -726,7 +748,7 @@
                                     po_id: dataStore.po_id,
                                     multiple_po_id: dataStore.multiple_po_id,
                                     customer_id: dataStore.customer_id,
-                                    data_customer:dataStore?.data_customer ?? null,
+                                    data_customer: dataStore?.data_customer ?? null,
                                     total_price: this.sub_total.dollar,
                                     vat: this.vat.dollar,
                                     total_grand: this.grand_total.dollar,
@@ -741,12 +763,13 @@
                                     period_start: period_start,
                                     period_end: period_end,
                                     note: this.note,
-                                    remark:this.remark,
-                                    status: 1,
+                                    remark: this.remark,
+                                    status:this.status,
                                     day_month: this.day_month,
                                     purchase_details: this.dataForm.length > 0 ?
                                         JSON.stringify(this.dataForm) : [],
                                     tax_status: this.tax_status,
+                                    is_advance: this.is_advance,
                                 };
                                 setTimeout(() => {
                                     Axios({
@@ -761,7 +784,8 @@
                                         this.submitLoading = false;
                                         this.formDisable = false;
                                         this.dialogClose();
-                                        let currentFullUrl = '{!! url()->full() !!}';
+                                        let currentFullUrl =
+                                            '{!! url()->full() !!}';
                                         reloadUrl(currentFullUrl);
                                     }).catch((e) => {
                                         this.dataError = e.response

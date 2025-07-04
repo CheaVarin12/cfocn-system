@@ -76,6 +76,20 @@
                                     </template>
                                 </div>
                             </div>
+                            <div class="row-3">
+                                <div class="form-row">
+                                    <label>Advance Status </label>
+                                    <select name="is_advance" x-model="is_advance">
+                                        <option value="0">Not Advance</option>
+                                        <option value="1">Is Advance</option>
+                                    </select>
+                                    <template x-for="item in dataError?.is_advance">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
                             {{-- New --}}
                             <div class="row" style="margin-top:20px;">
                                 <div class="table customTable">
@@ -135,7 +149,8 @@
                                                 <div class="row table-row-5"></div>
                                                 <div class="row table-row-15"></div>
                                                 <div class="row table-row-25 text-start">
-                                                    <span class="label" x-text="data?.order?.project?.name ?? '---'"></span>
+                                                    <span class="label"
+                                                        x-text="data?.order?.project?.name ?? '---'"></span>
                                                 </div>
                                                 <div class="row table-row-15"></div>
                                                 <div class="row table-row-15"></div>
@@ -150,7 +165,8 @@
                                                         <span x-text="index+1"></span>
                                                     </div>
                                                     <div class="row table-row-15">
-                                                        <span x-text="item.service?.name ?? '-'" class="bgDisable"></span>
+                                                        <span x-text="item.service?.name ?? '-'"
+                                                            class="bgDisable"></span>
                                                         <input type="hidden" :value="item.service_id"
                                                             name="service_id[]" />
                                                     </div>
@@ -244,7 +260,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="row table-row-33">
-                                                            <div class="divTag font13" x-text="numberFormat(vat.dollar)">
+                                                            <div class="divTag font13"
+                                                                x-text="numberFormat(vat.dollar)">
                                                             </div>
                                                         </div>
                                                         <div class="row table-row-33">
@@ -327,6 +344,7 @@
         dataError: [],
         data: null,
         tax_status: 1,
+        is_advance:0,
         taxOptions: @json(config('dummy.tax_status')),
         async init() {
             this.submitLoading = true;
@@ -416,8 +434,8 @@
                 this.total_qty += item.qty;
             });
 
-                 //dollar
-                 this.sub_total.dollar = this.numberRound(this.sub_total.dollar, 2);
+            //dollar
+            this.sub_total.dollar = this.numberRound(this.sub_total.dollar, 2);
             if (this.tax_status != 2) {
                 this.vat.dollar = this.numberRound(Number(this.sub_total.dollar * (10 / 100)), 2);
             }
@@ -427,12 +445,12 @@
             //khmer
             this.grand_total.khmer = this.numberRound(Number(this.grand_total.dollar) * Number(this
                 .exchang_rate));
-          
+
             if (this.tax_status != 2) {
                 this.sub_total.khmer = this.numberRound(this.grand_total.khmer / 1.1);
                 this.vat.khmer = this.numberRound(this.grand_total.khmer - this.sub_total.khmer);
-              
-            }else{
+
+            } else {
                 this.sub_total.khmer = this.grand_total.khmer;
             }
 
@@ -440,8 +458,10 @@
         amountCalculateVat(el) {
             let vatDollar = el.value;
             this.vat.khmer = this.numberRound(Number(vatDollar) * Number(this.exchang_rate));
-            this.grand_total.dollar = this.numberRound(Number(this.sub_total.dollar) + Number(vatDollar), 2);
-            this.grand_total.khmer = this.numberRound(Number(this.grand_total.dollar) * Number(this.exchang_rate));
+            this.grand_total.dollar = this.numberRound(Number(this.sub_total.dollar) + Number(vatDollar),
+            2);
+            this.grand_total.khmer = this.numberRound(Number(this.grand_total.dollar) * Number(this
+                .exchang_rate));
         },
         submitFrom() {
             let dataStore = this.$store.invoiceCreate.options.data;
@@ -480,8 +500,10 @@
                             remark: this.remark,
                             status: 1,
                             day_month: this.day_month,
-                            order_details: this.list_order_details.length ? JSON.stringify(this.list_order_details) : [],
+                            order_details: this.list_order_details.length ? JSON.stringify(
+                                this.list_order_details) : [],
                             tax_status: this.tax_status,
+                            is_advance: this.is_advance,
                         };
                         setTimeout(async () => {
                             await Axios({

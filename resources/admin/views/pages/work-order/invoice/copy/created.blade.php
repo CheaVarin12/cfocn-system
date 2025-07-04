@@ -80,6 +80,20 @@
                                     </template>
                                 </div>
                             </div>
+                            <div class="row-3">
+                                <div class="form-row">
+                                    <label>Advance Status </label>
+                                    <select name="is_advance" x-model="is_advance">
+                                        <option value="0">Not Advance</option>
+                                        <option value="1">Is Advance</option>
+                                    </select>
+                                    <template x-for="item in dataError?.is_advance">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
 
                             {{-- New --}}
                             <div class="row" style="margin-top:20px;">
@@ -370,6 +384,7 @@
         invoice_number: null,
         note: null,
         remark: null,
+        status: null,
         dataError: [],
         issue_date: null,
         period_start: null,
@@ -379,6 +394,7 @@
         ftthServices: [],
         formDisable: false,
         tax_status: 1,
+        is_advance: null,
         taxOptions: @json(config('dummy.tax_status')),
         dataForm: [{
             id: Number(moment().format('YYYYMMDDHHmmss')),
@@ -429,7 +445,10 @@
                     await this.fetchData(`/admin/work-order/invoice/copy/${dataStore.id}`, (
                         res) => {
                         this.data = res;
-                        this.tax_status = res?.invoice?.tax_status ? res?.invoice?.tax_status : res?.invoice?.vat>0 ? 1:2;
+                        this.tax_status = res?.invoice?.tax_status ? res?.invoice
+                            ?.tax_status : res?.invoice?.vat > 0 ? 1 : 2;
+                        this.is_advance = res?.invoice?.is_advance;
+                        this.status = res?.invoice?.status;
                         this.charge_number = res?.invoice?.charge_number;
                         this.charge_type = res?.invoice?.charge_type;
                         this.invoice_number = res?.invoice?.invoice_number;
@@ -527,9 +546,9 @@
         },
         async getServiceByType(type_id) {
             await Axios.get(`/admin/work-order/order/type-service/${type_id?type_id:null}`).then(
-            resp => {
-                this.List_service_in_type = resp.data;
-            });
+                resp => {
+                    this.List_service_in_type = resp.data;
+                });
         },
         async fetchData(url, callback) {
             await fetch(url, {
@@ -637,10 +656,12 @@
                                     period_end: period_end,
                                     note: this.note,
                                     remark: this.remark,
-                                    status: 1,
+                                    status: this.status,
                                     day_month: this.day_month,
                                     order_details: this.dataForm.length > 0 ?
                                         JSON.stringify(this.dataForm) : [],
+                                    tax_status: this.tax_status,
+                                    is_advance: this.is_advance,
                                 };
                                 setTimeout(() => {
                                     Axios({

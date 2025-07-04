@@ -107,6 +107,18 @@
                                         </div>
                                     </template>
                                 </div>
+                                <div class="form-row">
+                                    <label>Advance Status </label>
+                                    <select name="is_advance" x-model="is_advance">
+                                        <option value="0">Not Advance</option>
+                                        <option value="1">Is Advance</option>
+                                    </select>
+                                    <template x-for="item in dataError?.is_advance">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
 
                             {{-- New --}}
@@ -380,6 +392,7 @@
         install_number: null,
         data: null,
         tax_status: 1,
+        is_advance: 0;
         taxOptions: @json(config('dummy.tax_status')),
         async init() {
             this.submitLoading = true;
@@ -484,7 +497,7 @@
             if (this.tax_status != 2) {
                 this.vat.khmer = this.numberRound(this.grand_total.khmer - this.sub_total.khmer);
                 this.sub_total.khmer = this.numberRound(this.grand_total.khmer / 1.1);
-            }else{
+            } else {
                 this.sub_total.khmer = this.grand_total.khmer;
             }
         },
@@ -542,6 +555,7 @@
                                         .length ? JSON
                                         .stringify(this.list_purchase_details) : [],
                                     tax_status: this.tax_status,
+                                    is_advance: this.is_advance,
                                 };
                                 setTimeout(() => {
                                     Axios({

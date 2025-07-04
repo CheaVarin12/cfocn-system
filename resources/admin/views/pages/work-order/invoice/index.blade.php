@@ -14,6 +14,8 @@
                             Void</div>
                         <div class="menu-item {!! Request::is('admin/work-order/invoice/list/5') ? 'active' : '' !!}" s-click-link="{!! route('admin-work-order-invoice-list', 5) !!}">
                             Auto</div>
+                        <div class="menu-item {!! Request::is('admin/work-order/invoice/list/7') ? 'active' : '' !!}" s-click-link="{!! route('admin-work-order-invoice-list', 7) !!}">
+                            Copy</div>
                     </div>
                 </div>
                 <div class="header-action-button">
@@ -54,6 +56,19 @@
                             <i data-feather="search"></i>
                         </button>
                     </form>
+                    <a class="ms-1 px-2 pt-1 "
+                        style="width: 140px;color:white;background-color:#024de3;border-radius: 5px;height: 35px;cursor: pointer;text-align: center;"
+                        onclick="$onConfirmMessage(
+                                '{!! route('admin-work-order-invoice-copy-invoice-last-month') !!}',
+                                  '@lang('Are you sure you want to copy invoices from last month ?')',
+                                    {
+                                     confirm: '@lang('Copy')',
+                                     cancel: '@lang('dialog.button.cancel')'
+                                                                },
+                                );">
+                        <i style="width: 15px;height:15px;" data-feather="copy"></i>
+                        <span style="font-size:13px">Copy Invoice</span>
+                    </a>
                     <button s-click-link="{!! url()->current() !!}" class="minWithAuto">
                         <i data-feather="refresh-ccw"></i>
                     </button>

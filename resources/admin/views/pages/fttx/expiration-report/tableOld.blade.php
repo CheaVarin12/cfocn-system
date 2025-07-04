@@ -39,16 +39,38 @@
                                 </tr>
                             </thead>
                             <tbody class="column" style="margin-bottom: 12px;">
-                     
+                                <tr>
+                                    <td colspan="{{ count($columns)+3 }}" style="border-left: none;border-right: none;">
+                                        <div class="p-2"></div>
+                                    </td>
+                                </tr>
                                 @foreach ($data as $key => $item)
-                                    <tr  @click="reportDetailDialog({{ json_encode(array_diff_key($item, ['total' => ''])) }})">
-                                        <td>{{ $key + 1 }}</td>
-                                        <td class="row textLeft" style="padding-left:20px;">
-                                            {{ $item['name_en'] }}
-                                        </td>
-                                           @foreach ($item['total'] as $amount)
+                                    @foreach ($item['isp'] as $keyIsp => $value)
+                                        <tr
+                                            @click="reportDetailDialog({{ json_encode(array_diff_key($value, ['total' => ''])) }})">
+                                            <td>{{ $keyIsp + 1 }}</td>
+                                            <td class="row textLeft" style="padding-left:20px;">
+                                                {{ $value['name_en'] }}
+                                            </td>
+                                            @foreach ($value['total'] as $amount)
                                                 <td>{{ $amount ? '$ ' . number_format($amount, 2) : 0 }}</td>
                                             @endforeach
+                                        </tr>
+                                    @endforeach
+                                    <tr style="background-color: #4279e5">
+                                        <td class="row text-white" colspan="2" style="text-align: right !important">
+                                            Total ({{ $key }})
+                                        </td>
+                                        @foreach ($item['total_amount'] as $totalAmount)
+                                            <td class="text-white" style="font-size: 12px;">
+                                                {{ $totalAmount ? '$ ' . number_format($totalAmount, 2) : 0 }}
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                    <tr>
+                                        <td colspan="{{ count($columns)+3 }}" style="border-left: none;border-right: none;">
+                                            <div class="p-2"></div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

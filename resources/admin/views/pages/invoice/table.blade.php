@@ -179,7 +179,7 @@
                                                     @endif
                                                 @endif
                                             @endif
-                                            @if (request('status') == 5)
+                                            @if (request('status') == 5 || request('status') == 7)
                                                 <li>
                                                     <a class="dropdown-item text-danger"
                                                         @click="invoiceDelete({{ $item }})">

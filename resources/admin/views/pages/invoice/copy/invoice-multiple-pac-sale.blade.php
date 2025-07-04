@@ -114,6 +114,18 @@
                                         </div>
                                     </template>
                                 </div>
+                                <div class="form-row">
+                                    <label>Advance Status </label>
+                                    <select name="is_advance" x-model="is_advance">
+                                        <option value="0">Not Advance</option>
+                                        <option value="1">Is Advance</option>
+                                    </select>
+                                    <template x-for="item in dataError?.is_advance">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
 
                             {{-- New --}}
@@ -456,6 +468,7 @@
         invoice_number: null,
         note: null,
         remark: null,
+        status:null,
         dataError: [],
         install_number: null,
         issue_date: null,
@@ -469,6 +482,7 @@
         pacs: null,
         child_invoice: [],
         tax_status: null,
+        is_advance: null,
         multiple_po_id: null,
         taxOptions: @json(config('dummy.tax_status')),
         dataForm: [{
@@ -535,12 +549,16 @@
                         this.issue_date = this.current_date;
                         this.note = res?.invoice?.note;
                         this.remark = res?.invoice?.remark;
+                        this.status = res?.invoice?.status;
                         this.charge_number = res?.invoice?.charge_number;
                         this.install_number = res?.invoice?.install_number;
-                        this.tax_status = res?.invoice?.tax_status ? res?.invoice?.tax_status : res?.invoice?.vat>0 ? 1:2;
+                        this.tax_status = res?.invoice?.tax_status ? res?.invoice
+                            ?.tax_status : res?.invoice?.vat > 0 ? 1 : 2;
+                        this.is_advance = res?.invoice?.is_advance;
                         this.po_number = res?.invoice?.po_number ?? res?.invoice
                             ?.purchase?.po_number;
-                        this.exchange_rate = @json($rate) ? @json($rate).rate : "";
+                        this.exchange_rate = @json($rate) ?
+                            @json($rate).rate : "";
                         this.list_purchase_details = res.invoice?.invoice_detail ??
                             [];
                         this.getServiceByType(res?.invoice?.purchase?.type_id);
@@ -683,8 +701,8 @@
             if (this.tax_status != 2) {
                 this.vat.dollar = this.numberRound(Number(this.sub_total.dollar * (10 /
                     100)), 2);
-            }else{
-                this.vat.dollar =0;
+            } else {
+                this.vat.dollar = 0;
             }
             this.grand_total.dollar = this.numberRound(this.sub_total.dollar + this.vat.dollar, 2);
 
@@ -753,10 +771,14 @@
                     this.total_child_invoice.total_qty += qty;
                 });
 
-                 //dollar
-                this.total_child_invoice.sub_total.dollar = this.numberRound(this.total_child_invoice.sub_total.dollar, 2);
-                this.total_child_invoice.vat.dollar = this.numberRound(this.total_child_invoice.sub_total.dollar * (10 / 100), 2);
-                this.total_child_invoice.grand_total.dollar = this.numberRound(this.total_child_invoice.sub_total.dollar + this.total_child_invoice.vat.dollar, 2);
+                //dollar
+                this.total_child_invoice.sub_total.dollar = this.numberRound(this
+                    .total_child_invoice.sub_total.dollar, 2);
+                this.total_child_invoice.vat.dollar = this.numberRound(this.total_child_invoice
+                    .sub_total.dollar * (10 / 100), 2);
+                this.total_child_invoice.grand_total.dollar = this.numberRound(this
+                    .total_child_invoice.sub_total.dollar + this.total_child_invoice.vat
+                    .dollar, 2);
 
                 childInvoice.total_qty = this.total_child_invoice.total_qty;
                 childInvoice.vat = this.total_child_invoice.vat.dollar;
@@ -766,7 +788,7 @@
             });
         },
         amountCalculateWhenEdit(data) {
-            
+
             let exchangeRate = this.exchange_rate ? parseFloat(this.exchange_rate) : 0;
             //dollar
             this.sub_total.dollar = this.numberRound(data.total_price, 2);
@@ -778,12 +800,12 @@
             this.sub_total.khmer = this.numberRound(this.grand_total.khmer / 1.1);
             this.vat.khmer = this.numberRound(this.grand_total.khmer - this.sub_total.khmer);
 
-            if(this.numberRound(this.sub_total.dollar * 0.1,2) != this.vat.dollar){
-                this.sub_total.khmer =  this.numberRound(this.sub_total.dollar * exchangeRate);
-                this.vat.khmer= this.numberRound(this.vat.dollar *exchangeRate);
+            if (this.numberRound(this.sub_total.dollar * 0.1, 2) != this.vat.dollar) {
+                this.sub_total.khmer = this.numberRound(this.sub_total.dollar * exchangeRate);
+                this.vat.khmer = this.numberRound(this.vat.dollar * exchangeRate);
             }
         },
-      submitFrom() {
+        submitFrom() {
             this.dataError = [];
             this.checkValidation((valid) => {
                 if (valid.length > 0) {
@@ -841,7 +863,7 @@
                                             period_end: period_end,
                                             note: this.note,
                                             remark: this.remark,
-                                            status: 1,
+                                            status: this.status,
                                             day_month: this.day_month,
                                             purchase_details: this.dataForm
                                                 .length > 0 ?
@@ -855,7 +877,9 @@
                                                 .stringify(this
                                                     .child_invoice) : [],
                                             tax_status: this.tax_status,
-                                            multiple_po_id: this.multiple_po_id,
+                                            is_advance: this.is_advance,
+                                            multiple_po_id: this
+                                                .multiple_po_id,
                                         };
                                         setTimeout(() => {
                                             Axios({
@@ -1007,15 +1031,17 @@
             });
         },
         amountCalculateVat(el) {
-            let vatDollar =0;
+            let vatDollar = 0;
             if (this.tax_status != 2) {
                 vatDollar = el.value;
                 this.vat.khmer = this.numberRound(Number(vatDollar) * Number(this.exchange_rate));
-            }else{
-                this.vat.dollar=0;
+            } else {
+                this.vat.dollar = 0;
             }
-            this.grand_total.dollar = this.numberRound(Number(this.sub_total.dollar) + Number(vatDollar),2);
-            this.grand_total.khmer = this.numberRound(Number(this.grand_total.dollar) * Number(this.exchange_rate));
+            this.grand_total.dollar = this.numberRound(Number(this.sub_total.dollar) + Number(vatDollar),
+                2);
+            this.grand_total.khmer = this.numberRound(Number(this.grand_total.dollar) * Number(this
+                .exchange_rate));
         },
     }));
 </script>

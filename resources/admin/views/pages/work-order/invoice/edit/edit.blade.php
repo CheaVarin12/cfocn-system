@@ -92,6 +92,20 @@
                                     </template>
                                 </div> --}}
                             </div>
+                            <div class="row-3">
+                                <div class="form-row">
+                                    <label>Advance Status </label>
+                                    <select name="is_advance" x-model="is_advance">
+                                        <option value="0">Not Advance</option>
+                                        <option value="1">Is Advance</option>
+                                    </select>
+                                    <template x-for="item in dataError?.is_advance">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
                             {{-- <div class="row-3">
                                 <div class="form-row">
                                     <label>Charge Number <span>*</span></label>
@@ -180,7 +194,8 @@
                                                 <div class="row table-row-5"></div>
                                                 <div class="row table-row-15"></div>
                                                 <div class="row table-row-20 text-start">
-                                                    <span class="label" x-text="data?.invoice?.order?.project?.name ?? '--'"></span>
+                                                    <span class="label"
+                                                        x-text="data?.invoice?.order?.project?.name ?? '--'"></span>
                                                 </div>
                                                 <div class="row table-row-10"></div>
                                                 <div class="row table-row-10"></div>
@@ -325,7 +340,8 @@
                                                         <div class="row table-row-33">
                                                             <div class="divTag font13">
                                                                 <input type="number" min="0.01" step="0.01"
-                                                                    x-model="vat.dollar" @input.debounce.500="amountCalculateVat($el)">
+                                                                    x-model="vat.dollar"
+                                                                    @input.debounce.500="amountCalculateVat($el)">
                                                             </div>
                                                         </div>
                                                         <div class="row table-row-33">
@@ -401,7 +417,7 @@
         total_qty: 0,
         invoice_number: null,
         note: null,
-        remark:null,
+        remark: null,
         dataError: [],
         issue_date: null,
         period_start: null,
@@ -413,6 +429,7 @@
         invoice_detail_arr_id: [],
         ftthServices: [],
         tax_status: null,
+        is_advance: null,
         taxOptions: @json(config('dummy.tax_status')),
         dataForm: [{
             id: Number(moment().format('YYYYMMDDHHmmss')),
@@ -460,7 +477,8 @@
             this.current_date = moment(new Date).format('DD MMM YYYY');
             this.numberDay_of_month = moment(new Date).daysInMonth();
             let order = dataStore?.order;
-            let url = `/admin/work-order/invoice/edit/${dataStore.id}?order_id=${order?.id}&order_type_id=${order?.type_id}`;
+            let url =
+                `/admin/work-order/invoice/edit/${dataStore.id}?order_id=${order?.id}&order_type_id=${order?.type_id}`;
             setTimeout(async () => {
                 try {
                     await this.fetchData(url, (res) => {
@@ -473,11 +491,13 @@
                         this.period_end = res?.invoice?.period_end;
                         this.note = res?.invoice?.note;
                         this.remark = res?.invoice?.remark;
-                        this.tax_status = res?.invoice?.tax_status,
-                        this.exchang_rate = res?.invoice?.exchange_rate ?? res.rate
+                        this.tax_status = res?.invoice?.tax_status;
+                            this.is_advance = res?.invoice?.is_advance;
+                            this.exchang_rate = res?.invoice?.exchange_rate ?? res
+                            .rate
                             ?.rate;
                         this.list_order_details = res?.invoice?.invoice_detail ??
-                            [];
+                    [];
                         this.fetchFTTHService();
                         this.getServiceByType(res?.invoice?.order?.type_id);
                         if (res.invoice?.invoice_detail?.length > 0) {
@@ -565,9 +585,10 @@
             });
         },
         async getServiceByType(type_id) {
-            await Axios.get(`/admin/work-order/order/type-service/${type_id?type_id:null}`).then(resp => {
-                this.List_service_in_type = resp.data;
-            });
+            await Axios.get(`/admin/work-order/order/type-service/${type_id?type_id:null}`).then(
+                resp => {
+                    this.List_service_in_type = resp.data;
+                });
         },
         async fetchData(url, callback) {
             await fetch(url, {
@@ -683,8 +704,8 @@
                 this.total_qty += qty;
             });
 
-             //dollar
-             this.sub_total.dollar = this.numberRound(this.sub_total.dollar, 2);
+            //dollar
+            this.sub_total.dollar = this.numberRound(this.sub_total.dollar, 2);
             if (this.tax_status != 2) {
                 this.vat.dollar = this.numberRound(Number(this.sub_total.dollar * (10 /
                     100)), 2);
@@ -710,12 +731,14 @@
             if (this.tax_status != 2) {
                 vatDollar = el.value;
                 this.vat.khmer = this.numberRound(Number(vatDollar) * Number(this.exchang_rate));
-            } else { 
+            } else {
                 this.vat.dollar = 0;
             }
-            
-            this.grand_total.dollar = this.numberRound(Number(this.sub_total.dollar) + Number(vatDollar), 2);
-            this.grand_total.khmer = this.numberRound(Number(this.grand_total.dollar) * Number(this.exchang_rate));
+
+            this.grand_total.dollar = this.numberRound(Number(this.sub_total.dollar) + Number(vatDollar),
+                2);
+            this.grand_total.khmer = this.numberRound(Number(this.grand_total.dollar) * Number(this
+                .exchang_rate));
         },
         checkValidation(callback) {
             let error = [];
@@ -843,14 +866,15 @@
                                     period_start: period_start,
                                     period_end: period_end,
                                     note: this.note,
-                                    remark:this.remark,
+                                    remark: this.remark,
                                     status: 1,
                                     day_month: this.day_month,
                                     order_details: this.dataForm.length > 0 ?
                                         JSON.stringify(this.dataForm) : [],
                                     invoice_detail_arr_delete: this
                                         .invoice_detail_arr_id,
-                                        tax_status: this.tax_status,
+                                    tax_status: this.tax_status,
+                                    is_advance: this.is_advance,
                                 };
                                 setTimeout(() => {
                                     Axios({

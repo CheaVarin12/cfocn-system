@@ -114,6 +114,18 @@
                                         </div>
                                     </template>
                                 </div>
+                                <div class="form-row">
+                                    <label>Advance Status </label>
+                                    <select name="is_advance" x-model="is_advance">
+                                        <option value="0">Not Advance</option>
+                                        <option value="1">Is Advance</option>
+                                    </select>
+                                    <template x-for="item in dataError?.is_advance">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
                             {{-- New --}}
                             <div class="row">
@@ -495,8 +507,9 @@
                         this.remark = res?.invoice?.remark;
                         this.charge_number = res?.invoice?.charge_number;
                         this.install_number = res?.invoice?.install_number;
-                        this.tax_status = res?.invoice?.tax_status,
-                            this.po_number = res?.invoice?.po_number ?? res?.invoice
+                        this.tax_status = res?.invoice?.tax_status;
+                        this.is_advance = res?.invoice?.is_advance;
+                        this.po_number = res?.invoice?.po_number ?? res?.invoice
                             ?.purchase?.po_number;
                         this.exchang_rate = res.invoice.exchange_rate ?? res.rate
                             ?.rate;
@@ -676,7 +689,7 @@
             this.sub_total.khmer = this.numberRound(this.grand_total.khmer / 1.1);
             this.vat.khmer = this.numberRound(this.grand_total.khmer - this.sub_total.khmer);
 
-            if (this.numberRound(this.sub_total.dollar * 0.1,2) != this.vat.dollar) {
+            if (this.numberRound(this.sub_total.dollar * 0.1, 2) != this.vat.dollar) {
                 this.vat.khmer = this.numberRound(this.vat.dollar * exchangeRate);
                 this.sub_total.khmer = this.numberRound(this.sub_total.dollar * exchangeRate);
             }
@@ -738,7 +751,6 @@
                                             period_end: period_end,
                                             note: this.note,
                                             remark: this.remark,
-                                            status: 1,
                                             day_month: this.day_month,
                                             purchase_details: this.dataForm
                                                 .length > 0 ?
@@ -746,7 +758,8 @@
                                                     .dataForm) : [],
                                             invoice_detail_arr_delete: this
                                                 .invoice_detail_arr_id,
-                                                tax_status: this.tax_status,
+                                            tax_status: this.tax_status,
+                                            is_advance: this.is_advance,
                                         };
                                         setTimeout(() => {
                                             Axios({
@@ -898,12 +911,14 @@
             if (this.tax_status != 2) {
                 vatDollar = el.value;
                 this.vat.khmer = this.numberRound(Number(vatDollar) * Number(this.exchang_rate));
-            } else { 
+            } else {
                 this.vat.dollar = 0;
             }
-            
-            this.grand_total.dollar = this.numberRound(Number(this.sub_total.dollar) + Number(vatDollar), 2);
-            this.grand_total.khmer = this.numberRound(Number(this.grand_total.dollar) * Number(this.exchang_rate));
+
+            this.grand_total.dollar = this.numberRound(Number(this.sub_total.dollar) + Number(vatDollar),
+                2);
+            this.grand_total.khmer = this.numberRound(Number(this.grand_total.dollar) * Number(this
+                .exchang_rate));
         },
     }));
 </script>

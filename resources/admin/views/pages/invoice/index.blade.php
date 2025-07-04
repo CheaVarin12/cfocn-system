@@ -75,8 +75,8 @@
                             Draft</div>
                         <div class="menu-item {!! Request::is('admin/invoice/list/5') ? 'active' : '' !!}" s-click-link="{!! route('admin-invoice-list', 5) !!}">
                             Auto</div>
-                        {{-- <div class="menu-item {!! Request::is('admin/invoice/list/6') ? 'active' : '' !!}" s-click-link="{!! route('admin-invoice-list', 6) !!}">
-                            DMC</div> --}}
+                        <div class="menu-item {!! Request::is('admin/invoice/list/7') ? 'active' : '' !!}" s-click-link="{!! route('admin-invoice-list', 7) !!}">
+                            Copy</div>
                     </div>
                 </div>
                 <div class="header-action-button">
@@ -138,6 +138,20 @@
                                 <li @click="createInvoiceDialog('sale')">Sale</li>
                             </ul>
                         </div>
+                    @endcan
+                    @can('invoice-copy')
+                        <a class="ms-1 px-2 pt-1 " style="width: 140px;color:white;background-color:#024de3;border-radius: 5px;height: 35px;cursor: pointer;text-align: center;"
+                            onclick="$onConfirmMessage(
+                                '{!! route('admin-invoice-copy-invoice-last-month') !!}',
+                                  '@lang('Are you sure you want to copy invoices from last month ?')',
+                                    {
+                                     confirm: '@lang('Copy')',
+                                     cancel: '@lang('dialog.button.cancel')'
+                                                                },
+                                );">
+                            <i style="width: 15px;height:15px;" data-feather="copy"></i>
+                            <span style="font-size:13px">Copy Invoice</span>
+                        </a>
                     @endcan
                     <button s-click-link="{!! url()->current() !!}" class="minWithAuto">
                         <i data-feather="refresh-ccw"></i>

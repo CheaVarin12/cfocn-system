@@ -146,6 +146,33 @@
                                     </template>
                                 </div>
                             </div>
+                            <div class="row-2">
+                                <div class="form-row">
+                                    <label>Tax Status <span>*</span></label>
+                                    <select name="tax_status" x-model="tax_status" @change="calculatorAmount">
+                                        <template x-for="item in taxOptions">
+                                            <option :value="item.key"><span x-text="item.text"></span></option>
+                                        </template>
+                                    </select>
+                                    <template x-for="item in dataError?.tax_status">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="form-row">
+                                    <label>Advance Status </label>
+                                    <select name="is_advance" x-model="is_advance">
+                                        <option value="0">Not Advance</option>
+                                        <option value="1">Is Advance</option>
+                                    </select>
+                                    <template x-for="item in dataError?.is_advance">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
 
                             {{-- New --}}
                             <div class="row" style="margin-top:20px;">
@@ -450,6 +477,7 @@
         pacData: [],
         child_invoice: [],
         tax_status: 1,
+        is_advance: 0,
         taxOptions: @json(config('dummy.tax_status')),
         async init() {
             this.current_date = moment(new Date).format('DD MMM YYYY');
@@ -691,7 +719,7 @@
             } else {
                 this.sub_total.khmer = this.grand_total.khmer;
             }
-            this.grand_total.khmer =  this.numberRound(this.grand_total.khmer);
+            this.grand_total.khmer = this.numberRound(this.grand_total.khmer);
 
             this.calculatorAmountEachPac(type);
         },
@@ -758,6 +786,7 @@
                                         .length ? JSON
                                         .stringify(this.child_invoice) : [],
                                     tax_status: this.tax_status,
+                                    is_advance: this.is_advance,
                                 };
 
                                 setTimeout(() => {

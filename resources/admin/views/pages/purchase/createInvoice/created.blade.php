@@ -112,6 +112,20 @@
                                     </template>
                                 </div>
                             </div>
+                            <div class="row-3">
+                                <div class="form-row">
+                                    <label>Advance Status </label>
+                                    <select name="is_advance" x-model="is_advance">
+                                       <option value="0">Not Advance</option>
+                                        <option value="1">Is Advance</option>
+                                    </select>
+                                    <template x-for="item in dataError?.is_advance">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
                             {{-- New --}}
                             <div class="row" style="margin-top:20px;">
                                 <div class="table customTable">
@@ -393,6 +407,7 @@
         total_qty: 0,
         invoice_number: null,
         tax_status: 1,
+        is_advance:0,
         note: null,
         remark: null,
         dataError: [],
@@ -542,11 +557,11 @@
             //khmer
             this.grand_total.khmer = this.numberRound(Number(this.grand_total.dollar) * Number(this
                 .exchang_rate));
-          
+
             if (this.tax_status != 2) {
                 this.sub_total.khmer = this.numberRound(this.grand_total.khmer / 1.1);
                 this.vat.khmer = this.numberRound(this.grand_total.khmer - this.sub_total.khmer);
-            }else{
+            } else {
                 this.sub_total.khmer = this.grand_total.khmer;
             }
 
@@ -592,6 +607,7 @@
                             purchase_details: this.list_purchase_details.length ? JSON
                                 .stringify(this.list_purchase_details) : [],
                             tax_status: this.tax_status,
+                               is_advance: this.is_advance,
                         };
                         setTimeout(async () => {
                             await Axios({

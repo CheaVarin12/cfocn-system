@@ -628,7 +628,7 @@
                                         @endif
                                         @if ($columnFttx[46]->status == 1)
                                             <td class="row">
-                                                {{ $item->total_calculate ?? '-' }}
+                                                {{ $item->total_amount_from_start ?? '-' }}
                                             </td>
                                         @endif
                                         @if ($columnFttx[47]->status == 1)

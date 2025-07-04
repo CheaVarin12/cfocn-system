@@ -38,6 +38,7 @@ class Invoice extends Model
         'doc_status',
         'user_id',
         'tax_status',
+        'is_advance'
     ];
 
     protected $casts = [

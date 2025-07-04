@@ -50,14 +50,14 @@
                             <span>Create</span>
                         </button>
                     @endcan
-                    <button class="btn-create bg-success" @click="importPACDialog()">
+                    {{-- <button class="btn-create bg-success" @click="importPACDialog()">
                         <i data-feather="arrow-up-circle"></i>
                         <span>Import PAC</span>
                     </button>
                     <button class="btn-create bg-info" @click="importPACDetailDialog()">
                         <i data-feather="arrow-up-circle"></i>
                         <span>Import PAC Detail</span>
-                    </button>
+                    </button> --}}
                     <button s-click-link="{!! url()->current() !!}" class="minWithAuto">
                         <i data-feather="refresh-ccw"></i>
                     </button>
