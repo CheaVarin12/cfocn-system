@@ -24,7 +24,7 @@ class RateController extends Controller
         try {
             $data['rate'] = DB::table('rates')->first();
             return view($this->layout . 'rate', $data);
-        } catch (Exception $error) {
+        } catch (Exception $error) {    
             Log::error("Error: Admin/RateController > index | message: ". $error->getMessage());
         }
     }

@@ -25,69 +25,72 @@ class FttxExpirationReportController extends Controller
 
     public function index(Request $req)
     {
-        Log::info("Start: Admin/FttxExpirationReportController > index | admin: " . json_encode($req->all()));
+        Log::info("Start: Admin/FttxExpirationReportController > index | admin: " . $req);
         try {
             $today = Carbon::now()->format('d-M-Y');
-            $posSpeedId = $req->pos_speed_id ? explode(",", $req->pos_speed_id) : null;
-            $customerId = $req->customer_id ?? null;
+            $posSpeedId = $req->pos_speed_id ? explode(",", $req->pos_speed_id) : '';
+            $customerId = $req->customer_id ?? '';
             $fullMonthKeys = $this->getFttxDeadlineMonths($customerId, $posSpeedId);
-
             $data['columns'] = $fullMonthKeys;
             $templateTotalPerMonth = collect(array_fill_keys($fullMonthKeys, 0))->put('Total', 0);
+
+            $posSpeeds = FttxPosSpeed::when($posSpeedId, function ($q) use ($posSpeedId) {
+                $q->whereIn('id', $posSpeedId);
+            })->where('status', 1)->get();
+
             $reportData = [];
 
-            // Get all FTTX entries matching filter
-            $fttxQuery = Fttx::with(['customer'])
-                ->where('deadline', '<', Carbon::today())
-                ->where('status', '!=', 3)
-                ->where(function ($query) {
-                    $query->where('check_status', '!=', 'inactive')->orWhereNull('check_status');
-                });
+            foreach ($posSpeeds as $posSpeed) {
+                $posSpeedName = $posSpeed->split_pos;
+                $reportData[$posSpeedName]['isp'] = [];
+                $reportData[$posSpeedName]['total_amount'] = collect($templateTotalPerMonth->all());
 
-            if ($customerId) {
-                $fttxQuery->where('customer_id', $customerId);
-            }
-            if ($posSpeedId) {
-                $fttxQuery->whereIn('pos_speed_id', $posSpeedId);
-            }
 
-            $fttxEntries = $fttxQuery->get();
-
-            // Get unique customers from FTTX
-            $uniqueCustomers = $fttxEntries->pluck('customer')->filter()->unique('id');
-
-            foreach ($uniqueCustomers as $customer) {
-                $total = $this->getAmountNeedToPay($customer->id, null, $fullMonthKeys);
-
-                // Update grand total per month
-                foreach ($templateTotalPerMonth->keys() as $key) {
-                    $templateTotalPerMonth[$key] += $total[$key] ?? 0;
+                foreach ($posSpeed->fttx as $fttx) {
+                    if ($fttx->status && $fttx->customer) {
+                        $reportData[$posSpeedName]['isp'][] = [
+                            'id' => $fttx->customer->id,
+                            'name_en' => $fttx->customer->name_en,
+                            'name_kh' => $fttx->customer->name_kh,
+                            'pos_speed_id' => $posSpeed->id,
+                        ];
+                    }
                 }
+                $uniqueCustomers = [];
+                foreach ($reportData[$posSpeedName]['isp'] as $isp) {
+                    $uniqueCustomers[$isp['id']] = $isp;
+                }
+                $reportData[$posSpeedName]['isp'] = $customerId
+                    ? array_values(array_filter($uniqueCustomers, fn($c) => $c['id'] == $customerId))
+                    : array_values($uniqueCustomers);
 
-                $reportData[] = [
-                    'id' => $customer->id,
-                    'name_en' => $customer->name_en,
-                    'name_kh' => $customer->name_kh,
-                    'total' => $total,
-                ];
+                foreach ($reportData[$posSpeedName]['isp'] as &$item) {
+                    $item['total'] = $this->getAmountNeedToPay($item['id'], $item['pos_speed_id'], $data['columns']);
+                    foreach ($templateTotalPerMonth->keys() as $key) {
+                        $reportData[$posSpeedName]['total_amount'][$key] += $item['total'][$key] ?? 0;
+                    }
+                }
+                unset($item);
             }
 
             $data['data'] = $reportData;
-            $data['totalAllAmountByMonth'] = $templateTotalPerMonth;
+            $totalAllAmountByMonth = collect(array_fill_keys($data['columns'], 0))->put('Total', 0);
+            foreach ($data['data'] as $posSpeedData) {
+                foreach ($posSpeedData['total_amount'] as $key => $value) {
+                    $totalAllAmountByMonth[$key] += $value;
+                }
+            }
+            $data['totalAllAmountByMonth'] = $totalAllAmountByMonth;
             $data['posSpeeds'] = FttxPosSpeed::where('status', 1)->get();
             $data['customer'] = $customerId ? Customer::find($customerId) : '';
-
             if ($req->check == "export") {
-                return Excel::download(new FttxExpirationReportExport($data), 'Expiration_income_report_' . $today . '.xlsx');
+                return Excel::download(new FttxExpirationReportExport($data), 'Expiration_income_report' . $today . '.xlsx');
             }
-
             return view($this->layout . 'index', $data);
         } catch (Exception $error) {
-            dd($error);
             Log::error("Error: Admin/FttxExpirationReportController > index | message: " . $error->getMessage());
         }
     }
-
 
     public function getAmountNeedToPay($customerId, $posSpeedId, $column)
     {
@@ -95,9 +98,7 @@ class FttxExpirationReportController extends Controller
             $allMonths = collect(array_fill_keys($column, 0));
 
             $fttxDetail = Fttx::where('customer_id', $customerId)
-                ->when($posSpeedId, function ($q) use ($posSpeedId) {
-                    $q->whereIn('pos_speed_id', $posSpeedId);  
-                })
+                ->where('pos_speed_id', $posSpeedId)
                 ->where('deadline', '<', Carbon::today())
                 ->where('status', '!=', 3)
                 ->where(function ($query) {
@@ -138,8 +139,7 @@ class FttxExpirationReportController extends Controller
         $earliest = Fttx::where('deadline', '<', Carbon::today())
             ->when($customerId, function ($q) use ($customerId) {
                 $q->where('customer_id', $customerId);
-            })
-            ->when($posSpeedId, function ($q) use ($posSpeedId) {
+            })->when($posSpeedId, function ($q) use ($posSpeedId) {
                 $q->whereIn('pos_speed_id', $posSpeedId);
             })
             ->where('status', '!=', 3)

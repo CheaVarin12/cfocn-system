@@ -23,11 +23,12 @@ class AuthController extends Controller
         $messageSuccess = '';
         $messageError = '';
         try {
-            DB::table('rates')
-                ->orderByDesc('id')
-                ->limit(1)
-                ->update(['rate' => $request->exchange_rate]);
-
+            if ($request->exchange_rate && $request->exchange_rate > 0) {
+                DB::table('rates')
+                    ->orderByDesc('id')
+                    ->limit(1)
+                    ->update(['rate' => $request->exchange_rate]);
+            }
             if ($request->exchange_rate) {
                 $messageSuccess = 'Exchange rate today (1 USD = ' . $request->exchange_rate . ' KHR)';
             } else {

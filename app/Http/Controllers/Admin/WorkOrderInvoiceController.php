@@ -20,6 +20,7 @@ use App\Models\WorkOrderInvoice;
 use App\Models\WorkOrderInvoiceDetail;
 use App\Services\FTPConnectionService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -38,7 +39,7 @@ class WorkOrderInvoiceController extends Controller
     private $serverConnection = null;
     private $message = null;
     private $system_err = null;
-    
+
     public function __construct(FTPConnectionService $ser)
     {
         $this->middleware('permission:work-order-invoice', ['only' => ['index']]);
@@ -51,7 +52,7 @@ class WorkOrderInvoiceController extends Controller
         $this->disk = Storage::disk('ftp');
         $this->serverConnection = $ser;
     }
-    
+
     public function index(Request $req)
     {
         Log::info("Start: Admin/WorkOrderWorkOrderInvoiceController > index | admin: " . $req);
@@ -65,7 +66,7 @@ class WorkOrderInvoiceController extends Controller
             if (!$req->status) {
                 return redirect()->route('admin-work-order-invoice-list', 'all');
             }
-            
+
             if ($req->status != 3) {
                 if ($req->status == "all") {
                     $query = WorkOrderInvoice::with('customer')->where('status', '!=', 3);
@@ -93,17 +94,17 @@ class WorkOrderInvoiceController extends Controller
                     $q->whereDate('issue_date', '<=', $toDate);
                 }
                 if (request('search_project')) {
-                    $q->whereHas('order',
+                    $q->whereHas(
+                        'order',
                         function ($q) {
                             $q->where('project_id', request('search_project'));
                         }
                     );
                 }
             })->orderBy('id', $sort)->paginate(25);
-            $data['logoControl']=LogoControl::first();
+            $data['logoControl'] = LogoControl::first();
             $data['rate'] = DB::table('rates')->first();
             return view($this->layout . 'index', $data);
-
         } catch (\Exception $error) {
             Log::error("Error: Admin/WorkOrderInvoiceController > index | message: " . $error->getMessage());
         }
@@ -265,7 +266,7 @@ class WorkOrderInvoiceController extends Controller
         Log::info("Start: Admin/WorkOrderInvoiceController > viewDetail | admin: ");
         try {
             $data = $this->queryViewDetailInvoice($id);
-            $bankAccount=BankAccount::where('status',1)->get();
+            $bankAccount = BankAccount::where('status', 1)->get();
             return response()->json([
                 'bankAccount' => $bankAccount,
                 'data' => $data,
@@ -304,8 +305,8 @@ class WorkOrderInvoiceController extends Controller
         $data->total_price_kh = $data->total_grand_kh / 1.1;
         $data->vat_kh = $data->total_grand_kh - $data->total_price_kh;
 
-        if(round($data->total_price*(10 / 100),2) != $data->vat){
-            $data->vat_kh = $data->vat *$data->exchange_rate;
+        if (round($data->total_price * (10 / 100), 2) != $data->vat) {
+            $data->vat_kh = $data->vat * $data->exchange_rate;
             $data->total_price_kh = $data->total_price * $data->exchange_rate;
         }
 
@@ -433,12 +434,12 @@ class WorkOrderInvoiceController extends Controller
         try {
             if ($res == "login_success") {
                 $data = $this->queryViewDetailInvoice($request->invoice_id);
-                $bankAccounts=BankAccount::where('status',1)->get();
+                $bankAccounts = BankAccount::where('status', 1)->get();
                 $data->dataCustomer = $data?->data_customer ? (object) json_decode($data?->data_customer) : $data?->customer;
                 $project = $data?->order?->project;
                 $configDMCPath = (object) config('dmc-file-manager.submitPathFolder');
                 $invoiceNumber = $data->deleted_at ? $data->invoice_number . '_Void' : $data->invoice_number;
-                
+
                 $issueDate = Carbon::parse($data->issue_date)->format('Ymd');
                 //generateFilePathAndNameFile
                 $fileObject = $this->makeDirWthNotExit($invoiceNumber, $issueDate);
@@ -460,7 +461,7 @@ class WorkOrderInvoiceController extends Controller
                     $typeView = "sale";
                 }
                 $htmlView = $this->layout . 'detail.generateFileSendDMC.' . $typeView;
-                $pdf = Pdf::loadView($htmlView, compact('data','bankAccounts'));
+                $pdf = Pdf::loadView($htmlView, compact('data', 'bankAccounts'));
                 if ($data->deleted_at) {
                     $pdf->mpdf->setWatermarkText('VOID');
                     $pdf->mpdf->showWatermarkText = true;
@@ -491,7 +492,8 @@ class WorkOrderInvoiceController extends Controller
                         ];
                         HistoryDmcSendFile::create($docItem);
                         WorkOrderInvoice::withTrashed()->find($request->invoice_id)->update([
-                            'doc_status' => $request->typeBtnStatus == 'void' ? 'is_void' : 'is_send'
+                            'doc_status' => $request->typeBtnStatus == 'void' ? 'is_void' : 'is_send',
+                            'status' => 1,
                         ]);
                         //sendMail
                         //$this->sendMail($fileObject->path_file_url);
@@ -584,5 +586,54 @@ class WorkOrderInvoiceController extends Controller
     {
         $services = FTTHService::where('status', 1)->orderByDesc('id')->get();
         return response()->json($services);
+    }
+
+    public function onCopyInvoiceLastMonth()
+    {
+        $exchangeRate =  DB::table('rates')->first()->rate;
+        DB::beginTransaction();
+        try {
+            $start = Carbon::now()->subMonthNoOverflow()->startOfMonth();
+            $end = Carbon::now()->subMonthNoOverflow()->endOfMonth();
+
+            $getInvoiceLastMonth = WorkOrderInvoice::where('issue_date', '>=', $start)
+                ->where('issue_date', '<=', $end)
+                ->with('invoiceDetail')
+                ->get();
+            foreach ($getInvoiceLastMonth as $invoice) {
+                $newInvoice = $invoice->replicate();
+
+                $newInvoice->issue_date = Carbon::parse($invoice->issue_date)->addMonthNoOverflow();
+                $newInvoice->period_start = Carbon::parse($invoice->period_start)->addMonthNoOverflow();
+                $newInvoice->period_end = Carbon::parse($invoice->period_end)->addMonthNoOverflow();
+
+                $newInvoice->status = 7;
+                $newInvoice->paid_status = 'Pending';
+                $newInvoice->doc_status = null;
+                if ($exchangeRate) {
+                    $newInvoice->exchange_rate = $exchangeRate;
+                }
+                $newInvoice->created_at = now();
+                $newInvoice->updated_at = now();
+                $newInvoice->save();
+
+                // 🔁 Duplicate each invoice detail
+                foreach ($invoice->invoiceDetail as $detail) {
+                    $newDetail = $detail->replicate();
+                    $newDetail->invoice_id = $newInvoice->id;
+                    $newDetail->created_at = now();
+                    $newDetail->updated_at = now();
+                    $newDetail->save();
+                }
+            }
+
+            DB::commit();
+            Session::flash('success', 'Copy success');
+            return redirect()->back();
+        } catch (Exception $error) {
+            DB::rollback();
+            Session::flash('warning', 'Copy failed!');
+            return redirect()->back();
+        }
     }
 }

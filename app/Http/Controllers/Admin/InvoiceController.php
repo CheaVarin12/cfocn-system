@@ -300,7 +300,7 @@ class InvoiceController extends Controller
                 $data = Invoice::create($invoices);
                 foreach ($purchaseDetails as $item) {
                     $detail = [
-                        'purchase_id'=> $item?->purchase_id?->value,
+                        'purchase_id' => $item?->purchase_id?->value,
                         'invoice_id' => $data->id,
                         'service_id' => $item?->service_id?->value,
                         'des' => $item?->des?->value,
@@ -417,11 +417,11 @@ class InvoiceController extends Controller
         $data->total_price_kh = $data->total_grand_kh / 1.1;
         $data->vat_kh = $data->total_grand_kh - $data->total_price_kh;
 
-        if(round($data->total_price*(10 / 100),2) != $data->vat){
-            $data->vat_kh = $data->vat *$data->exchange_rate;
+        if (round($data->total_price * (10 / 100), 2) != $data->vat) {
+            $data->vat_kh = $data->vat * $data->exchange_rate;
             $data->total_price_kh = $data->total_price * $data->exchange_rate;
         }
-        
+
 
         if (isset($data->invoiceDetail) && count($data->invoiceDetail) > 0) {
             foreach ($data->invoiceDetail as $item) {
@@ -604,7 +604,8 @@ class InvoiceController extends Controller
                         ];
                         HistoryDmcSendFile::create($docItem);
                         Invoice::withTrashed()->find($request->invoice_id)->update([
-                            'doc_status' => $request->typeBtnStatus == 'void' ? 'is_void' : 'is_send'
+                            'doc_status' => $request->typeBtnStatus == 'void' ? 'is_void' : 'is_send',
+                            'status' => 1,
                         ]);
                         //sendMail
                         //$this->sendMail($fileObject->path_file_url);
@@ -690,6 +691,72 @@ class InvoiceController extends Controller
             DB::rollback();
             Session::flash('warning', 'Delete unsuccess!');
             return response()->json('unsuccess');
+        }
+    }
+
+    public function onCopyInvoiceLastMonth()
+    {
+        $exchangeRate =  DB::table('rates')->first()->rate;
+        DB::beginTransaction();
+        try {
+            $start = Carbon::now()->subMonthNoOverflow()->startOfMonth();
+            $end = Carbon::now()->subMonthNoOverflow()->endOfMonth();
+
+            $getInvoiceLastMonth = Invoice::where('issue_date', '>=', $start)
+                ->where('issue_date', '<=', $end)
+                ->whereHas('purchase', function ($q) {
+                    $q->where('type_id', '!=', 12);
+                })
+                ->where(function ($query) {
+                    $query->whereHas('purchase', function ($q) {
+                        $q->where('type_id', 2);
+                    })
+                        ->whereColumn('charge_number', '>', 'install_number')
+                        ->orWhereHas('purchase', function ($q) {
+                            $q->where('type_id', '!=', 2);
+                        });
+                })
+                ->with('invoiceDetail')
+                ->get();
+
+            foreach ($getInvoiceLastMonth as $invoice) {
+                $newInvoice = $invoice->replicate();
+
+                $newInvoice->issue_date = Carbon::parse($invoice->issue_date)->addMonthNoOverflow();
+                $newInvoice->period_start = Carbon::parse($invoice->period_start)->addMonthNoOverflow();
+                $newInvoice->period_end = Carbon::parse($invoice->period_end)->addMonthNoOverflow();
+
+                $newInvoice->status = 7;
+                $newInvoice->paid_status = 'Pending';
+                $newInvoice->doc_status = null;
+                if ($exchangeRate) {
+                    $newInvoice->exchange_rate = $exchangeRate;
+                }
+                if ($invoice?->purchase?->type_id == 2) {
+                    $newInvoice->install_number = $invoice->install_number + 1;
+                }
+
+                $newInvoice->created_at = now();
+                $newInvoice->updated_at = now();
+                $newInvoice->save();
+
+                // 🔁 Duplicate each invoice detail
+                foreach ($invoice->invoiceDetail as $detail) {
+                    $newDetail = $detail->replicate();
+                    $newDetail->invoice_id = $newInvoice->id;
+                    $newDetail->created_at = now();
+                    $newDetail->updated_at = now();
+                    $newDetail->save();
+                }
+            }
+
+            DB::commit();
+            Session::flash('success', 'Copy success');
+            return redirect()->back();
+        } catch (Exception $error) {
+            DB::rollback();
+            Session::flash('warning', 'Copy failed!');
+            return redirect()->back();
         }
     }
 }

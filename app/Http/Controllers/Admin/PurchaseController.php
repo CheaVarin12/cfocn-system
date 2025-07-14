@@ -292,16 +292,16 @@ class PurchaseController extends Controller
         $invoices = $req->all();
         $invoices['user_id'] = Auth::user()->id;
         $invoices['data_customer'] = $this->dataCustomerEncode($req->customer_id);
-        if($req->check_multiple_pac != null){
+        if ($req->check_multiple_pac != null) {
             $new_multiple_po_id = array_map(function ($item) {
                 return $item['_id'];
             }, $req->multiple_po_id);
-           $invoices['multiple_po_id'] = json_encode($new_multiple_po_id);  
+            $invoices['multiple_po_id'] = json_encode($new_multiple_po_id);
 
-           $new_po_number = array_merge(...array_map(function ($item) {
-            return explode(',', $item);
-        }, $req->po_number));
-          $invoices['po_number']= implode(',', $new_po_number);
+            $new_po_number = array_merge(...array_map(function ($item) {
+                return explode(',', $item);
+            }, $req->po_number));
+            $invoices['po_number'] = implode(',', $new_po_number);
         }
         $dateValid = checkValidate($req->issue_date);
         DB::beginTransaction();
@@ -311,7 +311,7 @@ class PurchaseController extends Controller
                 $data = Invoice::create($invoices);
                 foreach ($purchaseDetails as $item) {
                     $detail = [
-                        'purchase_id'=> $item->purchase_id,
+                        'purchase_id' => $item->purchase_id,
                         'invoice_id' => $data->id,
                         'service_id' => $item->service_id,
                         'des' => $item->des,
@@ -419,26 +419,26 @@ class PurchaseController extends Controller
             Log::error("Error: Admin/PurchaseController > exportExcel | message: " . $error->getMessage());
         }
     }
-public function onUpdateStatus($id, $status)
-{
-    Log::info("Start: Admin/PurchaseController > onUpdateStatus | admin: ");
-    $statusGet = 'Enable';
-    DB::beginTransaction();
-    try {
-        $data = Purchase::find($id);
-        $data->update(['status' => $status]);
-        if ($status !== '1') {
-            $statusGet = 'Disable';
+    public function onUpdateStatus($id, $status)
+    {
+        Log::info("Start: Admin/PurchaseController > onUpdateStatus | admin: ");
+        $statusGet = 'Enable';
+        DB::beginTransaction();
+        try {
+            $data = Purchase::find($id);
+            $data->update(['status' => $status]);
+            if ($status !== '1') {
+                $statusGet = 'Disable';
+            }
+            DB::commit();
+            Session::flash('success', $statusGet);
+            return redirect()->back();
+        } catch (Exception $error) {
+            DB::rollback();
+            Log::error("Error: Admin/PurchaseController > onUpdateStatus | message: " . $error->getMessage());
+            return redirect()->back();
         }
-        DB::commit();
-        Session::flash('success', $statusGet);
-        return redirect()->back();
-    } catch (Exception $error) {
-        DB::rollback();
-        Log::error("Error: Admin/PurchaseController > onUpdateStatus | message: " . $error->getMessage());
-        return redirect()->back();
     }
-}
 
 
     //document

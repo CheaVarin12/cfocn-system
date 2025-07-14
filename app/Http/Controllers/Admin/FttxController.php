@@ -48,7 +48,7 @@ class FttxController extends Controller
             $status = $req->status && request('status') != 'all' ? explode(",", $req->status) : '';
             $today = Carbon::now()->format('d-M-Y');
 
-            $baseQuery = Fttx::with('customer')->when(filled(request('search')), function ($q) {
+            $baseQuery = Fttx::with('customer','fttxDetail')->when(filled(request('search')), function ($q) {
                 $q->where(function ($q) {
                     $q->where('work_order_isp', 'like', '%' . request('search') . '%');
                     $q->orWhere('work_order_cfocn', 'like', '%' . request('search') . '%');
@@ -112,6 +112,8 @@ class FttxController extends Controller
                 });
             } else {
                 $data['data'] = $baseQuery->paginate(100)->through(function ($item) {
+                    $item->total_amount_from_start = !empty($item->fttxDetail) ? $item->fttxDetail->sum('total_amount') : 0;
+                 
                     $item->total_calculate = in_array($item->status, [1, 4, 5]) ? Round($item->new_installation_fee + $item->fiber_jumper_fee + $item->digging_fee + (($item->rental_price + $item->ppcc + $item->rental_pole) * $item->first_payment_period) + $item->other_fee - $item->discount, 2) : $item->total;
 
                     return $item;
