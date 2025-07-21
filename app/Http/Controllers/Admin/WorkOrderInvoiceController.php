@@ -636,4 +636,69 @@ class WorkOrderInvoiceController extends Controller
             return redirect()->back();
         }
     }
+
+    public function onCopyInvoiceLastMonthSelected(Request $req)
+    {
+        $exchangeRate = DB::table('rates')->first()->rate;
+
+        DB::beginTransaction();
+
+        try {
+            $invoiceQuery = WorkOrderInvoice::query();
+
+            // ✅ Use selected IDs if provided
+            if ($req->has('ids') && is_array($req->ids)) {
+                $invoiceQuery->whereIn('id', $req->ids);
+            } else {
+                $start = Carbon::now()->subMonthNoOverflow()->startOfMonth();
+                $end = Carbon::now()->subMonthNoOverflow()->endOfMonth();
+
+                // ✅ Manual where conditions instead of whereBetween
+                $invoiceQuery
+                    ->where('issue_date', '>=', $start)
+                    ->where('issue_date', '<=', $end);
+            }
+
+            $invoices = $invoiceQuery->with('invoiceDetail')->get();
+
+            foreach ($invoices as $invoice) {
+                $newInvoice = $invoice->replicate();
+
+                $newInvoice->issue_date = Carbon::parse($invoice->issue_date)->addMonthNoOverflow();
+                $newInvoice->period_start = Carbon::parse($invoice->period_start)->addMonthNoOverflow();
+                $newInvoice->period_end = Carbon::parse($invoice->period_end)->addMonthNoOverflow();
+
+                $newInvoice->status = 7;
+                $newInvoice->paid_status = 'Pending';
+                $newInvoice->doc_status = null;
+
+                if ($exchangeRate) {
+                    $newInvoice->exchange_rate = $exchangeRate;
+                }
+
+                $newInvoice->created_at = now();
+                $newInvoice->updated_at = now();
+                $newInvoice->save();
+
+                foreach ($invoice->invoiceDetail as $detail) {
+                    $newDetail = $detail->replicate();
+                    $newDetail->invoice_id = $newInvoice->id;
+                    $newDetail->created_at = now();
+                    $newDetail->updated_at = now();
+                    $newDetail->save();
+                }
+            }
+
+            DB::commit();
+
+            return response()->json(['status' => 'success']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Copy failed!',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

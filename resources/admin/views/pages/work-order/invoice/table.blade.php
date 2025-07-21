@@ -2,7 +2,11 @@
     @if ($data->count() > 0)
         <div class="table-wrapper">
             <div class="table-header">
-                <div class="row table-row-5">
+                <div class="row table-row-3" style="text-align: left;">
+                    <span x-show="status != 7"><input style="width: 18px;height:18px;" type="checkbox"
+                            @change="selectAll($event)"></span>
+                </div>
+                <div class="row table-row-5 text-start">
                     <span>Nº</span>
                 </div>
                 <div class="row table-row-10 text-start">
@@ -11,7 +15,7 @@
                 <div class="row table-row-10">
                     <span>Invoice Number</span>
                 </div>
-                <div class="row table-row-18 text-start">
+                <div class="row table-row-15 text-start">
                     <span>Customer Name</span>
                 </div>
                 <div class="row table-row-10 text-start">
@@ -39,7 +43,13 @@
             <div class="table-body">
                 @foreach ($data as $index => $item)
                     <div class="column heightAutos">
-                        <div class="row table-row-5">
+                        <div class="row table-row-3 text-start" style="text-align: left;">
+                            <span x-show="status != 7"><input type="checkbox"
+                                    :checked="selectedInvoices.includes({{ $item->id }})"
+                                    @change="toggleSelection({{ $item->id }})"
+                                    style="width: 18px;height:18px;"></span>
+                        </div>
+                        <div class="row table-row-5 text-start">
                             <span>{!! $data->currentPage() * $data->perPage() - $data->perPage() + ($index + 1) !!}</span>
                         </div>
                         <div class="row table-row-10 text-start">
@@ -49,7 +59,7 @@
                             <span>{!! $item->invoice_number ? $item->invoice_number : '--' !!}</span>
                         </div>
 
-                        <div class="row table-row-18 text-start">
+                        <div class="row table-row-15 text-start">
                             <span>
                                 {!! $item?->data_customer ? json_decode($item->data_customer)->name_en : $item?->customer?->name_en !!}
                             </span>

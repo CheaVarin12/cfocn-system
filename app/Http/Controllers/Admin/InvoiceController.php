@@ -255,6 +255,7 @@ class InvoiceController extends Controller
         $dataCustomer = $req->data_customer ? $req->data_customer : $this->dataCustomerEncode($req->customer_id);
         $invoices['data_customer'] = $dataCustomer;
         $invoices['user_id'] = Auth::user()->id;
+        $invoices['status'] = 7;
         DB::beginTransaction();
         try {
             $status = "Copy success.";
@@ -292,6 +293,7 @@ class InvoiceController extends Controller
         $invoices = $req->all();
         $invoices['user_id'] = Auth::user()->id;
         $invoices['data_customer'] = $this->dataCustomerEncode($req->customer_id);
+        $invoices['status'] = 7;
         $dateValid = checkValidate($req->issue_date);
         DB::beginTransaction();
         try {
@@ -694,7 +696,7 @@ class InvoiceController extends Controller
         }
     }
 
-    public function onCopyInvoiceLastMonth()
+    public function onCopyInvoiceLastMonth(Request $req)
     {
         $exchangeRate =  DB::table('rates')->first()->rate;
         DB::beginTransaction();
@@ -757,6 +759,63 @@ class InvoiceController extends Controller
             DB::rollback();
             Session::flash('warning', 'Copy failed!');
             return redirect()->back();
+        }
+    }
+
+    public function onCopyInvoiceLastMonthSelected(Request $req)
+    {
+        $exchangeRate = DB::table('rates')->first()->rate;
+
+        DB::beginTransaction();
+
+        try {
+            $invoiceQuery = Invoice::query();
+
+            if ($req->has('ids') && is_array($req->ids)) {
+                $invoiceQuery->whereIn('id', $req->ids);
+            } else {
+                $start = Carbon::now()->subMonthNoOverflow()->startOfMonth();
+                $end = Carbon::now()->subMonthNoOverflow()->endOfMonth();
+
+                $invoiceQuery->whereBetween('issue_date', [$start, $end])
+                    ->whereHas('purchase', fn($q) => $q->where('type_id', '!=', 12))
+                    ->where(function ($query) {
+                        $query->whereHas('purchase', fn($q) => $q->where('type_id', 2))
+                            ->whereColumn('charge_number', '>', 'install_number')
+                            ->orWhereHas('purchase', fn($q) => $q->where('type_id', '!=', 2));
+                    });
+            }
+
+            $invoices = $invoiceQuery->with('invoiceDetail')->get();
+
+            foreach ($invoices as $invoice) {
+                $newInvoice = $invoice->replicate();
+
+                $newInvoice->issue_date = Carbon::parse($invoice->issue_date)->addMonthNoOverflow();
+                $newInvoice->period_start = Carbon::parse($invoice->period_start)->addMonthNoOverflow();
+                $newInvoice->period_end = Carbon::parse($invoice->period_end)->addMonthNoOverflow();
+                $newInvoice->status = 7;
+                $newInvoice->paid_status = 'Pending';
+                $newInvoice->doc_status = null;
+                $newInvoice->exchange_rate = $exchangeRate;
+                if ($invoice->purchase?->type_id == 2) {
+                    $newInvoice->install_number = $invoice->install_number + 1;
+                }
+                $newInvoice->save();
+
+                foreach ($invoice->invoiceDetail as $detail) {
+                    $newDetail = $detail->replicate();
+                    $newDetail->invoice_id = $newInvoice->id;
+                    $newDetail->save();
+                }
+            }
+
+            DB::commit();
+
+            return response()->json(['status' => 'success']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['status' => 'error', 'message' => 'Copy failed!'], 500);
         }
     }
 }

@@ -229,6 +229,7 @@ Route::middleware(['AdminGuard'])
             Route::post('/save-create', [InvoiceController::class, 'onSaveCreate'])->name('save-create');
 
             Route::get('/copy-invoice-last-month', [InvoiceController::class, 'onCopyInvoiceLastMonth'])->name('copy-invoice-last-month');
+            Route::post('/copy-invoice-last-month-selected', [InvoiceController::class, 'onCopyInvoiceLastMonthSelected'])->name('copy-invoice-last-month-selected');
         });
 
         // PO
@@ -363,6 +364,7 @@ Route::middleware(['AdminGuard'])
                 //Fetch FTTH Service
                 Route::get('fetch-ftth-service', [WorkOrderInvoiceController::class, 'fetchFTTHService'])->name('fetch-ftth-service');
                 Route::get('/copy-invoice-last-month', [WorkOrderInvoiceController::class, 'onCopyInvoiceLastMonth'])->name('copy-invoice-last-month');
+                Route::post('/copy-invoice-last-month-selected', [WorkOrderInvoiceController::class, 'onCopyInvoiceLastMonthSelected'])->name('copy-invoice-last-month-selected');
             });
 
             //Receipt 

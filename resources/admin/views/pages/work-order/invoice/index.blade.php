@@ -12,8 +12,8 @@
                             Un Paid</div>
                         <div class="menu-item {!! Request::is('admin/work-order/invoice/list/3') ? 'active' : '' !!}" s-click-link="{!! route('admin-work-order-invoice-list', 3) !!}">
                             Void</div>
-                        <div class="menu-item {!! Request::is('admin/work-order/invoice/list/5') ? 'active' : '' !!}" s-click-link="{!! route('admin-work-order-invoice-list', 5) !!}">
-                            Auto</div>
+                        {{-- <div class="menu-item {!! Request::is('admin/work-order/invoice/list/5') ? 'active' : '' !!}" s-click-link="{!! route('admin-work-order-invoice-list', 5) !!}">
+                            Auto</div> --}}
                         <div class="menu-item {!! Request::is('admin/work-order/invoice/list/7') ? 'active' : '' !!}" s-click-link="{!! route('admin-work-order-invoice-list', 7) !!}">
                             Copy</div>
                     </div>
@@ -56,9 +56,10 @@
                             <i data-feather="search"></i>
                         </button>
                     </form>
-                    <a class="ms-1 px-2 pt-1 "
-                        style="width: 140px;color:white;background-color:#024de3;border-radius: 5px;height: 35px;cursor: pointer;text-align: center;"
-                        onclick="$onConfirmMessage(
+                    <template x-if="selectedInvoices.length == 0 && status !=7">
+                        <a class="ms-1 px-2 pt-1 "
+                            style="width: 102px;color:white;background-color:#024de3;border-radius: 5px;height: 35px;cursor: pointer;text-align: center;"
+                            onclick="$onConfirmMessage(
                                 '{!! route('admin-work-order-invoice-copy-invoice-last-month') !!}',
                                   '@lang('Are you sure you want to copy invoices from last month ?')',
                                     {
@@ -66,9 +67,16 @@
                                      cancel: '@lang('dialog.button.cancel')'
                                                                 },
                                 );">
-                        <i style="width: 15px;height:15px;" data-feather="copy"></i>
-                        <span style="font-size:13px">Copy Invoice</span>
-                    </a>
+                            <span style="font-size:13px">Copy Invoice</span>
+                        </a>
+                    </template>
+                    <template x-if="selectedInvoices && selectedInvoices.length > 0 && status !=7">
+                        <button class="ms-1 px-2 pt-1"
+                            style="width: 106px;color:white;background-color:#024de3;border-radius: 5px;height: 35px;cursor: pointer;text-align: center;"
+                            @click="copySelectedInvoices">
+                            <span style="font-size:13px;margin-top: -3px;">Copy Selected</span>
+                        </button>
+                    </template>
                     <button s-click-link="{!! url()->current() !!}" class="minWithAuto">
                         <i data-feather="refresh-ccw"></i>
                     </button>
@@ -112,7 +120,13 @@
     </script>
     <script>
         Alpine.data('XData', () => ({
-            init() {},
+            selectedInvoices: [],
+            status: null,
+            init() {
+                feather.replace();
+                this.status = `{{ request('status') }}`;
+
+            },
             copyInvoiceDialog(data) {
                 if (data?.order?.type_id != 2) {
                     copyInvoiceCreate({
@@ -217,6 +231,55 @@
             invoiceVoidDialog(data) {
                 console.log(data);
             },
+            toggleSelection(id) {
+                const index = this.selectedInvoices.indexOf(id);
+                if (index > -1) {
+                    this.selectedInvoices.splice(index, 1);
+                } else {
+                    this.selectedInvoices.push(id);
+                }
+            },
+            selectAll($event) {
+                if ($event.target.checked) {
+                    this.selectedInvoices = @json($data->pluck('id')); // Laravel collection of IDs
+                } else {
+                    this.selectedInvoices = [];
+                }
+            },
+            copySelectedInvoices() {
+                this.$store.confirmDialog.open({
+                    data: {
+                        title: "Copy Invoices",
+                        message: "Are you sure you want to copy the selected invoices?",
+                        btnClose: "Cancel",
+                        btnSave: "Yes",
+                    },
+                    afterClosed: (result) => {
+                        if (result) {
+                            Axios.post(`{!! route('admin-work-order-invoice-copy-invoice-last-month-selected') !!}`, {
+                                    ids: this.selectedInvoices
+                                })
+                                .then(res => {
+                                    if (res.data?.status === 'success') {
+                                        Toast({
+                                            title: 'Copied!',
+                                            message: 'Invoices copied successfully.',
+                                            status: 'success',
+                                            size: 'small',
+                                            duration: 4000,
+                                        });
+                                        reloadUrl(`{!! url()->full() !!}`);
+                                    } else {
+                                        alert('Something went wrong!');
+                                    }
+                                })
+                                .catch(err => {
+                                    console.error('Copy failed:', err);
+                                });
+                        }
+                    }
+                });
+            }
         }));
     </script>
 @stop
