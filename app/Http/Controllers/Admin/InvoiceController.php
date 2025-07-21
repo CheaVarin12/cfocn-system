@@ -777,7 +777,7 @@ class InvoiceController extends Controller
                 $start = Carbon::now()->subMonthNoOverflow()->startOfMonth();
                 $end = Carbon::now()->subMonthNoOverflow()->endOfMonth();
 
-                $invoiceQuery->whereBetween('issue_date', [$start, $end])
+                $invoiceQuery
                     ->whereHas('purchase', fn($q) => $q->where('type_id', '!=', 12))
                     ->where(function ($query) {
                         $query->whereHas('purchase', fn($q) => $q->where('type_id', 2))

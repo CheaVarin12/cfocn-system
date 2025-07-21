@@ -652,11 +652,6 @@ class WorkOrderInvoiceController extends Controller
             } else {
                 $start = Carbon::now()->subMonthNoOverflow()->startOfMonth();
                 $end = Carbon::now()->subMonthNoOverflow()->endOfMonth();
-
-                // ✅ Manual where conditions instead of whereBetween
-                $invoiceQuery
-                    ->where('issue_date', '>=', $start)
-                    ->where('issue_date', '<=', $end);
             }
 
             $invoices = $invoiceQuery->with('invoiceDetail')->get();
