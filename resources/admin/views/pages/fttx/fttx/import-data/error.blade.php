@@ -54,6 +54,8 @@
                                                             <span x-text="item.valid_reactive_payment_period"></span>
                                                             <span
                                                                 x-text="item.check_validate_first_payment_period"></span>
+                                                            <span
+                                                                x-text="item.reactive_need_dismantle_date"></span>
                                                         </td>
                                                     </tr>
                                                 </template>

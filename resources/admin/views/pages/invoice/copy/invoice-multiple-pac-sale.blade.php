@@ -126,6 +126,16 @@
                                         </div>
                                     </template>
                                 </div>
+                                <div class="form-row">
+                                    <label>Duration (Number of month)</label>
+                                    <input type="number" name="duration" x-model="duration"
+                                        placeholder="Enter duration" min="0">
+                                    <template x-for="item in dataError?.duration">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
 
                             {{-- New --}}
@@ -468,7 +478,7 @@
         invoice_number: null,
         note: null,
         remark: null,
-        status:null,
+        status: null,
         dataError: [],
         install_number: null,
         issue_date: null,
@@ -483,6 +493,7 @@
         child_invoice: [],
         tax_status: null,
         is_advance: null,
+        duration: 1,
         multiple_po_id: null,
         taxOptions: @json(config('dummy.tax_status')),
         dataForm: [{
@@ -555,6 +566,7 @@
                         this.tax_status = res?.invoice?.tax_status ? res?.invoice
                             ?.tax_status : res?.invoice?.vat > 0 ? 1 : 2;
                         this.is_advance = res?.invoice?.is_advance;
+                        this.duration = res?.invoice?.duration;
                         this.po_number = res?.invoice?.po_number ?? res?.invoice
                             ?.purchase?.po_number;
                         this.exchange_rate = @json($rate) ?
@@ -878,6 +890,7 @@
                                                     .child_invoice) : [],
                                             tax_status: this.tax_status,
                                             is_advance: this.is_advance,
+                                            duration: this.duration,
                                             multiple_po_id: this
                                                 .multiple_po_id,
                                         };

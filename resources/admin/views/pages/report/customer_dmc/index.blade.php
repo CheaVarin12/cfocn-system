@@ -33,10 +33,10 @@
                         <button mat-flat-button type="submit" class="btn-create bg-primary minWithAuto">
                             <i data-feather="search"></i>
                         </button>
-                        <button type="button" class="btn-create bg-info" @click="importCustomerDialog()">
+                        {{-- <button type="button" class="btn-create bg-info" @click="importCustomerDialog()">
                             <i data-feather="arrow-up-circle"></i>
                             <span>Import Excel</span>
-                        </button>
+                        </button> --}}
                         @can('report-customer-view')
                             <button type="submit" class="btn-create bg-success" @click=" check = 'export'">
                                 <i data-feather="arrow-down-circle"></i>

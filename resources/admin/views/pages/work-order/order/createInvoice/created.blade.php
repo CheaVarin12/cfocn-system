@@ -89,6 +89,16 @@
                                         </div>
                                     </template>
                                 </div>
+                                <div class="form-row">
+                                    <label>Duration (Number of month)</label>
+                                    <input type="number" name="duration" x-model="duration"
+                                        placeholder="Enter duration" min="0">
+                                    <template x-for="item in dataError?.duration">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
                             {{-- New --}}
                             <div class="row" style="margin-top:20px;">
@@ -344,7 +354,8 @@
         dataError: [],
         data: null,
         tax_status: 1,
-        is_advance:0,
+        is_advance: 0,
+        duration: 1,
         taxOptions: @json(config('dummy.tax_status')),
         async init() {
             this.submitLoading = true;
@@ -459,7 +470,7 @@
             let vatDollar = el.value;
             this.vat.khmer = this.numberRound(Number(vatDollar) * Number(this.exchang_rate));
             this.grand_total.dollar = this.numberRound(Number(this.sub_total.dollar) + Number(vatDollar),
-            2);
+                2);
             this.grand_total.khmer = this.numberRound(Number(this.grand_total.dollar) * Number(this
                 .exchang_rate));
         },
@@ -504,6 +515,7 @@
                                 this.list_order_details) : [],
                             tax_status: this.tax_status,
                             is_advance: this.is_advance,
+                            duration: this.duration,
                         };
                         setTimeout(async () => {
                             await Axios({

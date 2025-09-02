@@ -132,6 +132,16 @@
                                         </div>
                                     </template>
                                 </div>
+                                <div class="form-row">
+                                    <label>Duration (Number of month)</label>
+                                    <input type="number" name="duration" x-model="duration"
+                                        placeholder="Enter duration" min="0">
+                                    <template x-for="item in dataError?.duration">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
 
                             {{-- New --}}
@@ -473,6 +483,7 @@
         po_number: null,
         tax_status: null,
         is_advance: null,
+        duration:1,
         taxOptions: @json(config('dummy.tax_status')),
         dataForm: [{
             id: Number(moment().format('YYYYMMDDHHmmss')),
@@ -538,6 +549,7 @@
                             ?.purchase?.po_number;
                         this.tax_status = res?.invoice?.tax_status;
                         this.is_advance = res?.invoice?.is_advance;
+                         this.duration = res?.invoice?.duration;
                         this.exchang_rate = res?.invoice?.exchange_rate ?? res
                             .rate
                             ?.rate;
@@ -897,6 +909,7 @@
                                         .invoice_detail_arr_id,
                                     tax_status: this.tax_status,
                                     is_advance: this.is_advance,
+                                    duration: this.duration,
                                 };
                                 setTimeout(() => {
                                     Axios({

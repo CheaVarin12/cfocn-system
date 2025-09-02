@@ -122,6 +122,18 @@
                                     </template>
                                 </div>
                             </div>
+                            <div class="row-2">
+                                <div class="form-row">
+                                    <label>Duration (Number of month)</label>
+                                    <input type="number" name="duration" x-model="duration"
+                                        placeholder="Enter duration" min="0">
+                                    <template x-for="item in dataError?.duration">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
 
                             {{-- New --}}
                             <div class="row">
@@ -429,7 +441,7 @@
         invoice_number: null,
         note: null,
         remark: null,
-        status:null,
+        status: null,
         dataError: [],
         install_number: null,
         issue_date: null,
@@ -440,6 +452,7 @@
         formDisable: false,
         tax_status: 1,
         is_advance: null,
+        duration: 1,
         taxOptions: @json(config('dummy.tax_status')),
         dataForm: [{
             id: Number(moment().format('YYYYMMDDHHmmss')),
@@ -493,6 +506,7 @@
                         this.tax_status = res?.invoice?.tax_status ? res?.invoice
                             ?.tax_status : res?.invoice?.vat > 0 ? 1 : 2;
                         this.is_advance = res?.invoice?.is_advance;
+                        this.duration = res?.invoice?.duration;
                         this.charge_number = res?.invoice?.charge_number;
                         this.charge_type = res?.invoice?.charge_type;
                         this.invoice_number = res?.invoice?.invoice_number;
@@ -730,6 +744,7 @@
                                                 [],
                                             tax_status: this.tax_status,
                                             is_advance: this.is_advance,
+                                            duration: this.duration,
                                         };
                                         setTimeout(() => {
                                             Axios({

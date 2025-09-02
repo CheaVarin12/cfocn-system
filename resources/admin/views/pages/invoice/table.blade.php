@@ -3,7 +3,7 @@
         <div class="table-wrapper">
             <div class="table-header">
                 <div class="row table-row-3" style="text-align: left;">
-                    <span x-show="status != 7"><input style="width: 18px;height:18px;" type="checkbox" @change="selectAll($event)"></span>
+                    <span ><input style="width: 18px;height:18px;" type="checkbox" @change="selectAll($event)"></span>
                 </div>
                 <div class="row table-row-5 text-start">
                     <span>Nº</span>
@@ -43,7 +43,7 @@
                 @foreach ($data as $index => $item)
                     <div class="column heightAuto">
                         <div class="row table-row-3 text-start" style="text-align: left;">
-                            <span x-show="status != 7"><input type="checkbox" :checked="selectedInvoices.includes({{ $item->id }})"
+                            <span  ><input type="checkbox" :checked="selectedInvoices.includes({{ $item->id }})"
                                     @change="toggleSelection({{ $item->id }})"
                                     style="width: 18px;height:18px;"></span>
                         </div>

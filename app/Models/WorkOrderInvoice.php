@@ -37,6 +37,7 @@ class WorkOrderInvoice extends Model
         'user_id',
         'tax_status',
         'is_advance',
+        'duration',
     ];
 
     protected $casts = [

@@ -93,6 +93,16 @@
                                         </div>
                                     </template>
                                 </div>
+                                <div class="form-row">
+                                    <label>Duration (Number of month)</label>
+                                    <input type="number" name="duration" x-model="duration"
+                                        placeholder="Enter duration" min="0">
+                                    <template x-for="item in dataError?.duration">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
 
                             {{-- New --}}
@@ -395,6 +405,7 @@
         formDisable: false,
         tax_status: 1,
         is_advance: null,
+        duration: 1,
         taxOptions: @json(config('dummy.tax_status')),
         dataForm: [{
             id: Number(moment().format('YYYYMMDDHHmmss')),
@@ -448,6 +459,7 @@
                         this.tax_status = res?.invoice?.tax_status ? res?.invoice
                             ?.tax_status : res?.invoice?.vat > 0 ? 1 : 2;
                         this.is_advance = res?.invoice?.is_advance;
+                        this.duration = res?.invoice?.duration;
                         this.status = res?.invoice?.status;
                         this.charge_number = res?.invoice?.charge_number;
                         this.charge_type = res?.invoice?.charge_type;
@@ -662,6 +674,7 @@
                                         JSON.stringify(this.dataForm) : [],
                                     tax_status: this.tax_status,
                                     is_advance: this.is_advance,
+                                    duration: this.duration,
                                 };
                                 setTimeout(() => {
                                     Axios({

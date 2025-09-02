@@ -197,7 +197,6 @@ class FttxImport implements ToCollection, WithGroupedHeadingRow, WithCalculatedF
                 (!$isStatus3 && !$row['work_order_cfocn']) ||
                 ($isStatus3 && !$row['dismantle_date']) ||
                 ($isStatus4 && !$row['reactive_date']) ||
-                ($row['reactive_date'] && !$row['dismantle_date']) ||
                 ($isStatus4 && !$row['reactive_payment_period']) ||
                 ($row['reactive_date'] && !$row['reactive_payment_period']) ||
                 ($isStatus4 && $row['reactive_payment_period'] && !$reactivePeriod)  ||
@@ -247,7 +246,6 @@ class FttxImport implements ToCollection, WithGroupedHeadingRow, WithCalculatedF
                     'change_splitter_date' => ($lastFttx && $lastFttx->status == 2 && $row['status'] == 2 && !$row['change_splitter_date'] && $row['pos_speed_id'] != $lastFttx->pos_speed_id && $row['subscriber_no'] == $lastFttx->subscriber_no) || (isset($oldData) && $oldData && $oldData['status'] == 2 && $row['status'] == 2 && !$row['change_splitter_date'] && $row['pos_speed_id'] != $oldData['pos_speed_id'] && $row['subscriber_no'] == $oldData['subscriber_no']) ? 'Change splitter date is required ,' : '',
                     'reactive_payment_period' => ($isStatus4 && !$row['reactive_payment_period']) || ($row['reactive_date'] && !$row['reactive_payment_period']) ? 'Reactive payment period is required ,' : '',
                     'valid_reactive_payment_period' => ($isStatus4 && $row['reactive_payment_period'] && !$reactivePeriod) || ($isStatus2 && $row['reactive_date'] && $row['reactive_payment_period'] && !$reactivePeriod) ? 'Reactive payment period must be 1, 3 , 6 or 12' : '',
-                    'reactive_need_dismantle_date' => ($row['reactive_date'] && !$row['dismantle_date']) ? 'Dismantle date is required' : '',
                 ];
             }
             $oldData = $row;
@@ -744,21 +742,10 @@ class FttxImport implements ToCollection, WithGroupedHeadingRow, WithCalculatedF
                             ->first();
                     }
 
-                    if (!$getLastDismantleFttx) {
-                        $originalCompleted = Carbon::parse($data->completed_time);
-                        $dismantle = Carbon::parse($data->dismantle_date);
-                        $updatedCompleted = $originalCompleted->copy()->year($dismantle->year);
-                        if ($dismantle <=  $updatedCompleted) {
-                            $getStartNewCompleteDate =  $updatedCompleted;
-                        } elseif ($dismantle > $updatedCompleted) {
-                            $getStartNewCompleteDate = addMonth($getLastDismantleFttx->deadline, $this->countMonthsIncludePartial($updatedCompleted, $dismantle));
-                        }
-                    } else {
-                        if ($getLastDismantleFttx->dismantle_date <= $getLastDismantleFttx->deadline) {
-                            $getStartNewCompleteDate = $getLastDismantleFttx->deadline;
-                        } elseif ($getLastDismantleFttx->dismantle_date > $getLastDismantleFttx->deadline) {
-                            $getStartNewCompleteDate = addMonth($getLastDismantleFttx->deadline, $this->countMonthsIncludePartial($getLastDismantleFttx->deadline, $getLastDismantleFttx->dismantle_date));
-                        }
+                    if ($getLastDismantleFttx->dismantle_date <= $getLastDismantleFttx->deadline) {
+                        $getStartNewCompleteDate = $getLastDismantleFttx->deadline;
+                    } elseif ($getLastDismantleFttx->dismantle_date > $getLastDismantleFttx->deadline) {
+                        $getStartNewCompleteDate = addMonth($getLastDismantleFttx->deadline, $this->countMonthsIncludePartial($getLastDismantleFttx->deadline, $getLastDismantleFttx->dismantle_date));
                     }
                     $totalMonth = getNumberOfMonth($getStartNewCompleteDate, $data->deadline);
                     $detailDate = $getStartNewCompleteDate;
@@ -787,7 +774,7 @@ class FttxImport implements ToCollection, WithGroupedHeadingRow, WithCalculatedF
                                 'fttx_id'               => $data->id,
                                 'customer_id'           => $data->customer_id,
                                 'date'                  => $detailDate,
-                                'expiry_date'           => $getStartNewCompleteDate ? addMonth($getStartNewCompleteDate, $data->reactive_payment_period) : null,
+                                'expiry_date'           => $detailDate ? addMonth($detailDate, $data->reactive_payment_period) : null,
                                 'new_installation_fee'  => $samDate ? $data->new_installation_fee : null,
                                 'fiber_jumper_fee'      => $samDate ? $data->fiber_jumper_fee : null,
                                 'digging_fee'           => $samDate ? $data->digging_fee : null,

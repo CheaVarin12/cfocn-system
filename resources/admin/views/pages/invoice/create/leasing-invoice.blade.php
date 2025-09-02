@@ -177,6 +177,16 @@
                                         </div>
                                     </template>
                                 </div>
+                                <div class="form-row">
+                                    <label>Duration (Number of month)</label>
+                                    <input type="number" name="duration" x-model="duration"
+                                        placeholder="Enter duration" min="0">
+                                    <template x-for="item in dataError?.duration">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
 
                             {{-- New --}}
@@ -495,6 +505,7 @@
         child_invoice: [],
         tax_status: 1,
         is_advance: 0,
+        duration:1,
         taxOptions: @json(config('dummy.tax_status')),
         async init() {
             this.current_date = moment(new Date).format('DD MMM YYYY');
@@ -944,6 +955,7 @@
                                 .stringify(this.child_invoice) : [],
                             tax_status: this.tax_status,
                             is_advance: this.is_advance,
+                            duration: this.duration,
 
                         };
                         setTimeout(async () => {

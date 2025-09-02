@@ -76,7 +76,7 @@
                             <div class="row-3">
                                 <div class="form-row">
                                     <label>Other Fee</label>
-                                    <input type="number" x-model="formSubmitData.other_fee"
+                                    <input type="number" x-model="formSubmitData.other_fee" @input="getTotalPrice()"
                                         placeholder="Enter other fee">
                                     <template x-for="item in dataError?.other_fee">
                                         <div class="errorCenter">

@@ -116,10 +116,20 @@
                                 <div class="form-row">
                                     <label>Advance Status </label>
                                     <select name="is_advance" x-model="is_advance">
-                                       <option value="0">Not Advance</option>
+                                        <option value="0">Not Advance</option>
                                         <option value="1">Is Advance</option>
                                     </select>
                                     <template x-for="item in dataError?.is_advance">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="form-row">
+                                    <label>Duration (Number of month)</label>
+                                    <input type="number" name="duration" x-model="duration"
+                                        placeholder="Enter duration" min="0">
+                                    <template x-for="item in dataError?.duration">
                                         <div class="errorCenter">
                                             <span class="error" x-text="item">Error</span>
                                         </div>
@@ -407,7 +417,8 @@
         total_qty: 0,
         invoice_number: null,
         tax_status: 1,
-        is_advance:0,
+        is_advance: 0,
+        duration: 1,
         note: null,
         remark: null,
         dataError: [],
@@ -607,7 +618,8 @@
                             purchase_details: this.list_purchase_details.length ? JSON
                                 .stringify(this.list_purchase_details) : [],
                             tax_status: this.tax_status,
-                               is_advance: this.is_advance,
+                            is_advance: this.is_advance,
+                            duration: this.duration,
                         };
                         setTimeout(async () => {
                             await Axios({

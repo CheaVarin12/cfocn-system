@@ -164,6 +164,13 @@
                             </button>
                         </template>
                     @endcan
+                    @can('invoice-dmc-submit')
+                        <button class="ms-1 px-2 pt-1"
+                            style="width: 106px;color:white;background-color:#00b74a;border-radius: 5px;height: 35px;cursor: pointer;text-align: center;"
+                            @click="DMCSubmitMultipleInvoices">
+                            <span style="font-size:13px;margin-top: -3px;">Send to Dmc</span>
+                        </button>
+                    @endcan
                     <button s-click-link="{!! url()->current() !!}" class="minWithAuto">
                         <i data-feather="refresh-ccw"></i>
                     </button>
@@ -173,6 +180,9 @@
         <div class="content-body">
             @include('admin::pages.invoice.table')
         </div>
+        <template x-if="submitLoading">
+            @include('admin::components.spinner')
+        </template>
     </div>
     @include('admin::pages.invoice.copy.invoice-multiple-pac-leasing')
     @include('admin::pages.invoice.copy.invoice-multiple-pac-sale')
@@ -215,6 +225,7 @@
         Alpine.data('XData', () => ({
             selectedInvoices: [],
             status: null,
+            submitLoading: false,
             init() {
                 feather.replace();
                 this.status = `{{ request('status') }}`;
@@ -321,9 +332,7 @@
                     }
                 });
             },
-            invoiceVoidDialog(data) {
-                console.log(data);
-            },
+            invoiceVoidDialog(data) {},
             dropdownCreate() {
                 const dropdownMenu = document.querySelector('.dropdown-menu-create');
                 dropdownMenu.style.display =
@@ -382,6 +391,7 @@
                 }
             },
             copySelectedInvoices() {
+
                 this.$store.confirmDialog.open({
                     data: {
                         title: "Copy Invoices",
@@ -390,6 +400,7 @@
                         btnSave: "Yes",
                     },
                     afterClosed: (result) => {
+                        this.submitLoading = true;
                         if (result) {
                             Axios.post(`{!! route('admin-invoice-copy-invoice-last-month-selected') !!}`, {
                                     ids: this.selectedInvoices
@@ -407,10 +418,75 @@
                                     } else {
                                         alert('Something went wrong!');
                                     }
+                                    this.submitLoading = false;
                                 })
                                 .catch(err => {
+                                    this.submitLoading = false;
                                     console.error('Copy failed:', err);
                                 });
+                        } else {
+                            this.submitLoading = false;
+                        }
+                    }
+                });
+            },
+            DMCSubmitMultipleInvoices() {
+                this.$store.confirmDialog.open({
+                    data: {
+                        title: "Send Invoices to Dmc",
+                        message: "Are you sure you want to send the selected invoices?",
+                        btnClose: "Cancel",
+                        btnSave: "Yes",
+                    },
+                    afterClosed: (result) => {
+                        this.submitLoading = true;
+                        if (result) {
+                            Axios.post(`{!! route('admin-invoice-dmc-submit-multiple') !!}`, {
+                                    ids: this.selectedInvoices
+                                })
+                                .then(res => {
+                                    if (res.data?.status === 'success') {
+                                        Toast({
+                                            title: 'Send!',
+                                            message: 'Send successfully.',
+                                            status: 'success',
+                                            size: 'small',
+                                            duration: 4000,
+                                        });
+                                        this.submitLoading = false;
+                                        reloadUrl(`{!! url()->full() !!}`);
+                                    }
+                                    if (res.data.message == "unsuccess") {
+                                        let con_message = res.data
+                                            .connection_status ==
+                                            "unable_to_connect" ?
+                                            "unable to connect" :
+                                            "problem (lose or time out) try again";
+                                        this.$store
+                                            .DMCSubmitStatusDialog
+                                            .open({
+                                                data: {
+                                                    title: "Lose Connection",
+                                                    message: `Server ${con_message} !`,
+                                                    btnClose: "Close",
+                                                    btnSave: "Yes",
+                                                }
+                                            });
+                                        this.submitLoading = false;
+                                    }
+                                })
+                                .catch(err => {
+                                    this.submitLoading = false;
+                                    Toast({
+                                        title: 'error!',
+                                        message: err.response.data.errors.ids,
+                                        status: 'danger',
+                                        size: 'small',
+                                        duration: 4000,
+                                    });
+                                });
+                        } else {
+                            this.submitLoading = false;
                         }
                     }
                 });

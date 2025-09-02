@@ -48,7 +48,7 @@ class FttxController extends Controller
             $status = $req->status && request('status') != 'all' ? explode(",", $req->status) : '';
             $today = Carbon::now()->format('d-M-Y');
 
-            $baseQuery = Fttx::with('customer','fttxDetail')->when(filled(request('search')), function ($q) {
+            $baseQuery = Fttx::with('customer', 'fttxDetail')->when(filled(request('search')), function ($q) {
                 $q->where(function ($q) {
                     $q->where('work_order_isp', 'like', '%' . request('search') . '%');
                     $q->orWhere('work_order_cfocn', 'like', '%' . request('search') . '%');
@@ -113,7 +113,7 @@ class FttxController extends Controller
             } else {
                 $data['data'] = $baseQuery->paginate(100)->through(function ($item) {
                     $item->total_amount_from_start = !empty($item->fttxDetail) ? $item->fttxDetail->sum('total_amount') : 0;
-                 
+
                     $item->total_calculate = in_array($item->status, [1, 4, 5]) ? Round($item->new_installation_fee + $item->fiber_jumper_fee + $item->digging_fee + (($item->rental_price + $item->ppcc + $item->rental_pole) * $item->first_payment_period) + $item->other_fee - $item->discount, 2) : $item->total;
 
                     return $item;
@@ -290,77 +290,319 @@ class FttxController extends Controller
             $data->first_payment_period = $data->first_payment_period && $data->first_payment_period > 0 ? $data->first_payment_period : $totalMonth;
             $checkTrueStatus = $this->getBiggestDate($data->reactive_date_check, $data->change_splitter_date_check, $data->relocation_date_check);
             if ($data->status == 3) {
-                $workOrderIsp = $data->work_order_isp;
-                $workOrderCfocn = $data->work_order_cfocn;
                 $subscriberNo = $data->subscriber_no;
-                $getStartNewCompleteDate = Fttx::where('status', 2)
+                $activeData =  Fttx::where('status', 2)
                     ->when($subscriberNo, function ($q) use ($subscriberNo) {
-                        $q->where('subscriber_no', $subscriberNo);
-                    })
-                    ->orderBy('deadline', 'desc')
-                    ->value('deadline');
+                        $q->where('subscriber_no',  $subscriberNo);
+                    })->get();
+                if (count($activeData) > 0) {
+                    $workOrderIsp = $data->work_order_isp;
+                    $workOrderCfocn = $data->work_order_cfocn;
+                    $getStartNewCompleteDate = Fttx::where('status', 2)
+                        ->when($subscriberNo, function ($q) use ($subscriberNo) {
+                            $q->where('subscriber_no', $subscriberNo);
+                        })
+                        ->orderBy('deadline', 'desc')
+                        ->value('deadline');
 
-                $detailDate = $getStartNewCompleteDate;
-                $totalMonth = getNumberOfMonth($getStartNewCompleteDate, $data->deadline);
-                $totalMonth = round($totalMonth);
-                if ($data->dismantle_date > $data->deadline) {
-                    $totalMonth =  $totalMonth + $this->countMonthsIncludePartial($data->deadline, $data->dismantle_date);
-                }
+                    $detailDate = $getStartNewCompleteDate;
+                    $totalMonth = getNumberOfMonth($getStartNewCompleteDate, $data->deadline);
+                    $totalMonth = round($totalMonth);
+                    if ($data->dismantle_date > $data->deadline) {
+                        $totalMonth =  $totalMonth + $this->countMonthsIncludePartial($data->deadline, $data->dismantle_date);
+                    }
 
-                for ($i = 1; $i <=  $totalMonth; $i++) {
-                    $fttxDetails = [];
-                    $rentalPrice = $this->getPrice($data->customer_id, $data->pos_speed_id, $detailDate, $data->rental_price, $data->first_payment_period);
-                    if ($i == 1) {
-                        $dataFttx = Fttx::find($data->id);
-                        if ($dataFttx) {
-                            $dataFttx->update(['rental_price' => $rentalPrice]);
+                    for ($i = 1; $i <=  $totalMonth; $i++) {
+                        $fttxDetails = [];
+                        $rentalPrice = $this->getPrice($data->customer_id, $data->pos_speed_id, $detailDate, $data->rental_price, $data->first_payment_period);
+                        if ($i == 1) {
+                            $dataFttx = Fttx::find($data->id);
+                            if ($dataFttx) {
+                                $dataFttx->update(['rental_price' => $rentalPrice]);
+                            }
+                        }
+                        if ($i == 1) {
+                            $fttxDetails = [
+                                'fttx_id'               => $data->id,
+                                'customer_id'           => $data->customer_id,
+                                'date'                  => $detailDate,
+                                'expiry_date'           => addMonth($detailDate, 1),
+                                'new_installation_fee'  => null,
+                                'fiber_jumper_fee'      => null,
+                                'digging_fee'           => null,
+                                'rental_unit_price'     => $rentalPrice,
+                                'ppcc'                  => $data->ppcc,
+                                'pole_rental_fee'       => $data->rental_pole,
+                                'other_fee'             => null,
+                                'discount'              => null,
+                                'remark'                => null,
+                                'invoice_number'        => null,
+                                'receipt_number'        => null,
+                                'total_amount'          => round($rentalPrice + $data->ppcc + $data->rental_pole, 2),
+                                'user_id'               => Auth::id(),
+                            ];
+                        } else {
+                            $fttxDetails = [
+                                'fttx_id'               => $data->id,
+                                'customer_id'           => $data->customer_id,
+                                'date'                  => $detailDate,
+                                'expiry_date'           => $fttxDetailData ? addMonth($fttxDetailData->expiry_date, 1) : null,
+                                'new_installation_fee'  => null,
+                                'fiber_jumper_fee'      => null,
+                                'digging_fee'           => null,
+                                'rental_unit_price'     => $rentalPrice,
+                                'ppcc'                  => $data->ppcc,
+                                'pole_rental_fee'       => $data->rental_pole,
+                                'other_fee'             => null,
+                                'discount'              => null,
+                                'remark'                => null,
+                                'invoice_number'        => null,
+                                'receipt_number'        => null,
+                                'total_amount'          => round($rentalPrice + $data->ppcc + $data->rental_pole, 2),
+                                'user_id'               => Auth::id(),
+                            ];
+                        }
+
+                        $detailDate = addMonth($detailDate, 1);
+                        if ($fttxDetails) {
+                            $fttxDetailData = FttxDetail::create($fttxDetails);
                         }
                     }
-                    if ($i == 1) {
-                        $fttxDetails = [
-                            'fttx_id'               => $data->id,
-                            'customer_id'           => $data->customer_id,
-                            'date'                  => $detailDate,
-                            'expiry_date'           => addMonth($detailDate, 1),
-                            'new_installation_fee'  => null,
-                            'fiber_jumper_fee'      => null,
-                            'digging_fee'           => null,
-                            'rental_unit_price'     => $rentalPrice,
-                            'ppcc'                  => $data->ppcc,
-                            'pole_rental_fee'       => $data->rental_pole,
-                            'other_fee'             => null,
-                            'discount'              => null,
-                            'remark'                => null,
-                            'invoice_number'        => null,
-                            'receipt_number'        => null,
-                            'total_amount'          => round($rentalPrice + $data->ppcc + $data->rental_pole, 2),
-                            'user_id'               => Auth::id(),
-                        ];
-                    } else {
-                        $fttxDetails = [
-                            'fttx_id'               => $data->id,
-                            'customer_id'           => $data->customer_id,
-                            'date'                  => $detailDate,
-                            'expiry_date'           => $fttxDetailData ? addMonth($fttxDetailData->expiry_date, 1) : null,
-                            'new_installation_fee'  => null,
-                            'fiber_jumper_fee'      => null,
-                            'digging_fee'           => null,
-                            'rental_unit_price'     => $rentalPrice,
-                            'ppcc'                  => $data->ppcc,
-                            'pole_rental_fee'       => $data->rental_pole,
-                            'other_fee'             => null,
-                            'discount'              => null,
-                            'remark'                => null,
-                            'invoice_number'        => null,
-                            'receipt_number'        => null,
-                            'total_amount'          => round($rentalPrice + $data->ppcc + $data->rental_pole, 2),
-                            'user_id'               => Auth::id(),
-                        ];
+                } else {
+                    $this->removeFttxDetail($data->completed_time, $data->work_order_isp, $data->work_order_cfocn, $data->subscriber_no, $data->deadline);
+                    if ($data->status == 3) {
+                        if ($data->dismantle_date > $data->deadline) {
+                            $totalMonth =  $totalMonth + 1;
+                        }
                     }
+                    for ($i = 1; $i <=  $totalMonth; $i++) {
+                        $rentalPrice = $this->getPrice($data->customer_id, $data->pos_speed_id, $detailDate, $data->rental_price, $data->first_payment_period);
+                        if ($i == 1) {
+                            $dataFttx = Fttx::find($data->id);
+                            if ($dataFttx) {
+                                $dataFttx->update(['rental_price' => $rentalPrice]);
+                            }
+                        }
+                        if ($data->first_payment_period == 12) {
+                            if ($data->first_payment_period >= $i) {
+                                if ($i == 1) {
+                                    $fttxDetails = [
+                                        'fttx_id'               => $data->id,
+                                        'customer_id'           => $data->customer_id,
+                                        'date'                  => $detailDate,
+                                        'expiry_date'           => $detailDate ? addMonth($detailDate, $data->first_payment_period) : null,
+                                        'new_installation_fee'  => $data->new_installation_fee,
+                                        'fiber_jumper_fee'      => $data->fiber_jumper_fee,
+                                        'digging_fee'           => $data->digging_fee,
+                                        'rental_unit_price'     => $rentalPrice * $data->first_payment_period,
+                                        'ppcc'                  => $data->ppcc * $data->first_payment_period,
+                                        'pole_rental_fee'       => $data->rental_pole * $data->first_payment_period,
+                                        'other_fee'             => $data->other_fee,
+                                        'discount'              => $data->discount,
+                                        'remark'                => null,
+                                        'invoice_number'        => null,
+                                        'receipt_number'        => null,
+                                        'total_amount'          => round($data->new_installation_fee + $data->fiber_jumper_fee + $data->digging_fee + (($rentalPrice + $data->ppcc + $data->rental_pole) * $data->first_payment_period) + $data->other_fee + $data->discount, 2),
+                                        'user_id'               => Auth::id(),
+                                    ];
+                                }
+                            } else {
+                                $fttxDetails = [
+                                    'fttx_id'               => $data->id,
+                                    'customer_id'           => $data->customer_id,
+                                    'date'                  => $oldFttxDetail['expiry_date'],
+                                    'expiry_date'           => $oldFttxDetail['expiry_date'] ? addMonth($oldFttxDetail['expiry_date'], 1) : addMonth($detailDate, 1),
+                                    'new_installation_fee'  => null,
+                                    'fiber_jumper_fee'      => null,
+                                    'digging_fee'           => null,
+                                    'rental_unit_price'     => $rentalPrice,
+                                    'ppcc'                  => $data->ppcc,
+                                    'pole_rental_fee'       => $data->rental_pole,
+                                    'other_fee'             => null,
+                                    'discount'              => null,
+                                    'remark'                => null,
+                                    'invoice_number'        => null,
+                                    'receipt_number'        => null,
+                                    'total_amount'          => round($rentalPrice + $data->ppcc + $data->rental_pole, 2),
+                                    'user_id'               => Auth::id(),
+                                ];
+                            }
+                        } elseif ($data->first_payment_period == 6) {
+                            if ($i <= 12) {
+                                if ($i == 1) {
+                                    $fttxDetails = [
+                                        'fttx_id'               => $data->id,
+                                        'customer_id'           => $data->customer_id,
+                                        'date'                  => $detailDate,
+                                        'expiry_date'           => $detailDate ? addMonth($detailDate, $data->first_payment_period) : null,
+                                        'new_installation_fee'  => $data->new_installation_fee,
+                                        'fiber_jumper_fee'      => $data->fiber_jumper_fee,
+                                        'digging_fee'           => $data->digging_fee,
+                                        'rental_unit_price'     => $rentalPrice * $data->first_payment_period,
+                                        'ppcc'                  => $data->ppcc * $data->first_payment_period,
+                                        'pole_rental_fee'       => $data->rental_pole * $data->first_payment_period,
+                                        'other_fee'             => $data->other_fee,
+                                        'discount'              => $data->discount,
+                                        'remark'                => null,
+                                        'invoice_number'        => null,
+                                        'receipt_number'        => null,
+                                        'total_amount'          => round($data->new_installation_fee + $data->fiber_jumper_fee + $data->digging_fee + (($rentalPrice + $data->ppcc + $data->rental_pole) * $data->first_payment_period) + $data->other_fee + $data->discount, 2),
+                                        'user_id'               => Auth::id(),
+                                    ];
+                                } elseif ($i == 7) {
+                                    $fttxDetails = [
+                                        'fttx_id'               => $data->id,
+                                        'customer_id'           => $data->customer_id,
+                                        'date'                  => $detailDate,
+                                        'expiry_date'           => $detailDate ? addMonth($detailDate, $data->first_payment_period) : null,
+                                        'new_installation_fee'  => null,
+                                        'fiber_jumper_fee'      => null,
+                                        'digging_fee'           => null,
+                                        'rental_unit_price'     => $rentalPrice * $data->first_payment_period,
+                                        'ppcc'                  => $data->ppcc * $data->first_payment_period,
+                                        'pole_rental_fee'       => $data->rental_pole * $data->first_payment_period,
+                                        'other_fee'             => null,
+                                        'discount'              => null,
+                                        'remark'                => null,
+                                        'invoice_number'        => null,
+                                        'receipt_number'        => null,
+                                        'total_amount'          => round((($rentalPrice + $data->ppcc + $data->rental_pole) * $data->first_payment_period), 2),
+                                        'user_id'               => Auth::id(),
+                                    ];
+                                }
+                            } else {
+                                $fttxDetails = [
+                                    'fttx_id'               => $data->id,
+                                    'customer_id'           => $data->customer_id,
+                                    'date'                  => $oldFttxDetail['expiry_date'],
+                                    'expiry_date'           => $oldFttxDetail['expiry_date'] ? addMonth($oldFttxDetail['expiry_date'], 1) : addMonth($detailDate, 1),
+                                    'new_installation_fee'  => null,
+                                    'fiber_jumper_fee'      => null,
+                                    'digging_fee'           => null,
+                                    'rental_unit_price'     => $rentalPrice,
+                                    'ppcc'                  => $data->ppcc,
+                                    'pole_rental_fee'       => $data->rental_pole,
+                                    'other_fee'             => null,
+                                    'discount'              => null,
+                                    'remark'                => null,
+                                    'invoice_number'        => null,
+                                    'receipt_number'        => null,
+                                    'total_amount'          => round($rentalPrice + $data->ppcc + $data->rental_pole, 2),
+                                    'user_id'               => Auth::id(),
+                                ];
+                            }
+                        } elseif ($data->first_payment_period == 3) {
+                            if ($i <= 12) {
+                                if ($i == 1) {
+                                    $fttxDetails = [
+                                        'fttx_id'               => $data->id,
+                                        'customer_id'           => $data->customer_id,
+                                        'date'                  => $detailDate,
+                                        'expiry_date'           => $detailDate ? addMonth($detailDate, $data->first_payment_period) : null,
+                                        'new_installation_fee'  => $data->new_installation_fee,
+                                        'fiber_jumper_fee'      => $data->fiber_jumper_fee,
+                                        'digging_fee'           => $data->digging_fee,
+                                        'rental_unit_price'     => $rentalPrice * $data->first_payment_period,
+                                        'ppcc'                  => $data->ppcc * $data->first_payment_period,
+                                        'pole_rental_fee'       => $data->rental_pole * $data->first_payment_period,
+                                        'other_fee'             => $data->other_fee,
+                                        'discount'              => $data->discount,
+                                        'remark'                => null,
+                                        'invoice_number'        => null,
+                                        'receipt_number'        => null,
+                                        'total_amount'          => round($data->new_installation_fee + $data->fiber_jumper_fee + $data->digging_fee + (($rentalPrice + $data->ppcc + $data->rental_pole) * $data->first_payment_period) + $data->other_fee + $data->discount, 2),
+                                        'user_id'               => Auth::id(),
+                                    ];
+                                } elseif ($i == 4) {
+                                    $fttxDetails = [
+                                        'fttx_id'               => $data->id,
+                                        'customer_id'           => $data->customer_id,
+                                        'date'                  => $detailDate,
+                                        'expiry_date'           => $detailDate ? addMonth($detailDate, $data->first_payment_period) : null,
+                                        'new_installation_fee'  => null,
+                                        'fiber_jumper_fee'      => null,
+                                        'digging_fee'           => null,
+                                        'rental_unit_price'     => $rentalPrice * $data->first_payment_period,
+                                        'ppcc'                  => $data->ppcc * $data->first_payment_period,
+                                        'pole_rental_fee'       => $data->rental_pole * $data->first_payment_period,
+                                        'other_fee'             => null,
+                                        'discount'              => null,
+                                        'remark'                => null,
+                                        'invoice_number'        => null,
+                                        'receipt_number'        => null,
+                                        'total_amount'          => round((($rentalPrice + $data->ppcc + $data->rental_pole) * $data->first_payment_period), 2),
+                                        'user_id'               => Auth::id(),
+                                    ];
+                                } elseif ($i == 7) {
+                                    $fttxDetails = [
+                                        'fttx_id'               => $data->id,
+                                        'customer_id'           => $data->customer_id,
+                                        'date'                  => $detailDate,
+                                        'expiry_date'           => $detailDate ? addMonth($detailDate, $data->first_payment_period) : null,
+                                        'new_installation_fee'  => null,
+                                        'fiber_jumper_fee'      => null,
+                                        'digging_fee'           => null,
+                                        'rental_unit_price'     => $rentalPrice * $data->first_payment_period,
+                                        'ppcc'                  => $data->ppcc * $data->first_payment_period,
+                                        'pole_rental_fee'       => $data->rental_pole * $data->first_payment_period,
+                                        'other_fee'             => null,
+                                        'discount'              => null,
+                                        'remark'                => null,
+                                        'invoice_number'        => null,
+                                        'receipt_number'        => null,
+                                        'total_amount'          => round((($rentalPrice + $data->ppcc + $data->rental_pole) * $data->first_payment_period), 2),
+                                        'user_id'               => Auth::id(),
+                                    ];
+                                } elseif ($i == 10) {
+                                    $fttxDetails = [
+                                        'fttx_id'               => $data->id,
+                                        'customer_id'           => $data->customer_id,
+                                        'date'                  => $detailDate,
+                                        'expiry_date'           => $detailDate ? addMonth($detailDate, $data->first_payment_period) : null,
+                                        'new_installation_fee'  => null,
+                                        'fiber_jumper_fee'      => null,
+                                        'digging_fee'           => null,
+                                        'rental_unit_price'     => $rentalPrice * $data->first_payment_period,
+                                        'ppcc'                  => $data->ppcc * $data->first_payment_period,
+                                        'pole_rental_fee'       => $data->rental_pole * $data->first_payment_period,
+                                        'other_fee'             => null,
+                                        'discount'              => null,
+                                        'remark'                => null,
+                                        'invoice_number'        => null,
+                                        'receipt_number'        => null,
+                                        'total_amount'          => round((($rentalPrice + $data->ppcc + $data->rental_pole) * $data->first_payment_period), 2),
+                                        'user_id'               => Auth::id(),
+                                    ];
+                                }
+                            } else {
+                                $fttxDetails = [
+                                    'fttx_id'               => $data->id,
+                                    'customer_id'           => $data->customer_id,
+                                    'date'                  => $oldFttxDetail['expiry_date'],
+                                    'expiry_date'           => $oldFttxDetail['expiry_date'] ? addMonth($oldFttxDetail['expiry_date'], 1) : addMonth($detailDate, 1),
+                                    'new_installation_fee'  => null,
+                                    'fiber_jumper_fee'      => null,
+                                    'digging_fee'           => null,
+                                    'rental_unit_price'     => $rentalPrice,
+                                    'ppcc'                  => $data->ppcc,
+                                    'pole_rental_fee'       => $data->rental_pole,
+                                    'other_fee'             => null,
+                                    'discount'              => null,
+                                    'remark'                => null,
+                                    'invoice_number'        => null,
+                                    'receipt_number'        => null,
+                                    'total_amount'          => round($rentalPrice + $data->ppcc + $data->rental_pole, 2),
+                                    'user_id'               => Auth::id(),
+                                ];
+                            }
+                        }
 
-                    $detailDate = addMonth($detailDate, 1);
-                    if ($fttxDetails) {
-                        $fttxDetailData = FttxDetail::create($fttxDetails);
+                        $detailDate = addMonth($detailDate, 1);
+                        if ($fttxDetails) {
+                            $fttxDetailData = FttxDetail::create($fttxDetails);
+                            $oldFttxDetail = $fttxDetails;
+                        }
+                        $fttxDetails = [];
                     }
                 }
             } else {
@@ -403,10 +645,21 @@ class FttxController extends Controller
                             ->first();
                     }
 
-                    if ($getLastDismantleFttx->dismantle_date <= $getLastDismantleFttx->deadline) {
-                        $getStartNewCompleteDate = $getLastDismantleFttx->deadline;
-                    } elseif ($getLastDismantleFttx->dismantle_date > $getLastDismantleFttx->deadline) {
-                        $getStartNewCompleteDate = addMonth($getLastDismantleFttx->deadline, $this->countMonthsIncludePartial($getLastDismantleFttx->deadline, $getLastDismantleFttx->dismantle_date));
+                    if (!$getLastDismantleFttx) {
+                        $originalCompleted = Carbon::parse($data->completed_time);
+                        $dismantle = Carbon::parse($data->dismantle_date);
+                        $updatedCompleted = $originalCompleted->copy()->year($dismantle->year);
+                        if ($dismantle <=  $updatedCompleted) {
+                            $getStartNewCompleteDate =  $updatedCompleted;
+                        } elseif ($dismantle > $updatedCompleted) {
+                            $getStartNewCompleteDate = addMonth($getLastDismantleFttx->deadline, $this->countMonthsIncludePartial($updatedCompleted, $dismantle));
+                        }
+                    } else {
+                        if ($getLastDismantleFttx->dismantle_date <= $getLastDismantleFttx->deadline) {
+                            $getStartNewCompleteDate = $getLastDismantleFttx->deadline;
+                        } elseif ($getLastDismantleFttx->dismantle_date > $getLastDismantleFttx->deadline) {
+                            $getStartNewCompleteDate = addMonth($getLastDismantleFttx->deadline, $this->countMonthsIncludePartial($getLastDismantleFttx->deadline, $getLastDismantleFttx->dismantle_date));
+                        }
                     }
                     $totalMonth = getNumberOfMonth($getStartNewCompleteDate, $data->deadline);
                     $detailDate = $getStartNewCompleteDate;
@@ -435,7 +688,7 @@ class FttxController extends Controller
                                 'fttx_id'               => $data->id,
                                 'customer_id'           => $data->customer_id,
                                 'date'                  => $detailDate,
-                                'expiry_date'           => $detailDate ? addMonth($detailDate, $data->reactive_payment_period) : null,
+                                'expiry_date'           => $getStartNewCompleteDate ? addMonth($getStartNewCompleteDate, $data->reactive_payment_period) : null,
                                 'new_installation_fee'  => $samDate ? $data->new_installation_fee : null,
                                 'fiber_jumper_fee'      => $samDate ? $data->fiber_jumper_fee : null,
                                 'digging_fee'           => $samDate ? $data->digging_fee : null,
@@ -1548,12 +1801,12 @@ class FttxController extends Controller
                         'rental_unit_price'     => $fttxData->rental_price * $numberOfMonth,
                         'ppcc'                  => $fttxData->ppcc,
                         'pole_rental_fee'       => $fttxData->rental_pole,
-                        'other_fee'             => null,
-                        'discount'              => null,
+                        'other_fee'             => $fttxData->other_fee,
+                        'discount'              => $fttxData->discount,
                         'remark'                => null,
                         'invoice_number'        => null,
                         'receipt_number'        => null,
-                        'total_amount'          => round(($fttxData->rental_price * $numberOfMonth) + $fttxData->ppcc + $fttxData->rental_pole, 2),
+                        'total_amount'          => round(($fttxData->rental_price * $numberOfMonth) + $fttxData->ppcc + $fttxData->rental_pole + $fttxData->other_fee, 2),
                         'user_id'               => Auth::id(),
                     ];
                 } else {
@@ -1706,30 +1959,25 @@ class FttxController extends Controller
 
     public function getStatusCheck($deadline, $subscribeNo)
     {
-        try {
-            $allFttxs = Fttx::where('subscriber_no', $subscribeNo)->get();
-            if ($allFttxs && $allFttxs->count() > 0) {
-                foreach ($allFttxs as $item) {
-                    if ($item->deadline <= $deadline) {
-                        $data = Fttx::find($item->id);
-                        $data->update(['check_status' => 'inactive']);
-                    }
+        $allFttxs = Fttx::where('subscriber_no', $subscribeNo)->get();
+        if ($allFttxs && $allFttxs->count() > 0) {
+            foreach ($allFttxs as $item) {
+                if ($item->deadline <= $deadline) {
+                    $data = Fttx::find($item->id);
+                    $data->update(['check_status' => 'inactive']);
                 }
             }
-
-            $fttxs = Fttx::where('subscriber_no', $subscribeNo)->where('status', 3)->get();
-            if ($fttxs && $fttxs->count() > 0) {
-                foreach ($fttxs as $fttx) {
-                    if ($fttx->deadline >= $deadline) {
-                        return 'inactive';
-                    }
-                }
-            }
-            return 'active';
-        } catch (Exception $error) {
-            dd($error);
-            DB::rollback();
         }
+
+        $fttxs = Fttx::where('subscriber_no', $subscribeNo)->where('status', 3)->get();
+        if ($fttxs && $fttxs->count() > 0) {
+            foreach ($fttxs as $fttx) {
+                if ($fttx->deadline > $deadline) {
+                    return 'inactive';
+                }
+            }
+        }
+        return 'active';
     }
 
     public function checkDataStoreOrNot($date, $dateType, $ispNo = null, $cfocnNo = null, $subscribeNo = null)

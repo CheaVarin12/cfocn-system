@@ -105,6 +105,16 @@
                                         </div>
                                     </template>
                                 </div>
+                                <div class="form-row">
+                                    <label>Duration (Number of month)</label>
+                                    <input type="number" name="duration" x-model="duration"
+                                        placeholder="Enter duration" min="0">
+                                    <template x-for="item in dataError?.duration">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
                             {{-- <div class="row-3">
                                 <div class="form-row">
@@ -430,6 +440,7 @@
         ftthServices: [],
         tax_status: null,
         is_advance: null,
+        duration: 1,
         taxOptions: @json(config('dummy.tax_status')),
         dataForm: [{
             id: Number(moment().format('YYYYMMDDHHmmss')),
@@ -492,8 +503,9 @@
                         this.note = res?.invoice?.note;
                         this.remark = res?.invoice?.remark;
                         this.tax_status = res?.invoice?.tax_status;
-                            this.is_advance = res?.invoice?.is_advance;
-                            this.exchang_rate = res?.invoice?.exchange_rate ?? res
+                        this.is_advance = res?.invoice?.is_advance;
+                        this.duration = res?.invoice?.duration;
+                        this.exchang_rate = res?.invoice?.exchange_rate ?? res
                             .rate
                             ?.rate;
                         this.list_order_details = res?.invoice?.invoice_detail ??
@@ -867,7 +879,6 @@
                                     period_end: period_end,
                                     note: this.note,
                                     remark: this.remark,
-                                    status: 1,
                                     day_month: this.day_month,
                                     order_details: this.dataForm.length > 0 ?
                                         JSON.stringify(this.dataForm) : [],
@@ -875,6 +886,7 @@
                                         .invoice_detail_arr_id,
                                     tax_status: this.tax_status,
                                     is_advance: this.is_advance,
+                                    duration: this.duration,
                                 };
                                 setTimeout(() => {
                                     Axios({

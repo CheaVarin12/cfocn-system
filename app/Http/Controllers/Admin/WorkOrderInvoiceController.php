@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DMCSubmitRequest;
 use App\Http\Requests\Admin\InvoiceRequest;
+use App\Http\Requests\Admin\WorkOrderDMCSubmitMultipleRequest;
 use App\Http\Requests\Admin\WorkOrderInvoiceRequest;
 use App\Mail\InvoiceDocSend;
 use App\Models\BankAccount;
@@ -602,10 +603,9 @@ class WorkOrderInvoiceController extends Controller
                 ->get();
             foreach ($getInvoiceLastMonth as $invoice) {
                 $newInvoice = $invoice->replicate();
-
-                $newInvoice->issue_date = Carbon::parse($invoice->issue_date)->addMonthNoOverflow();
-                $newInvoice->period_start = Carbon::parse($invoice->period_start)->addMonthNoOverflow();
-                $newInvoice->period_end = Carbon::parse($invoice->period_end)->addMonthNoOverflow();
+                $newInvoice->issue_date =  Carbon::parse($invoice->issue_date)->addMonthsNoOverflow($invoice->duration ?? 1);
+                $newInvoice->period_start = $this->addNextMonthSmart($invoice->period_start, $invoice->duration ?? 1);
+                $newInvoice->period_end = $this->addNextMonthSmart($invoice->period_end, $invoice->duration ?? 1);
 
                 $newInvoice->status = 7;
                 $newInvoice->paid_status = 'Pending';
@@ -649,19 +649,15 @@ class WorkOrderInvoiceController extends Controller
             // ✅ Use selected IDs if provided
             if ($req->has('ids') && is_array($req->ids)) {
                 $invoiceQuery->whereIn('id', $req->ids);
-            } else {
-                $start = Carbon::now()->subMonthNoOverflow()->startOfMonth();
-                $end = Carbon::now()->subMonthNoOverflow()->endOfMonth();
             }
-
             $invoices = $invoiceQuery->with('invoiceDetail')->get();
 
             foreach ($invoices as $invoice) {
                 $newInvoice = $invoice->replicate();
 
-                $newInvoice->issue_date = Carbon::parse($invoice->issue_date)->addMonthNoOverflow();
-                $newInvoice->period_start = Carbon::parse($invoice->period_start)->addMonthNoOverflow();
-                $newInvoice->period_end = Carbon::parse($invoice->period_end)->addMonthNoOverflow();
+                $newInvoice->issue_date =  Carbon::parse($invoice->issue_date)->addMonthsNoOverflow($invoice->duration ?? 1);
+                $newInvoice->period_start = $this->addNextMonthSmart($invoice->period_start, $invoice->duration ?? 1);
+                $newInvoice->period_end = $this->addNextMonthSmart($invoice->period_end, $invoice->duration ?? 1);
 
                 $newInvoice->status = 7;
                 $newInvoice->paid_status = 'Pending';
@@ -695,5 +691,118 @@ class WorkOrderInvoiceController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function DMCSubmitMultiple(WorkOrderDMCSubmitMultipleRequest $request)
+    {
+        $res = $this->serverConnection->ServerLogin();
+        DB::beginTransaction();
+
+        try {
+            $invoiceIds = $request->input('ids', []);
+            $results = [];
+
+            if ($res === "login_success") {
+                foreach ($invoiceIds as $invoiceId) {
+                    $data = $this->queryViewDetailInvoice($invoiceId);
+                    $bankAccounts = BankAccount::where('status', 1)->get();
+                    $data->dataCustomer = $data?->data_customer ? (object) json_decode($data?->data_customer) : $data?->customer;
+                    $project = $data?->order?->project;
+                    $configDMCPath = (object) config('dmc-file-manager.submitPathFolder');
+                    $invoiceNumber = $data->deleted_at ? $data->invoice_number . '_Void' : $data->invoice_number;
+
+                    $issueDate = Carbon::parse($data->issue_date)->format('Ymd');
+                    $fileObject = $this->makeDirWthNotExit($invoiceNumber, $issueDate);
+
+                    $PathSubmitDMCByTypeProject = $data->deleted_at
+                        ? ($project->id == 2 ? $configDMCPath->submarine_invoice_void : $configDMCPath->infra_invoice_void)
+                        : ($project->id == 2 ? $configDMCPath->submarine_Invoice : $configDMCPath->infra_Invoice);
+
+                    $typeView = "zero-rate";
+                    if (!$data->order_type) {
+                        if ($data->check_rate_first > 0 && $data->check_rate_seconde == 0) {
+                            $typeView = "one-rate";
+                        } elseif (
+                            ($data->check_rate_seconde > 0 && $data?->check_rate_first == 0) ||
+                            ($data?->check_rate_seconde > 0 && $data?->check_rate_first > 0)
+                        ) {
+                            $typeView = "two-rate";
+                        }
+                    } else {
+                        $typeView = "sale";
+                    }
+
+                    $htmlView = $this->layout . 'detail.generateFileSendDMC.' . $typeView;
+                    $pdf = Pdf::loadView($htmlView, compact('data', 'bankAccounts'));
+
+                    if ($data->deleted_at) {
+                        $pdf->mpdf->setWatermarkText('VOID');
+                        $pdf->mpdf->showWatermarkText = true;
+                        $pdf->mpdf->watermarkTextAlpha = 0.1;
+                        $pdf->mpdf->watermark_font = 'battambang';
+                    }
+
+                    $pdf->save($fileObject->path_file_url);
+
+                    $this->serverConnection->dmcFile($PathSubmitDMCByTypeProject, $fileObject->path_file_url, $fileObject->file_name, function ($result, $err) use ($invoiceId, $fileObject, $data, $request, &$results) {
+                        if ($result) {
+                            $year = $this->formatDate($fileObject->date, 'Y');
+                            $month = $this->formatDate($fileObject->date, 'm');
+                            $day = $this->formatDate($fileObject->date, 'd');
+
+                            $docItem = [
+                                'invoice_id' => $invoiceId,
+                                'year' => $year,
+                                'month' => $month,
+                                'day'   => $day,
+                                'file_name' => $fileObject->file_name,
+                                'file_path' => $fileObject->path_dir,
+                                'file_type' => $data->deleted_at ? 'invoice_void' : 'invoice',
+                                'extension_type' => 'pdf',
+                                'from_date' => $this->formatDate($fileObject->date, 'Y-m-d'),
+                                'to_date'   => $this->formatDate($fileObject->date, 'Y-m-d'),
+                                'user_id'   => Auth::user()->id,
+                                'is_ftth'   => 1,
+                            ];
+                            HistoryDmcSendFile::create($docItem);
+
+                            WorkOrderInvoice::withTrashed()->find($invoiceId)->update([
+                                'doc_status' => $request->typeBtnStatus === 'void' ? 'is_void' : 'is_send',
+                                'status' => 1,
+                            ]);
+
+                            $results[] = ['invoice_id' => $invoiceId, 'status' => 'success'];
+                        } else {
+                            File::delete($fileObject->path_file_url);
+                            $results[] = ['invoice_id' => $invoiceId, 'status' => 'failed', 'error' => $err];
+                        }
+                    });
+                }
+                DB::commit();
+                return response()->json(['status' => 'success']);
+            }
+            return response()->json([
+                'data' => null,
+                'message' => $this->message ?? 'unsuccess',
+                'connection_status' => $this->message ?? 'unsuccess',
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'data' => null,
+                'message' => 'unsuccess',
+                'connection_status' => $res,
+                'system_err' => $e->getMessage()
+            ]);
+        }
+    }
+
+    function addNextMonthSmart(string $date, int $months = 1): Carbon
+    {
+        $carbonDate = Carbon::parse($date);
+
+        return $carbonDate->isLastOfMonth()
+            ? $carbonDate->addMonths($months)->endOfMonth()
+            : $carbonDate->addMonthsNoOverflow($months);
     }
 }

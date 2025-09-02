@@ -119,6 +119,16 @@
                                         </div>
                                     </template>
                                 </div>
+                                <div class="form-row">
+                                    <label>Duration (Number of month)</label>
+                                    <input type="number" name="duration" x-model="duration"
+                                        placeholder="Enter duration" min="0">
+                                    <template x-for="item in dataError?.duration">
+                                        <div class="errorCenter">
+                                            <span class="error" x-text="item">Error</span>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
 
                             {{-- New --}}
@@ -392,7 +402,8 @@
         install_number: null,
         data: null,
         tax_status: 1,
-        is_advance: 0;
+        is_advance: 0,
+        duration: 1,
         taxOptions: @json(config('dummy.tax_status')),
         async init() {
             this.submitLoading = true;
@@ -556,6 +567,7 @@
                                         .stringify(this.list_purchase_details) : [],
                                     tax_status: this.tax_status,
                                     is_advance: this.is_advance,
+                                    duration: this.duration,
                                 };
                                 setTimeout(() => {
                                     Axios({
