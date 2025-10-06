@@ -32,6 +32,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 use Illuminate\Support\Facades\File;
+use Carbon\CarbonImmutable;
 
 class InvoiceController extends Controller
 {
@@ -726,8 +727,8 @@ class InvoiceController extends Controller
                 $newInvoice = $invoice->replicate();
 
                 $newInvoice->issue_date =  Carbon::parse($invoice->issue_date)->addMonthsNoOverflow($invoice->duration ?? 1);
-                $newInvoice->period_start = $this->addNextMonthSmart($invoice->period_start,$invoice->duration ?? 1);
-                $newInvoice->period_end = $this->addNextMonthSmart($invoice->period_end,$invoice->duration ?? 1);
+                $newInvoice->period_start = $this->addNextMonthSmart($invoice->period_start, $invoice->duration ?? 1);
+                $newInvoice->period_end = $this->addNextMonthSmart($invoice->period_end, $invoice->duration ?? 1);
 
                 $newInvoice->status = 7;
                 $newInvoice->paid_status = 'Pending';
@@ -789,8 +790,8 @@ class InvoiceController extends Controller
                 $newInvoice = $invoice->replicate();
 
                 $newInvoice->issue_date =  Carbon::parse($invoice->issue_date)->addMonthsNoOverflow($invoice->duration ?? 1);
-                $newInvoice->period_start = $this->addNextMonthSmart($invoice->period_start,$invoice->duration ?? 1);
-                $newInvoice->period_end = $this->addNextMonthSmart($invoice->period_end,$invoice->duration ?? 1);
+                $newInvoice->period_start = $this->addNextMonthSmart($invoice->period_start, $invoice->duration ?? 1);
+                $newInvoice->period_end = $this->addNextMonthSmart($invoice->period_end, $invoice->duration ?? 1);
                 $newInvoice->status = 7;
                 $newInvoice->paid_status = 'Pending';
                 $newInvoice->doc_status = null;
@@ -917,12 +918,11 @@ class InvoiceController extends Controller
             ]);
         }
     }
-    function addNextMonthSmart(string $date, int $months = 1): Carbon
+    function addNextMonthSmart(string|\DateTimeInterface $date, int $months = 1): CarbonImmutable
     {
-        $carbonDate = Carbon::parse($date);
-
-        return $carbonDate->isLastOfMonth()
-            ? $carbonDate->addMonths($months)->endOfMonth()
-            : $carbonDate->addMonthsNoOverflow($months);
+        $d = CarbonImmutable::parse($date);
+        return $d->isLastOfMonth()
+            ? $d->addMonthsNoOverflow($months)->endOfMonth() // next month’s EOM
+            : $d->addMonthsNoOverflow($months);              // safe add
     }
 }

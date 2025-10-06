@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 use Illuminate\Support\Facades\File;
+use Carbon\CarbonImmutable;
 
 class WorkOrderInvoiceController extends Controller
 {
@@ -797,12 +798,11 @@ class WorkOrderInvoiceController extends Controller
         }
     }
 
-    function addNextMonthSmart(string $date, int $months = 1): Carbon
+    function addNextMonthSmart(string|\DateTimeInterface $date, int $months = 1): CarbonImmutable
     {
-        $carbonDate = Carbon::parse($date);
-
-        return $carbonDate->isLastOfMonth()
-            ? $carbonDate->addMonths($months)->endOfMonth()
-            : $carbonDate->addMonthsNoOverflow($months);
+        $d = CarbonImmutable::parse($date);
+        return $d->isLastOfMonth()
+            ? $d->addMonthsNoOverflow($months)->endOfMonth() // next month’s EOM
+            : $d->addMonthsNoOverflow($months);              // safe add
     }
 }
